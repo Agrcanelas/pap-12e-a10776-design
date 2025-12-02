@@ -7,20 +7,9 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- Cabeçalho -->
-    <header>
-        <nav class="navbar">
-            <div class="logo">
-                <h1>🌳 Artesanato Natural</h1>
-            </div>
-            <ul class="nav-links">
-                <li><a href="index.html" class="active">Início</a></li>
-                <li><a href="produtos.html">Produtos</a></li>
-                <li><a href="contacto.html">Contacto</a></li>
-                <li><a href="carrinho.html" class="cart-link">🛒 Carrinho (<span id="cart-count">0</span>)</a></li>
-            </ul>
-        </nav>
-    </header>
+    <?php include 'header.php'; ?>
+
+
 
     <!-- Secção Hero - Floresta em Ecrã Completo -->
     <section class="hero-fullscreen">

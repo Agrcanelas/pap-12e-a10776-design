@@ -9,19 +9,10 @@
 </head>
 <body>
     <!-- Cabeçalho -->
-    <header>
-        <nav class="navbar">
-            <div class="logo">
-                <h1>🌳 Artesanato Natural</h1>
-            </div>
-            <ul class="nav-links">
-                <li><a href="index.html">Início</a></li>
-                <li><a href="produtos.html" class="active">Produtos</a></li>
-                <li><a href="contacto.html">Contacto</a></li>
-                <li><a href="carrinho.html" class="cart-link">🛒 Carrinho (<span id="cart-count">0</span>)</a></li>
-            </ul>
-        </nav>
-    </header>
+    <?php include 'header.php'; ?>
+
+  
+
 
     <!-- Cabeçalho da Página -->
     <section class="page-header">
@@ -142,32 +133,7 @@
         </div>
     </section>
 
-    <!-- Rodapé -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>Contacto</h4>
-                    <p>Email: a10776@agrcanelar.com</p>
-                    <p>Telefone: +351 937 011 726</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Links Úteis</h4>
-                    <ul>
-                        <li><a href="produtos.html">Produtos</a></li>
-                        <li><a href="contacto.html">Contacto</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Siga-nos</h4>
-                    <p>Facebook | Instagram</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 Artesanato Natural. Todos os direitos reservados.</p>
-            </div>
-        </div>
-    </footer>
+    <?php include 'footer.php'; ?>
 
     <script src="js/main.js"></script>
 </body>
