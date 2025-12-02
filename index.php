@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artesanato em Madeira - Produtos Personalizados</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/carrinho-drawer.css">
 </head>
 <body>
     <?php include 'header.php'; ?>
-
-
 
     <!-- Secção Hero - Floresta em Ecrã Completo -->
     <section class="hero-fullscreen">
@@ -46,7 +45,6 @@
         </div>
     </section>
     
-
     <script src="js/main.js"></script>
 </body>
 </html>

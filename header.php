@@ -11,7 +11,11 @@ $pagina_atual = basename($_SERVER['PHP_SELF']);
             <li><a href="index.php" class="<?php echo ($pagina_atual == 'index.php') ? 'active' : ''; ?>">Início</a></li>
             <li><a href="produtos.php" class="<?php echo ($pagina_atual == 'produtos.php') ? 'active' : ''; ?>">Produtos</a></li>
             <li><a href="contacto.php" class="<?php echo ($pagina_atual == 'contacto.php') ? 'active' : ''; ?>">Contacto</a></li>
-            <li><a href="#" onclick="toggleCartDrawer(); return false;" class="cart-link <?php echo ($pagina_atual == 'carrinho.php') ? 'active' : ''; ?>">🛒 Carrinho (<span id="cart-count">0</span>)</a></li>
+            <li>
+                <a href="javascript:void(0);" onclick="toggleCartDrawer()" class="cart-link">
+                    🛒 Carrinho (<span id="cart-count">0</span>)
+                </a>
+            </li>
         </ul>
     </nav>
 </header>
@@ -46,7 +50,7 @@ $pagina_atual = basename($_SERVER['PHP_SELF']);
     <div class="cart-drawer-footer" style="display: none;">
         <!-- Barra de Progresso para Envio Grátis -->
         <div class="cart-progress">
-            <p class="cart-progress-text">Faltam €20.00 para envio grátis</p>
+            <p class="cart-progress-text">Faltam 50.00€ para envio grátis</p>
             <div class="cart-progress-bar">
                 <div class="cart-progress-fill" style="width: 0%"></div>
             </div>
@@ -55,7 +59,7 @@ $pagina_atual = basename($_SERVER['PHP_SELF']);
         <!-- Subtotal -->
         <div class="cart-subtotal">
             <span class="cart-subtotal-label">Subtotal:</span>
-            <span class="cart-subtotal-value">€0.00</span>
+            <span class="cart-subtotal-value">0.00€</span>
         </div>
         
         <p class="cart-shipping-note">Portes e impostos calculados no checkout</p>

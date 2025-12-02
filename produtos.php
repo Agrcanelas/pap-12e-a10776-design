@@ -6,6 +6,7 @@
     <title>Produtos - Artesanato em Madeira</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/produtos.css">
+    <link rel="stylesheet" href="css/carrinho-drawer.css">
 </head>
 <body>
     <!-- Cabeçalho -->

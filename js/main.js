@@ -1,52 +1,82 @@
 // Carrinho de Compras
 let carrinho = [];
 
+// Inicializar quando a página carregar
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Página carregada!');
+    
+    // Carregar carrinho do localStorage
+    const carrinhoSalvo = localStorage.getItem('carrinho');
+    if (carrinhoSalvo) {
+        carrinho = JSON.parse(carrinhoSalvo);
+        console.log('Carrinho carregado:', carrinho);
+    }
+    
+    atualizarContadorCarrinho();
+    
+    // Configurar filtros de produtos (se existirem)
+    configurarFiltros();
+});
+
 // Atualizar contador do carrinho
 function atualizarContadorCarrinho() {
     const cartCount = document.getElementById('cart-count');
     if (cartCount) {
-        cartCount.textContent = carrinho.length;
+        const totalItems = carrinho.reduce((total, item) => total + item.quantidade, 0);
+        cartCount.textContent = totalItems;
+        console.log('Contador atualizado:', totalItems);
     }
 }
 
 // Abrir/Fechar Drawer do Carrinho
 function toggleCartDrawer() {
+    console.log('Toggle drawer chamado');
     const drawer = document.getElementById('cart-drawer');
     const overlay = document.getElementById('cart-overlay');
     
     if (drawer && overlay) {
-        drawer.classList.toggle('active');
-        overlay.classList.toggle('active');
+        const isActive = drawer.classList.contains('active');
         
-        // Se está abrindo, atualiza o conteúdo
-        if (drawer.classList.contains('active')) {
+        if (isActive) {
+            drawer.classList.remove('active');
+            overlay.classList.remove('active');
+        } else {
+            drawer.classList.add('active');
+            overlay.classList.add('active');
             renderizarCarrinho();
         }
+    } else {
+        console.error('Drawer ou overlay não encontrado!');
     }
 }
 
 // Renderizar carrinho no drawer
 function renderizarCarrinho() {
+    console.log('Renderizando carrinho:', carrinho);
+    
     const carrinhoContent = document.getElementById('cart-items-container');
     const carrinhoEmpty = document.getElementById('cart-empty');
     const carrinhoFooter = document.querySelector('.cart-drawer-footer');
     
-    if (!carrinhoContent) return;
+    if (!carrinhoContent || !carrinhoEmpty) {
+        console.error('Elementos do carrinho não encontrados');
+        return;
+    }
     
     if (carrinho.length === 0) {
         carrinhoEmpty.style.display = 'block';
         carrinhoContent.style.display = 'none';
-        carrinhoFooter.style.display = 'none';
+        if (carrinhoFooter) carrinhoFooter.style.display = 'none';
     } else {
         carrinhoEmpty.style.display = 'none';
         carrinhoContent.style.display = 'block';
-        carrinhoFooter.style.display = 'block';
+        if (carrinhoFooter) carrinhoFooter.style.display = 'block';
         
         // Renderizar items
         carrinhoContent.innerHTML = carrinho.map((item, index) => `
             <div class="cart-item">
                 <div class="cart-item-image">
-                    <img src="images/produtos/placeholder.jpg" alt="${item.nome}">
+                    <img src="images/produtos/placeholder.jpg" alt="${item.nome}" onerror="this.src='images/produtos/caixa-hamsa.jpg'">
                 </div>
                 <div class="cart-item-details">
                     <h4 class="cart-item-name">${item.nome}</h4>
@@ -85,11 +115,12 @@ function alterarQuantidade(index, mudanca) {
 
 // Remover produto do carrinho
 function removerDoCarrinho(index) {
+    const nomeProduto = carrinho[index].nome;
     carrinho.splice(index, 1);
     localStorage.setItem('carrinho', JSON.stringify(carrinho));
     atualizarContadorCarrinho();
     renderizarCarrinho();
-    mostrarNotificacao('Produto removido do carrinho');
+    mostrarNotificacao(`${nomeProduto} removido do carrinho`);
 }
 
 // Atualizar subtotal e progresso
@@ -101,7 +132,7 @@ function atualizarSubtotal() {
         subtotalElement.textContent = `${subtotal.toFixed(2)}€`;
     }
     
-    // Atualizar barra de progresso (exemplo: envio grátis a partir de 50€)
+    // Atualizar barra de progresso (envio grátis a partir de 50€)
     const freeShippingThreshold = 50;
     const progressBar = document.querySelector('.cart-progress-fill');
     const progressText = document.querySelector('.cart-progress-text');
@@ -121,6 +152,8 @@ function atualizarSubtotal() {
 
 // Adicionar produto ao carrinho
 function addToCart(nomeProduto, preco) {
+    console.log('Adicionando ao carrinho:', nomeProduto, preco);
+    
     const produto = {
         nome: nomeProduto,
         preco: preco,
@@ -145,10 +178,10 @@ function addToCart(nomeProduto, preco) {
     // Mostrar feedback visual
     mostrarNotificacao(`${nomeProduto} adicionado ao carrinho!`);
     
-    // Abrir drawer automaticamente
+    // Abrir drawer automaticamente após 300ms
     setTimeout(() => {
         toggleCartDrawer();
-    }, 500);
+    }, 300);
 }
 
 // Mostrar notificação
@@ -172,7 +205,7 @@ function mostrarNotificacao(mensagem) {
         padding: 15px 25px;
         border-radius: 8px;
         box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        z-index: 1000;
+        z-index: 1001;
         animation: slideIn 0.3s ease;
     `;
     
@@ -213,57 +246,46 @@ style.textContent = `
 document.head.appendChild(style);
 
 // Filtro de produtos por categoria
-document.addEventListener('DOMContentLoaded', function() {
-    // Carregar carrinho do localStorage
-    const carrinhoSalvo = localStorage.getItem('carrinho');
-    if (carrinhoSalvo) {
-        carrinho = JSON.parse(carrinhoSalvo);
-        atualizarContadorCarrinho();
-    }
-    
-    // Verificar se estamos na página de produtos
+function configurarFiltros() {
     const filterButtons = document.querySelectorAll('.filter-btn');
-    const productCards = document.querySelectorAll('.product-card');
     
     if (filterButtons.length > 0) {
+        console.log('Configurando filtros');
+        
         // Verificar se há categoria na URL
         const urlParams = new URLSearchParams(window.location.search);
         const categoriaUrl = urlParams.get('categoria');
         
         if (categoriaUrl) {
-            // Ativar filtro baseado na URL
             filterButtons.forEach(btn => btn.classList.remove('active'));
             
-            if (categoriaUrl === 'caixas') {
-                document.querySelector('[data-category="quadros-caixas"]')?.classList.add('active');
-                filtrarProdutos('quadros-caixas');
-            } else if (categoriaUrl === 'quadros') {
-                document.querySelector('[data-category="quadros-caixas"]')?.classList.add('active');
-                filtrarProdutos('quadros-caixas');
+            if (categoriaUrl === 'caixas' || categoriaUrl === 'quadros') {
+                const btnQuadrosCaixas = document.querySelector('[data-category="quadros-caixas"]');
+                if (btnQuadrosCaixas) {
+                    btnQuadrosCaixas.classList.add('active');
+                    filtrarProdutos('quadros-caixas');
+                }
             } else if (categoriaUrl === 'laser') {
-                document.querySelector('[data-category="laser"]')?.classList.add('active');
-                filtrarProdutos('laser');
+                const btnLaser = document.querySelector('[data-category="laser"]');
+                if (btnLaser) {
+                    btnLaser.classList.add('active');
+                    filtrarProdutos('laser');
+                }
             }
         }
         
         // Event listeners para os botões de filtro
         filterButtons.forEach(button => {
             button.addEventListener('click', function() {
-                // Remover classe active de todos os botões
                 filterButtons.forEach(btn => btn.classList.remove('active'));
-                
-                // Adicionar classe active ao botão clicado
                 this.classList.add('active');
                 
-                // Obter categoria
                 const categoria = this.getAttribute('data-category');
-                
-                // Filtrar produtos
                 filtrarProdutos(categoria);
             });
         });
     }
-});
+}
 
 // Função para filtrar produtos
 function filtrarProdutos(categoria) {
