@@ -9,6 +9,116 @@ function atualizarContadorCarrinho() {
     }
 }
 
+// Abrir/Fechar Drawer do Carrinho
+function toggleCartDrawer() {
+    const drawer = document.getElementById('cart-drawer');
+    const overlay = document.getElementById('cart-overlay');
+    
+    if (drawer && overlay) {
+        drawer.classList.toggle('active');
+        overlay.classList.toggle('active');
+        
+        // Se está abrindo, atualiza o conteúdo
+        if (drawer.classList.contains('active')) {
+            renderizarCarrinho();
+        }
+    }
+}
+
+// Renderizar carrinho no drawer
+function renderizarCarrinho() {
+    const carrinhoContent = document.getElementById('cart-items-container');
+    const carrinhoEmpty = document.getElementById('cart-empty');
+    const carrinhoFooter = document.querySelector('.cart-drawer-footer');
+    
+    if (!carrinhoContent) return;
+    
+    if (carrinho.length === 0) {
+        carrinhoEmpty.style.display = 'block';
+        carrinhoContent.style.display = 'none';
+        carrinhoFooter.style.display = 'none';
+    } else {
+        carrinhoEmpty.style.display = 'none';
+        carrinhoContent.style.display = 'block';
+        carrinhoFooter.style.display = 'block';
+        
+        // Renderizar items
+        carrinhoContent.innerHTML = carrinho.map((item, index) => `
+            <div class="cart-item">
+                <div class="cart-item-image">
+                    <img src="images/produtos/placeholder.jpg" alt="${item.nome}">
+                </div>
+                <div class="cart-item-details">
+                    <h4 class="cart-item-name">${item.nome}</h4>
+                    <p class="cart-item-price">${item.preco.toFixed(2)}€</p>
+                    <div class="cart-item-quantity">
+                        <button class="qty-btn" onclick="alterarQuantidade(${index}, -1)">-</button>
+                        <span class="qty-number">${item.quantidade}</span>
+                        <button class="qty-btn" onclick="alterarQuantidade(${index}, 1)">+</button>
+                    </div>
+                </div>
+                <button class="cart-item-remove" onclick="removerDoCarrinho(${index})" title="Remover">
+                    ×
+                </button>
+            </div>
+        `).join('');
+        
+        // Atualizar subtotal
+        atualizarSubtotal();
+    }
+}
+
+// Alterar quantidade de produto
+function alterarQuantidade(index, mudanca) {
+    if (carrinho[index]) {
+        carrinho[index].quantidade += mudanca;
+        
+        if (carrinho[index].quantidade <= 0) {
+            carrinho.splice(index, 1);
+        }
+        
+        localStorage.setItem('carrinho', JSON.stringify(carrinho));
+        atualizarContadorCarrinho();
+        renderizarCarrinho();
+    }
+}
+
+// Remover produto do carrinho
+function removerDoCarrinho(index) {
+    carrinho.splice(index, 1);
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+    atualizarContadorCarrinho();
+    renderizarCarrinho();
+    mostrarNotificacao('Produto removido do carrinho');
+}
+
+// Atualizar subtotal e progresso
+function atualizarSubtotal() {
+    const subtotal = carrinho.reduce((total, item) => total + (item.preco * item.quantidade), 0);
+    const subtotalElement = document.querySelector('.cart-subtotal-value');
+    
+    if (subtotalElement) {
+        subtotalElement.textContent = `${subtotal.toFixed(2)}€`;
+    }
+    
+    // Atualizar barra de progresso (exemplo: envio grátis a partir de 50€)
+    const freeShippingThreshold = 50;
+    const progressBar = document.querySelector('.cart-progress-fill');
+    const progressText = document.querySelector('.cart-progress-text');
+    
+    if (progressBar && progressText) {
+        const percentage = Math.min((subtotal / freeShippingThreshold) * 100, 100);
+        progressBar.style.width = `${percentage}%`;
+        
+        if (subtotal >= freeShippingThreshold) {
+            progressText.textContent = '🎉 Parabéns! Tens envio grátis!';
+        } else {
+            const restante = (freeShippingThreshold - subtotal).toFixed(2);
+            progressText.textContent = `Faltam ${restante}€ para envio grátis`;
+        }
+    }
+}
+
 // Adicionar produto ao carrinho
 function addToCart(nomeProduto, preco) {
     const produto = {
@@ -34,6 +144,11 @@ function addToCart(nomeProduto, preco) {
     
     // Mostrar feedback visual
     mostrarNotificacao(`${nomeProduto} adicionado ao carrinho!`);
+    
+    // Abrir drawer automaticamente
+    setTimeout(() => {
+        toggleCartDrawer();
+    }, 500);
 }
 
 // Mostrar notificação

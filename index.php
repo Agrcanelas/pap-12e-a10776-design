@@ -35,12 +35,12 @@
             </div>
 
             <!-- Caminho da Esquerda - Caixas -->
-            <a href="produtos.html?categoria=caixas" class="path-clickable path-left">
+            <a href="produtos.php?categoria=caixas" class="path-clickable path-left">
                 <div class="path-pillar"></div>
             </a>
 
             <!-- Caminho da Direita - Quadros -->
-            <a href="produtos.html?categoria=quadros" class="path-clickable path-right">
+            <a href="produtos.php?categoria=quadros" class="path-clickable path-right">
                 <div class="path-pillar"></div>
             </a>
         </div>
