@@ -291,10 +291,13 @@ function configurarFiltros() {
         const urlParams = new URLSearchParams(window.location.search);
         const categoriaUrl = urlParams.get('categoria');
         
+        console.log('Categoria da URL:', categoriaUrl);
+        
         if (categoriaUrl) {
             filterButtons.forEach(btn => btn.classList.remove('active'));
             
-            if (categoriaUrl === 'caixas' || categoriaUrl === 'quadros') {
+            // Mapeamento direto da categoria
+            if (categoriaUrl === 'quadros-caixas') {
                 const btnQuadrosCaixas = document.querySelector('[data-category="quadros-caixas"]');
                 if (btnQuadrosCaixas) {
                     btnQuadrosCaixas.classList.add('active');
@@ -305,6 +308,19 @@ function configurarFiltros() {
                 if (btnLaser) {
                     btnLaser.classList.add('active');
                     filtrarProdutos('laser');
+                }
+            } else if (categoriaUrl === 'extras') {
+                const btnExtras = document.querySelector('[data-category="extras"]');
+                if (btnExtras) {
+                    btnExtras.classList.add('active');
+                    filtrarProdutos('extras');
+                }
+            } else if (categoriaUrl === 'caixas' || categoriaUrl === 'quadros') {
+                // Redirecionamento antigo - manter compatibilidade
+                const btnQuadrosCaixas = document.querySelector('[data-category="quadros-caixas"]');
+                if (btnQuadrosCaixas) {
+                    btnQuadrosCaixas.classList.add('active');
+                    filtrarProdutos('quadros-caixas');
                 }
             }
         }

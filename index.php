@@ -23,23 +23,23 @@
             <div class="signs-container">
                 <div class="sign-left-pointer">
                     <div class="sign-arrow">
-                        <span>← Caixas Personalizadas</span>
+                        <span>← Quadros e Caixas</span>
                     </div>
                 </div>
                 <div class="sign-right-pointer">
                     <div class="sign-arrow">
-                        <span>Quadros Decorativos →</span>
+                        <span>Produtos a Laser →</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Caminho da Esquerda - Caixas -->
-            <a href="produtos.php?categoria=caixas" class="path-clickable path-left">
+            <!-- Caminho da Esquerda - Quadros e Caixas -->
+            <a href="produtos.php?categoria=quadros-caixas" class="path-clickable path-left">
                 <div class="path-pillar"></div>
             </a>
 
-            <!-- Caminho da Direita - Quadros -->
-            <a href="produtos.php?categoria=quadros" class="path-clickable path-right">
+            <!-- Caminho da Direita - Produtos a Laser -->
+            <a href="produtos.php?categoria=laser" class="path-clickable path-right">
                 <div class="path-pillar"></div>
             </a>
         </div>
