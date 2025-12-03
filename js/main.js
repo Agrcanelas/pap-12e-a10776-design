@@ -1,6 +1,20 @@
 // Carrinho de Compras
 let carrinho = [];
 
+// Mapa de imagens dos produtos
+const imagensProdutos = {
+    'Ganesha em Madeira': 'ganesha-madeira.jpg',
+    'Mandala Yin Yang': 'mandala-yin-yang.jpg',
+    'Globo de Neve Natal': 'globo-neve-natal.jpg',
+    'Caixa Decorativa Hamsa': 'caixa-hamsa.jpg',
+    'Porta-chaves Puzzle': 'porta-chaves-puzzle.jpg'
+};
+
+// Função para obter imagem do produto
+function obterImagemProduto(nomeProduto) {
+    return imagensProdutos[nomeProduto] || 'caixa-hamsa.jpg';
+}
+
 // Inicializar quando a página carregar
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Página carregada!');
@@ -9,7 +23,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const carrinhoSalvo = localStorage.getItem('carrinho');
     if (carrinhoSalvo) {
         carrinho = JSON.parse(carrinhoSalvo);
-        console.log('Carrinho carregado:', carrinho);
+        
+        // Corrigir produtos antigos sem imagem
+        carrinho = carrinho.map(item => {
+            if (!item.imagem) {
+                item.imagem = obterImagemProduto(item.nome);
+            }
+            return item;
+        });
+        
+        // Salvar carrinho corrigido
+        localStorage.setItem('carrinho', JSON.stringify(carrinho));
+        
+        console.log('Carrinho carregado e corrigido:', carrinho);
     }
     
     atualizarContadorCarrinho();
@@ -73,10 +99,14 @@ function renderizarCarrinho() {
         if (carrinhoFooter) carrinhoFooter.style.display = 'block';
         
         // Renderizar items
-        carrinhoContent.innerHTML = carrinho.map((item, index) => `
+        carrinhoContent.innerHTML = carrinho.map((item, index) => {
+            const imagemPath = item.imagem ? `images/produtos/${item.imagem}` : `images/produtos/${obterImagemProduto(item.nome)}`;
+            console.log('Renderizando item:', item.nome, 'com imagem:', imagemPath);
+            
+            return `
             <div class="cart-item">
                 <div class="cart-item-image">
-                    <img src="images/produtos/placeholder.jpg" alt="${item.nome}" onerror="this.src='images/produtos/caixa-hamsa.jpg'">
+                    <img src="${imagemPath}" alt="${item.nome}" onerror="console.error('Erro ao carregar imagem:', this.src)">
                 </div>
                 <div class="cart-item-details">
                     <h4 class="cart-item-name">${item.nome}</h4>
@@ -91,7 +121,8 @@ function renderizarCarrinho() {
                     ×
                 </button>
             </div>
-        `).join('');
+            `;
+        }).join('');
         
         // Atualizar subtotal
         atualizarSubtotal();
@@ -157,8 +188,11 @@ function addToCart(nomeProduto, preco) {
     const produto = {
         nome: nomeProduto,
         preco: preco,
-        quantidade: 1
+        quantidade: 1,
+        imagem: obterImagemProduto(nomeProduto)
     };
+    
+    console.log('Produto com imagem:', produto);
     
     // Verificar se produto já existe no carrinho
     const produtoExistente = carrinho.find(item => item.nome === nomeProduto);
@@ -171,6 +205,7 @@ function addToCart(nomeProduto, preco) {
     
     // Guardar no localStorage
     localStorage.setItem('carrinho', JSON.stringify(carrinho));
+    console.log('Carrinho após adicionar:', carrinho);
     
     // Atualizar contador
     atualizarContadorCarrinho();

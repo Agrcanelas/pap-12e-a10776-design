@@ -1,3 +1,17 @@
+// Mapa de imagens dos produtos
+const imagensProdutos = {
+    'Ganesha em Madeira': 'ganesha-madeira.jpg',
+    'Mandala Yin Yang': 'mandala-yin-yang.jpg',
+    'Globo de Neve Natal': 'globo-neve-natal.jpg',
+    'Caixa Decorativa Hamsa': 'caixa-hamsa.jpg',
+    'Porta-chaves Puzzle': 'porta-chaves-puzzle.jpg'
+};
+
+// Função para obter imagem do produto
+function obterImagemProduto(nomeProduto) {
+    return imagensProdutos[nomeProduto] || 'caixa-hamsa.jpg';
+}
+
 // Renderizar página completa do carrinho
 function renderizarCarrinhoCompleto() {
     const carrinhoEmpty = document.getElementById('cart-page-empty');
@@ -17,10 +31,13 @@ function renderizarCarrinhoCompleto() {
         carrinhoSummary.style.display = 'block';
         
         // Renderizar items
-        carrinhoList.innerHTML = carrinho.map((item, index) => `
+        carrinhoList.innerHTML = carrinho.map((item, index) => {
+            const imagemPath = item.imagem ? `images/produtos/${item.imagem}` : `images/produtos/${obterImagemProduto(item.nome)}`;
+            
+            return `
             <div class="cart-page-item">
                 <div class="cart-page-item-image">
-                    <img src="images/produtos/placeholder.jpg" alt="${item.nome}">
+                    <img src="${imagemPath}" alt="${item.nome}">
                 </div>
                 <div class="cart-page-item-info">
                     <h3 class="cart-page-item-name">${item.nome}</h3>
@@ -38,7 +55,8 @@ function renderizarCarrinhoCompleto() {
                     </button>
                 </div>
             </div>
-        `).join('');
+            `;
+        }).join('');
         
         // Atualizar resumo
         atualizarResumo();
