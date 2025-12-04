@@ -1,9 +1,9 @@
-// js/carrinho-page.js
+// js/carrinho-page.js - CÓDIGO COMPLETO E FINAL
 
 // Variável específica para esta página
 let meuCarrinho = [];
 
-// Mapa de imagens de backup
+// Mapa de imagens de backup (caso falhem)
 const imagensBackup = {
     'Ganesha em Madeira': 'ganesha-madeira.jpg',
     'Mandala Yin Yang': 'mandala-yin-yang.jpg',
@@ -12,47 +12,47 @@ const imagensBackup = {
     'Porta-chaves Puzzle': 'porta-chaves-puzzle.jpg'
 };
 
-// Quando a página carrega
+// 1. Quando a página carrega: Ler LocalStorage e Renderizar
 document.addEventListener('DOMContentLoaded', function() {
     console.log("Iniciando página do carrinho...");
     
-    // 1. Ler os dados frescos do LocalStorage
     const dadosSalvos = localStorage.getItem('carrinho');
     
     if (dadosSalvos) {
         meuCarrinho = JSON.parse(dadosSalvos);
-        console.log("Produtos encontrados:", meuCarrinho.length);
+        console.log("Produtos carregados:", meuCarrinho.length);
     } else {
-        console.log("Nenhum produto no localStorage.");
+        console.log("LocalStorage vazio ou inexistente.");
+        meuCarrinho = [];
     }
 
-    // 2. Renderizar a página
     renderizarPagina();
 });
 
+// 2. Função principal de desenho da página
 function renderizarPagina() {
     const divVazio = document.getElementById('cart-page-empty');
     const divConteudo = document.getElementById('cart-page-content');
     const divResumo = document.getElementById('cart-page-summary');
     const listaItems = document.getElementById('cart-page-items-list');
 
-    // Se os elementos não existirem na página, para tudo
+    // Segurança: se não estivermos na página do carrinho, parar.
     if (!divVazio || !divConteudo) return;
 
     if (meuCarrinho.length === 0) {
-        // MOSTRAR MENSAGEM DE VAZIO
+        // Estado Vazio
         divVazio.style.display = 'block';
         divConteudo.style.display = 'none';
         if (divResumo) divResumo.style.display = 'none';
     } else {
-        // MOSTRAR PRODUTOS
+        // Estado com Produtos
         divVazio.style.display = 'none';
         divConteudo.style.display = 'block';
         if (divResumo) divResumo.style.display = 'block';
 
-        // Criar o HTML de cada item
+        // Gerar HTML dos produtos
         listaItems.innerHTML = meuCarrinho.map((item, index) => {
-            // Tenta usar a imagem salva, ou procura no backup, ou usa padrão
+            // Tenta obter imagem do item, ou do backup, ou a padrão
             let img = item.imagem || imagensBackup[item.nome] || 'caixa-hamsa.jpg';
             
             return `
@@ -81,12 +81,13 @@ function renderizarPagina() {
     }
 }
 
-// Atualizar preço total
+// 3. Função para atualizar os valores monetários
 function atualizarTotais() {
     const subtotal = meuCarrinho.reduce((total, item) => total + (item.preco * item.quantidade), 0);
     const envio = subtotal >= 50 ? 0 : 4.99;
     const total = subtotal + envio;
 
+    // Atualizar HTML
     const elSubtotal = document.getElementById('summary-subtotal');
     const elEnvio = document.getElementById('summary-shipping');
     const elTotal = document.getElementById('summary-total');
@@ -97,41 +98,106 @@ function atualizarTotais() {
     if (elEnvio) {
         if (envio === 0) {
             elEnvio.textContent = "Grátis";
-            elEnvio.style.color = "green";
+            elEnvio.style.color = "#6b8e23"; // Verde
+            elEnvio.style.fontWeight = "bold";
         } else {
             elEnvio.textContent = "4.99€";
             elEnvio.style.color = "inherit";
+            elEnvio.style.fontWeight = "normal";
         }
     }
 }
 
-// Funções de Ação (Globais)
+// 4. Funções Globais (acessíveis pelo onclick do HTML)
+
+// Alterar Quantidade
 window.mudarQtd = function(index, delta) {
     if (meuCarrinho[index]) {
         meuCarrinho[index].quantidade += delta;
+        
+        // Se a quantidade for 0 ou menos, remove o item
         if (meuCarrinho[index].quantidade <= 0) {
             meuCarrinho.splice(index, 1);
         }
-        salvarEAtualizar();
+        
+        // Salvar e Recarregar
+        localStorage.setItem('carrinho', JSON.stringify(meuCarrinho));
+        // Recarregar a página atualiza tudo (incluindo header e totais)
+        location.reload(); 
     }
 };
 
+// Remover Item
 window.removerItem = function(index) {
     meuCarrinho.splice(index, 1);
-    salvarEAtualizar();
+    localStorage.setItem('carrinho', JSON.stringify(meuCarrinho));
+    location.reload();
 };
 
-function salvarEAtualizar() {
-    // Salva no navegador
-    localStorage.setItem('carrinho', JSON.stringify(meuCarrinho));
-    // Recarrega a página para atualizar tudo (header e lista)
-    location.reload(); 
-}
-
+// 5. Função FINALIZAR COMPRA (Conecta à Base de Dados)
 window.finalizarCompra = function() {
     if (meuCarrinho.length === 0) {
-        alert("Carrinho vazio!");
-    } else {
-        alert("A processar compra...");
+        alert("O carrinho está vazio!");
+        return;
     }
+
+    const botao = document.querySelector('.btn-finalizar');
+    const textoOriginal = botao ? botao.textContent : "Finalizar Compra";
+    
+    // Feedback visual
+    if(botao) {
+        botao.textContent = "A processar...";
+        botao.disabled = true;
+    }
+
+    // Preparar dados
+    const dadosPedido = {
+        produtos: meuCarrinho
+    };
+
+    console.log("Enviando pedido:", dadosPedido);
+
+    // Enviar para o PHP
+    fetch('processar_encomenda.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dadosPedido)
+    })
+    .then(response => {
+        // Verifica se a resposta é JSON válido
+        if (!response.ok) {
+            throw new Error('Erro na rede ou servidor: ' + response.status);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log("Resposta do servidor:", data);
+        
+        if (data.sucesso) {
+            alert("🎉 Compra realizada com sucesso!\nID da Encomenda: " + (data.mensagem.split('ID: ')[1] || 'Registado'));
+            
+            // Limpar Carrinho
+            localStorage.removeItem('carrinho');
+            meuCarrinho = [];
+            
+            // Redirecionar
+            window.location.href = 'index.php';
+        } else {
+            alert("Erro ao gravar: " + data.mensagem);
+            if(botao) {
+                botao.textContent = textoOriginal;
+                botao.disabled = false;
+            }
+        }
+    })
+    .catch(error => {
+        console.error('Erro Fetch:', error);
+        alert("Erro técnico. Verifica a consola (F12) para detalhes.");
+        if(botao) {
+            botao.textContent = textoOriginal;
+            botao.disabled = false;
+        }
+    });
 };
