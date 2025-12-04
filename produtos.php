@@ -1,3 +1,11 @@
+<?php
+// Incluir conexão à base de dados
+require_once 'db.php';
+
+// Consulta para buscar todos os produtos
+$sql = "SELECT * FROM produtos ORDER BY id ASC";
+$result = $conn->query($sql);
+?>
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -9,21 +17,15 @@
     <link rel="stylesheet" href="css/carrinho-drawer.css">
 </head>
 <body>
-    <!-- Cabeçalho -->
     <?php include 'header.php'; ?>
 
-  
-
-
-    <!-- Cabeçalho da Página -->
     <section class="page-header">
         <div class="container">
             <h1>Os Nossos Produtos</h1>
-            <p>Peças únicas em madeira, feitas à mãos</p>
+            <p>Peças únicas em madeira, feitas à mão</p>
         </div>
     </section>
 
-    <!-- Filtro de Categorias -->
     <section class="category-filter">
         <div class="container">
             <button class="filter-btn active" data-category="todos">Todos</button>
@@ -33,102 +35,71 @@
         </div>
     </section>
 
-    <!-- Lista de Produtos -->
     <section class="products-section">
         <div class="container">
             <div class="products-grid">
                 
-                <!-- PRODUTOS A LASER -->
+                <?php
+                if ($result->num_rows > 0) {
+                    // Array para converter o código da categoria em texto bonito
+                    $nomes_categorias = [
+                        'laser' => 'Produtos a Laser',
+                        'quadros-caixas' => 'Quadros e Caixas',
+                        'extras' => 'Extras'
+                    ];
+
+                    // Loop através de cada produto na base de dados
+                    while($row = $result->fetch_assoc()) {
+                        $nome = $row["nome"];
+                        $preco = $row["preco"];
+                        $imagem = $row["imagem"];
+                        $descricao = $row["descricao"];
+                        $categoria_db = $row["categoria"];
+                        
+                        // Obter nome bonito da categoria (ou usar o original se não existir no array)
+                        $categoria_texto = isset($nomes_categorias[$categoria_db]) ? $nomes_categorias[$categoria_db] : $categoria_db;
+
+                        // Lógica para os Badges (Novo / Personalizável)
+                        $badges_html = '';
+                        $offset_style = ''; // Estilo para baixar o segundo badge se o primeiro existir
+                        
+                        // Badge "Novo"
+                        if ($row["novo"]) {
+                            $badges_html .= '<span class="product-badge">Novo</span>';
+                            // Se tem o badge Novo, o próximo badge precisa de descer
+                            $offset_style = 'style="top: 55px;"';
+                        }
+                        
+                        // Badge "Personalizável"
+                        if ($row["personalizavel"]) {
+                            $badges_html .= '<span class="product-badge badge-personalizavel" ' . $offset_style . '>Personalizável</span>';
+                        }
+                ?>
                 
-                <!-- Produto 1 - Ganesha -->
-                <div class="product-card" data-category="laser">
+                <div class="product-card" data-category="<?php echo $categoria_db; ?>">
                     <div class="product-image">
-                        <img src="images/produtos/ganesha-madeira.jpg" alt="Ganesha em Madeira">
-                        <span class="product-badge">Novo</span>
-                        <span class="product-badge badge-personalizavel" style="top: 55px;">Personalizável</span>
+                        <img src="images/produtos/<?php echo $imagem; ?>" alt="<?php echo $nome; ?>">
+                        <?php echo $badges_html; ?>
                     </div>
                     <div class="product-info">
-                        <span class="product-category">Produtos a Laser</span>
-                        <h3>Ganesha em Madeira</h3>
-                        <p class="product-description">Figura decorativa de Ganesha com detalhes intrincados cortados a laser</p>
-                        <p class="price">8.90€</p>
-                        <button class="btn-add-cart" onclick="addToCart('Ganesha em Madeira', 8.90)">
+                        <span class="product-category"><?php echo $categoria_texto; ?></span>
+                        <h3><?php echo $nome; ?></h3>
+                        <p class="product-description"><?php echo $descricao; ?></p>
+                        <p class="price"><?php echo number_format($preco, 2); ?>€</p>
+                        <button class="btn-add-cart" onclick="addToCart('<?php echo addslashes($nome); ?>', <?php echo $preco; ?>)">
                             Adicionar ao Carrinho
                         </button>
                     </div>
                 </div>
-
-                <!-- Produto 2 - Mandala Yin Yang -->
-                <div class="product-card" data-category="laser">
-                    <div class="product-image">
-                        <img src="images/produtos/mandala-yin-yang.jpg" alt="Mandala Yin Yang">
-                        <span class="product-badge badge-personalizavel">Personalizável</span>
-                    </div>
-                    <div class="product-info">
-                        <span class="product-category">Produtos a Laser</span>
-                        <h3>Mandala Yin Yang</h3>
-                        <p class="product-description">Mandala decorativa com símbolo Yin Yang em madeira natural</p>
-                        <p class="price">9.90€</p>
-                        <button class="btn-add-cart" onclick="addToCart('Mandala Yin Yang', 9.90)">
-                            Adicionar ao Carrinho
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Produto 3 - Globo Neve Natal -->
-                <div class="product-card" data-category="laser">
-                    <div class="product-image">
-                        <img src="images/produtos/globo-neve-natal.jpg" alt="Globo de Neve Natal 2025">
-                        <span class="product-badge badge-personalizavel">Personalizável</span>
-                    </div>
-                    <div class="product-info">
-                        <span class="product-category">Produtos a Laser</span>
-                        <h3>Globo de Neve Natal</h3>
-                        <p class="product-description">Decoração natalícia personalizada com nome da família</p>
-                        <p class="price">7.50€</p>
-                        <button class="btn-add-cart" onclick="addToCart('Globo de Neve Natal', 7.50)">
-                            Adicionar ao Carrinho
-                        </button>
-                    </div>
-                </div>
-
-                <!-- QUADROS E CAIXAS -->
+                <?php
+                    } // Fim do while
+                } else {
+                    echo "<p>Ainda não há produtos cadastrados.</p>";
+                }
                 
-                <!-- Produto 4 - Caixa Hamsa -->
-                <div class="product-card" data-category="quadros-caixas">
-                    <div class="product-image">
-                        <img src="images/produtos/caixa-hamsa.jpg" alt="Caixa Decorativa Hamsa">
-                        <span class="product-badge badge-personalizavel">Personalizável</span>
-                    </div>
-                    <div class="product-info">
-                        <span class="product-category">Quadros e Caixas</span>
-                        <h3>Caixa Decorativa Hamsa</h3>
-                        <p class="product-description">Caixa em madeira com símbolo Hamsa gravado e suporte decorativo</p>
-                        <p class="price">29.90€</p>
-                        <button class="btn-add-cart" onclick="addToCart('Caixa Decorativa Hamsa', 29.90)">
-                            Adicionar ao Carrinho
-                        </button>
-                    </div>
-                </div>
-
-                <!-- EXTRAS -->
-
-                <!-- Produto 5 - Porta-chaves Puzzle -->
-                <div class="product-card" data-category="extras">
-                    <div class="product-image">
-                        <img src="images/produtos/porta-chaves-puzzle.jpg" alt="Porta-chaves Puzzle">
-                        <span class="product-badge badge-personalizavel">Personalizável</span>
-                    </div>
-                    <div class="product-info">
-                        <span class="product-category">Extras</span>
-                        <h3>Porta-chaves Puzzle</h3>
-                        <p class="product-description">Conjunto de 4 porta-chaves em puzzle com nomes personalizados</p>
-                        <p class="price">19.90€</p>
-                        <button class="btn-add-cart" onclick="addToCart('Porta-chaves Puzzle', 19.90)">
-                            Adicionar ao Carrinho
-                        </button>
-                    </div>
-                </div>
+                // Fechar conexão (boa prática, embora o PHP feche automaticamente no fim do script)
+                $conn->close();
+                ?>
 
             </div>
         </div>
@@ -138,7 +109,4 @@
 
     <script src="js/main.js"></script>
 </body>
-
-
-
 </html> 
