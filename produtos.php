@@ -63,12 +63,7 @@ $result = $conn->query($sql);
                         $badges_html = '';
                         $offset_style = ''; // Estilo para baixar o segundo badge se o primeiro existir
                         
-                        // Badge "Novo"
-                        if ($row["novo"]) {
-                            $badges_html .= '<span class="product-badge">Novo</span>';
-                            // Se tem o badge Novo, o próximo badge precisa de descer
-                            $offset_style = 'style="top: 55px;"';
-                        }
+                      
                         
                         // Badge "Personalizável"
                         if ($row["personalizavel"]) {
