@@ -10,7 +10,7 @@ $pagina_atual = basename($_SERVER['PHP_SELF']);
         <ul class="nav-links">
             <li><a href="index.php" class="<?php echo ($pagina_atual == 'index.php') ? 'active' : ''; ?>">Início</a></li>
             <li><a href="produtos.php" class="<?php echo ($pagina_atual == 'produtos.php') ? 'active' : ''; ?>">Produtos</a></li>
-            <li><a href="contacto.php" class="<?php echo ($pagina_atual == 'contacto.php') ? 'active' : ''; ?>">Contacto</a></li>
+            <li><a href="sobre_nos.php" class="<?php echo ($pagina_atual == 'sobre_nos.php') ? 'active' : ''; ?>">Sobre Nós</a></li>
             <li>
                 <a href="javascript:void(0);" onclick="toggleCartDrawer()" class="cart-link">
                     🛒 Carrinho (<span id="cart-count">0</span>)
