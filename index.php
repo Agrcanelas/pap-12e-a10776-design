@@ -19,20 +19,6 @@
                 <p>Escolha o seu caminho</p>
             </div>
 
-            <!-- Placas no Centro -->
-            <div class="signs-container">
-                <div class="sign-left-pointer">
-                    <div class="sign-arrow">
-                        <span>← Quadros e Caixas</span>
-                    </div>
-                </div>
-                <div class="sign-right-pointer">
-                    <div class="sign-arrow">
-                        <span>Produtos a Laser →</span>
-                    </div>
-                </div>
-            </div>
-
             <!-- Caminho da Esquerda - Quadros e Caixas -->
             <a href="produtos.php?categoria=quadros-caixas" class="path-clickable path-left">
                 <div class="path-pillar"></div>
@@ -42,6 +28,20 @@
             <a href="produtos.php?categoria=laser" class="path-clickable path-right">
                 <div class="path-pillar"></div>
             </a>
+
+            <!-- Placas no Centro -->
+            <div class="signs-container">
+                <div class="sign-left-pointer">
+                    <div class="sign-arrow">
+                        <span>Quadros e Caixas →</span>
+                    </div>
+                </div>
+                <div class="sign-right-pointer">
+                    <div class="sign-arrow">
+                        <span>← Produtos a Laser</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
     

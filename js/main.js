@@ -117,11 +117,8 @@ function renderizarCarrinho() {
                         <button class="qty-btn" onclick="alterarQuantidade(${index}, 1)">+</button>
                     </div>
                 </div>
-                <button class="cart-item-remove" onclick="removerDoCarrinho(${index})" title="Remover">
-                    ×
-                </button>
-            </div>
-            `;
+                <button class="cart-item-remove" onclick="removerDoCarrinho(${index})" title="Remover">×</button>
+            </div>`;
         }).join('');
         
         // Atualizar subtotal
@@ -182,14 +179,14 @@ function atualizarSubtotal() {
 }
 
 // Adicionar produto ao carrinho
-function addToCart(nomeProduto, preco) {
-    console.log('Adicionando ao carrinho:', nomeProduto, preco);
+function addToCart(nomeProduto, preco, imagemProduto) { // <--- Novo argumento
+    console.log('Adicionando:', nomeProduto);
     
     const produto = {
         nome: nomeProduto,
         preco: preco,
         quantidade: 1,
-        imagem: obterImagemProduto(nomeProduto)
+        imagem: imagemProduto // <--- Usa a imagem real da BD
     };
     
     console.log('Produto com imagem:', produto);

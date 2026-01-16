@@ -81,7 +81,7 @@ $result = $conn->query($sql);
                         <h3><?php echo $nome; ?></h3>
                         <p class="product-description"><?php echo $descricao; ?></p>
                         <p class="price"><?php echo number_format($preco, 2); ?>€</p>
-                        <button class="btn-add-cart" onclick="addToCart('<?php echo addslashes($nome); ?>', <?php echo $preco; ?>)">
+                        <button class="btn-add-cart" onclick="addToCart('<?php echo addslashes($nome); ?>', <?php echo $preco; ?>, '<?php echo $imagem; ?>')">
                             Adicionar ao Carrinho
                         </button>
                     </div>

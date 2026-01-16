@@ -1,4 +1,6 @@
-/* Reset e Configuração Base */
+/* ==========================================================================
+   1. Reset e Configurações Base
+   ========================================================================== */
 * {
     margin: 0;
     padding: 0;
@@ -6,9 +8,9 @@
 }
 
 body {
-    font-family: 'Georgia', serif;
-    color: #5c462d;
-    background-color: #faf8f5;
+    font-family: 'Georgia', serif; /* Fonte artesanal [cite: 74] */
+    color: #5c462d; /* Castanho escuro padrão [cite: 61, 62] */
+    background-color: #faf8f5; /* Fundo claro [cite: 69] */
     line-height: 1.6;
 }
 
@@ -18,9 +20,11 @@ body {
     padding: 0 20px;
 }
 
-/* Cabeçalho e Navegação */
+/* ==========================================================================
+   2. Cabeçalho e Navegação (Layout de 3 Partes)
+   ========================================================================== */
 header {
-    background-color: #4a3f2e;
+    background-color: #4a3f2e; /* Castanho escuro [cite: 62, 63] */
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     position: sticky;
     top: 0;
@@ -29,7 +33,7 @@ header {
 
 .navbar {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Empurra Logo e User-nav para as pontas */
     align-items: center;
     padding: 1rem 2rem;
     max-width: 1200px;
@@ -42,10 +46,12 @@ header {
     font-weight: 400;
 }
 
+/* Configuração geral das listas de links */
 .nav-links {
     display: flex;
     list-style: none;
     gap: 2rem;
+    align-items: center;
 }
 
 .nav-links a {
@@ -57,14 +63,33 @@ header {
 
 .nav-links a:hover,
 .nav-links a.active {
-    color: #d4af37;
+    color: #d4af37; /* Dourado para link ativo [cite: 70, 181] */
 }
 
-.cart-link {
+/* Lógica de posicionamento central e direito */
+.main-nav {
+    flex-grow: 1; /* Ocupa o espaço central */
+    justify-content: center; /* Centraliza os links Início, Produtos, Contacto */
+    margin-left: 2rem;
+}
+
+.user-nav {
+    justify-content: flex-end; /* Garante que Login/Carrinho fiquem à direita */
+}
+
+.user-greeting {
+    color: #ffffff !important;
     font-weight: bold;
+    margin-right: 10px;
 }
 
-/* Secção Hero - Floresta em Ecrã Completo */
+.nav-btn-logout {
+    color: #ff9999 !important;
+}
+
+/* ==========================================================================
+   3. Secção Hero (Página Inicial - Floresta Interativa)
+   ========================================================================== */
 .hero-fullscreen {
     position: relative;
     height: 100vh;
@@ -75,13 +100,11 @@ header {
     position: relative;
     width: 100%;
     height: 100%;
-    background-image: url('../images/forest.jpg');
+    background-image: url('../images/forest.jpg'); /* Imagem de fundo [cite: 50, 51, 85] */
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
 }
 
-/* Texto de Boas-Vindas */
 .welcome-text {
     position: absolute;
     top: 100px;
@@ -93,19 +116,7 @@ header {
     text-shadow: 3px 3px 10px rgba(0,0,0,0.8);
 }
 
-.welcome-text h2 {
-    font-size: 3.5rem;
-    margin-bottom: 0.5rem;
-    font-weight: 300;
-    letter-spacing: 3px;
-}
-
-.welcome-text p {
-    font-size: 1.6rem;
-    color: #f4e8d8;
-}
-
-/* Container das Placas */
+/* Placas de Sinalização [cite: 77, 88-90] */
 .signs-container {
     position: absolute;
     top: 50%;
@@ -118,212 +129,64 @@ header {
     pointer-events: none;
 }
 
-/* Placas de Sinalização */
-.sign-left-pointer,
-.sign-right-pointer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .sign-arrow {
-    background: #813d0f;
-    color: #000;
+    background: #813d0f; /* Cor das placas [cite: 72, 310] */
     padding: 18px 40px;
     border-radius: 8px;
     font-size: 1.6rem;
     font-weight: bold;
     box-shadow: 5px 5px 15px rgba(0,0,0,0.7);
-    border: 4px solid #f86300;
+    border: 4px solid #f86300; /* Borda laranja [cite: 73, 311] */
     transition: all 0.3s ease;
 }
 
-.sign-left-pointer .sign-arrow {
-    clip-path: polygon(8% 0%, 100% 0%, 100% 100%, 8% 100%, 0% 50%);
-    padding-left: 50px;
+/* Efeito Hover nas Placas [cite: 78, 95, 312] */
+.path-left:hover ~ .signs-container .sign-left-pointer .sign-arrow,
+.path-right:hover ~ .signs-container .sign-right-pointer .sign-arrow {
+    transform: scale(1.08);
+    background: #FFB700; /* Brilho dourado ao passar o rato */
 }
 
-.sign-right-pointer .sign-arrow {
-    clip-path: polygon(0% 0%, 92% 0%, 100% 50%, 92% 100%, 0% 100%);
-    padding-right: 50px;
-}
-
-.sign-arrow span {
-    display: inline-block;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
-}
-
-/* Caminhos Clicáveis com Pilares */
+/* Caminhos Clicáveis e Pilares [cite: 79, 91, 94] */
 .path-clickable {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 40%;
-    height: 50%;
-    cursor: pointer;
-    text-decoration: none;
+    top: 60%;
+    transform: translateY(-80%);
+    width: 220px;
+    height: 320px;
     z-index: 15;
-    transition: all 0.4s ease;
     display: flex;
     align-items: center;
     justify-content: center;
+    text-decoration: none;
 }
 
-.path-left {
-    left: 0;
-    justify-content: flex-start;
-    padding-left: 25%;
-}
+.path-left { left: 63%; }
+.path-right { right: 62%; }
 
-.path-right {
-    right: 0;
-    justify-content: flex-end;
-    padding-right: 25%;
-}
-
-/* Pilares Transparentes no Centro */
 .path-pillar {
     width: 200px;
     height: 300px;
-    background: radial-gradient(
-        ellipse at center,
-        rgba(255, 193, 7, 0) 0%,
-        rgba(255, 193, 7, 0) 50%,
-        rgba(255, 193, 7, 0) 100%
-    );
-    border: 3px solid rgba(255, 193, 7, 0.041);
+    border: 3px solid rgba(255, 193, 7, 0);
     border-radius: 10px;
     transition: all 0.4s ease;
-    box-shadow: 0 0 30px rgba(255, 193, 7, 0);
-    position: relative;
-}
-
-.path-pillar::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 60px;
-    height: 60px;
-    background: rgba(255, 255, 255, 0);
-    border-radius: 50%;
-    border: 3px solid rgba(255, 255, 255, 0);
-    transition: all 0.3s ease;
-}
-
-.path-pillar::after {
-   
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 2.5rem;
-    color: rgba(255, 255, 255, 0);
-    font-weight: bold;
-    transition: all 0.3s ease;
+    background: transparent;
+    
 }
 
 .path-clickable:hover .path-pillar {
-    background: radial-gradient(
-        ellipse at center,
-        rgba(255, 193, 7, 0) 0%,
-        rgba(255, 193, 7, 0.384) 50%,
-        rgba(255, 193, 7, 0) 100%
-    );
-    border-color: rgba(255, 193, 7, 0);
-    box-shadow: 0 0 50px rgba(255, 193, 7, 0);
-    transform: scale(1.05);
+    background: radial-gradient(circle, rgba(255,193,7,0.2) 0%, rgba(255,193,7,0) 70%);
 }
 
-.path-clickable:hover .path-pillar::before {
-    width: 80px;
-    height: 80px;
-    background: rgba(255, 255, 255, 0);
-    border-color: rgba(255, 255, 255, 0);
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .path-clickable { left: 50% !important; right: auto !important; transform: translate(-50%, -50%); width: 180px; height: 260px; }
+    .path-left, .path-right { left: 50%; right: auto; }
 }
 
-.path-clickable:hover .path-pillar::after {
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 3rem;
-}
-
-/* Hover nas placas quando passa o rato nos caminhos */
-.path-left:hover ~ .signs-container .sign-left-pointer .sign-arrow {
-    transform: scale(1.08);
-    background: #FFB700;
-    box-shadow: 7px 7px 20px rgba(255, 193, 7, 0.7);
-}
-
-.path-right:hover ~ .signs-container .sign-right-pointer .sign-arrow {
-    transform: scale(1.08);
-    background: #FFB700;
-    box-shadow: 7px 7px 20px rgba(255, 193, 7, 0.7);
-}
-
-/* Secção Sobre */
-.about {
-    padding: 80px 20px;
-    text-align: center;
-    background-color: #fff;
-}
-
-.about h2 {
-    font-size: 2.5rem;
-    margin-bottom: 1.5rem;
-    color: #4a3f2e;
-    font-weight: 300;
-}
-
-.about p {
-    font-size: 1.2rem;
-    max-width: 800px;
-    margin: 0 auto;
-    color: #5d4e37;
-    line-height: 1.8;
-}
-
-/* Características */
-.features {
-    padding: 80px 20px;
-    background-color: #faf8f5;
-}
-
-.features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-}
-
-.feature-item {
-    text-align: center;
-    padding: 2rem;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    transition: transform 0.3s;
-}
-
-.feature-item:hover {
-    transform: translateY(-5px);
-}
-
-.feature-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-}
-
-.feature-item h3 {
-    font-size: 1.3rem;
-    margin-bottom: 0.5rem;
-    color: #4a3f2e;
-}
-
-.feature-item p {
-    color: #5d4e37;
-}
-
-/* Rodapé */
+/* ==========================================================================
+   4. Rodapé [cite: 18, 107, 269]
+   ========================================================================== */
 footer {
     background-color: #4a3f2e;
     color: #f4e8d8;
@@ -338,80 +201,25 @@ footer {
     margin: 0 auto 2rem;
 }
 
-.footer-section h4 {
-    color: #d4af37;
-    margin-bottom: 1rem;
-}
+.footer-section h4 { color: #d4af37; margin-bottom: 1rem; }
+.footer-section ul { list-style: none; }
+.footer-section a { color: #f4e8d8; text-decoration: none; }
 
-.footer-section ul {
-    list-style: none;
-}
-
-.footer-section ul li {
-    margin-bottom: 0.5rem;
-}
-
-.footer-section a {
-    color: #f4e8d8;
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-.footer-section a:hover {
-    color: #d4af37;
-}
-
-.footer-bottom {
-    text-align: center;
-    padding-top: 2rem;
-    border-top: 1px solid #5d4e37;
-}
-
-/* Responsivo */
+/* ==========================================================================
+   5. Responsividade [cite: 185-189]
+   ========================================================================== */
 @media (max-width: 768px) {
     .navbar {
         flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .main-nav, .user-nav {
+        margin-left: 0;
+        justify-content: center;
+        width: 100%;
         gap: 1rem;
     }
     
-    .nav-links {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-    }
-    
-    .welcome-text h2 {
-        font-size: 2rem;
-    }
-    
-    .welcome-text p {
-        font-size: 1.2rem;
-    }
-    
-    .sign-arrow {
-        font-size: 1.1rem;
-        padding: 12px 25px;
-    }
-    
-    .sign-left-pointer .sign-arrow {
-        padding-left: 35px;
-    }
-    
-    .sign-right-pointer .sign-arrow {
-        padding-right: 35px;
-    }
-    
-    .path-pillar {
-        width: 150px;
-        height: 200px;
-    }
-    
-    .path-pillar::before {
-        width: 50px;
-        height: 50px;
-    }
-    
-    .path-pillar::after {
-        font-size: 2rem;
-    }
+    .welcome-text h2 { font-size: 2rem; }
 }

@@ -53,6 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Login - Artesanato em Madeira</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/carrinho-drawer.css">
 </head>
 <body>
     <?php include 'header.php'; ?>
