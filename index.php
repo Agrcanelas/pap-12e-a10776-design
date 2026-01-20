@@ -33,12 +33,12 @@
             <div class="signs-container">
                 <div class="sign-left-pointer">
                     <div class="sign-arrow">
-                        <span>Quadros e Caixas →</span>
+                        <span>Produtos a Laser</span>
                     </div>
                 </div>
                 <div class="sign-right-pointer">
                     <div class="sign-arrow">
-                        <span>← Produtos a Laser</span>
+                        <span>Quadros e Caixas</span>
                     </div>
                 </div>
             </div>

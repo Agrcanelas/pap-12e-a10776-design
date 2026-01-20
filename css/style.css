@@ -21,10 +21,10 @@ body {
 }
 
 /* ==========================================================================
-   2. Cabeçalho e Navegação (Layout de 3 Partes)
+   2. Cabeçalho e Navegação (Atualizado)
    ========================================================================== */
 header {
-    background-color: #4a3f2e; /* Castanho escuro [cite: 62, 63] */
+    background-color: #4a3f2e;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     position: sticky;
     top: 0;
@@ -33,10 +33,11 @@ header {
 
 .navbar {
     display: flex;
-    justify-content: space-between; /* Empurra Logo e User-nav para as pontas */
     align-items: center;
     padding: 1rem 2rem;
-    max-width: 1200px;
+    /* Mudei de 1200px para 100% para ir até às pontas do ecrã, como na imagem */
+    width: 100%; 
+    max-width: 100%; 
     margin: 0 auto;
 }
 
@@ -44,9 +45,12 @@ header {
     color: #f4e8d8;
     font-size: 1.5rem;
     font-weight: 400;
+    /* Garante que o logo não encolhe */
+    flex-shrink: 0; 
+    margin-right: 2rem; /* Espaço entre logo e menu */
 }
 
-/* Configuração geral das listas de links */
+/* Configuração geral das listas */
 .nav-links {
     display: flex;
     list-style: none;
@@ -54,6 +58,21 @@ header {
     align-items: center;
 }
 
+/* MENUS */
+
+/* 1. Menu Principal (Links) - Fica encostado ao Logo */
+.main-nav {
+    justify-content: flex-start; /* Alinha à esquerda */
+    margin-left: 0; /* Remove margens antigas */
+}
+
+/* 2. Menu de Utilizador (Login/Carrinho) - Vai para a extrema direita */
+.user-nav {
+    /* O SEGREDO ESTÁ AQUI: */
+    margin-left: auto; /* Isto empurra este grupo totalmente para a direita */
+}
+
+/* Estilos dos Links (Mantém-se igual) */
 .nav-links a {
     color: #f4e8d8;
     text-decoration: none;
@@ -63,18 +82,7 @@ header {
 
 .nav-links a:hover,
 .nav-links a.active {
-    color: #d4af37; /* Dourado para link ativo [cite: 70, 181] */
-}
-
-/* Lógica de posicionamento central e direito */
-.main-nav {
-    flex-grow: 1; /* Ocupa o espaço central */
-    justify-content: center; /* Centraliza os links Início, Produtos, Contacto */
-    margin-left: 2rem;
-}
-
-.user-nav {
-    justify-content: flex-end; /* Garante que Login/Carrinho fiquem à direita */
+    color: #d4af37;
 }
 
 .user-greeting {
@@ -86,7 +94,6 @@ header {
 .nav-btn-logout {
     color: #ff9999 !important;
 }
-
 /* ==========================================================================
    3. Secção Hero (Página Inicial - Floresta Interativa)
    ========================================================================== */
@@ -129,24 +136,56 @@ header {
     pointer-events: none;
 }
 
+/* Placas de Sinalização (Formato de Seta) */
 .sign-arrow {
-    background: #813d0f; /* Cor das placas [cite: 72, 310] */
+    background: #813d0f; /* Cor da madeira */
     padding: 18px 40px;
-    border-radius: 8px;
     font-size: 1.6rem;
     font-weight: bold;
-    box-shadow: 5px 5px 15px rgba(0,0,0,0.7);
-    border: 4px solid #f86300; /* Borda laranja [cite: 73, 311] */
+    color: #ffffff; /* Garante texto branco */
+    
+    /* Removemos a borda antiga e o arredondamento */
+    border: none;
+    border-radius: 0;
+    
+    /* TRUQUE PRO: Recria a borda laranja usando sombra projectada */
+    filter: drop-shadow(0 0 0 4px #f86300) drop-shadow(5px 5px 10px rgba(0,0,0,0.7));
+    
     transition: all 0.3s ease;
+    
+    /* Garante que o elemento tem largura para o texto */
+    min-width: 250px;
+    text-align: center;
+    display: inline-block;
 }
 
-/* Efeito Hover nas Placas [cite: 78, 95, 312] */
+/* 1. Seta a Apontar para a ESQUERDA (Quadros) */
+.sign-left-pointer .sign-arrow {
+    /* O Recorte Mágico: (Topo, Direita, Baixo, Esquerda-recuada, Ponta) */
+    clip-path: polygon(30px 0%, 100% 0%, 100% 100%, 30px 100%, 0% 50%);
+    
+    /* Empurrar o texto um pouco para a direita para não bater na ponta */
+    padding-left: 50px; 
+}
+
+/* 2. Seta a Apontar para a DIREITA (Laser) */
+.sign-right-pointer .sign-arrow {
+    /* O Recorte Mágico Invertido */
+    clip-path: polygon(0% 0%, calc(100% - 30px) 0%, 100% 50%, calc(100% - 30px) 100%, 0% 100%);
+    
+    /* Empurrar o texto um pouco para a esquerda */
+    padding-right: 50px;
+}
+
+/* Efeito Hover nas Placas (Atualizado) */
 .path-left:hover ~ .signs-container .sign-left-pointer .sign-arrow,
 .path-right:hover ~ .signs-container .sign-right-pointer .sign-arrow {
     transform: scale(1.08);
-    background: #FFB700; /* Brilho dourado ao passar o rato */
+    background: #FFB700; /* Madeira dourada ao passar o rato */
+    color: #4a3f2e; /* Texto escuro para contraste */
+    /* A borda (sombra) muda de cor também se quiseres, ou mantém laranja */
+    filter: drop-shadow(0 0 0 4px #ffffff) drop-shadow(5px 5px 15px rgba(0,0,0,0.8));
 }
-
 /* Caminhos Clicáveis e Pilares [cite: 79, 91, 94] */
 .path-clickable {
     position: absolute;
