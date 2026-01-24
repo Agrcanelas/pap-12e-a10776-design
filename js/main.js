@@ -9,7 +9,16 @@ const imagensProdutos = {
     'Mandala Yin Yang': 'mandala-yin-yang.jpg',
     'Globo de Neve Natal': 'globo-neve-natal.jpg',
     'Caixa Decorativa Hamsa': 'caixa-hamsa.jpg',
-    'Porta-chaves Puzzle': 'porta-chaves-puzzle.jpg'
+    'Porta-chaves Puzzle': 'porta-chaves-puzzle.jpg',
+    'Caixa Branca': 'caixa-foto.jpg',
+    'Caixa Listrada': 'caixa-listrada.png',
+    'Caixa Preta': 'caixa-preta.png',
+    'Caixa Hexagonal': 'caixa-hexagonal.png',
+    'Flor do Amanhecer': 'flor-amanhecer.png',
+    'Girassol Silvestre': 'girassol-silvestre.png',
+    'Lirio em Relevo': 'lirio-relevo.png',
+    'Margarida Rustica': 'margarida-rustica.png',
+    'Ramo de Sakura': 'ramo-sakura.png',
 };
 
 // Função para obter imagem do produto
@@ -281,11 +290,14 @@ function configurarFiltros() {
                 const btn = document.querySelector('[data-category="extras"]');
                 if (btn) { btn.classList.add('active'); filtrarProdutos('extras'); }
             
-            // AQUI ESTÁ A PARTE NOVA DOS ÍMANES:
-            } else if (categoriaUrl === 'imanes') {
-                const btn = document.querySelector('[data-category="imanes"]');
-                if (btn) { btn.classList.add('active'); filtrarProdutos('imanes'); }
-            }
+            } 
+            else if (categoriaUrl === 'flores') {
+                const btn = document.querySelector('[data-category="flores"]');
+                if (btn) { 
+                    btn.classList.add('active'); 
+                    filtrarProdutos('flores'); 
+                }
+        }
         }
         
         // Event listeners para cliques nos botões

@@ -31,8 +31,8 @@ $result = $conn->query($sql);
         <button class="filter-btn active" data-category="todos">Todos</button>
         <button class="filter-btn" data-category="quadros-caixas">Quadros e Caixas</button>
         <button class="filter-btn" data-category="laser">Produtos a Laser</button>
-        <button class="filter-btn" data-category="imanes">Ímanes</button> 
         <button class="filter-btn" data-category="extras">Extras</button>
+        <button class="filter-btn" data-category="flores">Flores</button>
     </div>
 </section>
 
