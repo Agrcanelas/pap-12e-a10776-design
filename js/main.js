@@ -1,7 +1,9 @@
+// js/main.js - CÓDIGO COMPLETO E ATUALIZADO
+
 // Carrinho de Compras
 let carrinho = [];
 
-// Mapa de imagens dos produtos
+// Mapa de imagens dos produtos (Backup)
 const imagensProdutos = {
     'Ganesha em Madeira': 'ganesha-madeira.jpg',
     'Mandala Yin Yang': 'mandala-yin-yang.jpg',
@@ -40,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     atualizarContadorCarrinho();
     
-    // Configurar filtros de produtos (se existirem)
+    // Configurar filtros de produtos (se existirem na página)
     configurarFiltros();
 });
 
@@ -101,7 +103,6 @@ function renderizarCarrinho() {
         // Renderizar items
         carrinhoContent.innerHTML = carrinho.map((item, index) => {
             const imagemPath = item.imagem ? `images/produtos/${item.imagem}` : `images/produtos/${obterImagemProduto(item.nome)}`;
-            console.log('Renderizando item:', item.nome, 'com imagem:', imagemPath);
             
             return `
             <div class="cart-item">
@@ -179,17 +180,15 @@ function atualizarSubtotal() {
 }
 
 // Adicionar produto ao carrinho
-function addToCart(nomeProduto, preco, imagemProduto) { // <--- Novo argumento
+function addToCart(nomeProduto, preco, imagemProduto) {
     console.log('Adicionando:', nomeProduto);
     
     const produto = {
         nome: nomeProduto,
         preco: preco,
         quantidade: 1,
-        imagem: imagemProduto // <--- Usa a imagem real da BD
+        imagem: imagemProduto // Usa a imagem real da BD
     };
-    
-    console.log('Produto com imagem:', produto);
     
     // Verificar se produto já existe no carrinho
     const produtoExistente = carrinho.find(item => item.nome === nomeProduto);
@@ -202,12 +201,9 @@ function addToCart(nomeProduto, preco, imagemProduto) { // <--- Novo argumento
     
     // Guardar no localStorage
     localStorage.setItem('carrinho', JSON.stringify(carrinho));
-    console.log('Carrinho após adicionar:', carrinho);
     
-    // Atualizar contador
+    // Atualizar contador e mostrar feedback
     atualizarContadorCarrinho();
-    
-    // Mostrar feedback visual
     mostrarNotificacao(`${nomeProduto} adicionado ao carrinho!`);
     
     // Abrir drawer automaticamente após 300ms
@@ -218,13 +214,11 @@ function addToCart(nomeProduto, preco, imagemProduto) { // <--- Novo argumento
 
 // Mostrar notificação
 function mostrarNotificacao(mensagem) {
-    // Remover notificação anterior se existir
     const notificacaoExistente = document.querySelector('.notificacao');
     if (notificacaoExistente) {
         notificacaoExistente.remove();
     }
     
-    // Criar nova notificação
     const notificacao = document.createElement('div');
     notificacao.className = 'notificacao';
     notificacao.textContent = mensagem;
@@ -242,42 +236,23 @@ function mostrarNotificacao(mensagem) {
     `;
     
     document.body.appendChild(notificacao);
-    
-    // Remover após 3 segundos
     setTimeout(() => {
         notificacao.style.animation = 'slideOut 0.3s ease';
         setTimeout(() => notificacao.remove(), 300);
     }, 3000);
 }
 
-// Adicionar CSS das animações
+// CSS das animações
 const style = document.createElement('style');
 style.textContent = `
-    @keyframes slideIn {
-        from {
-            transform: translateX(400px);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-    
-    @keyframes slideOut {
-        from {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        to {
-            transform: translateX(400px);
-            opacity: 0;
-        }
-    }
+    @keyframes slideIn { from { transform: translateX(400px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(400px); opacity: 0; } }
 `;
 document.head.appendChild(style);
 
-// Filtro de produtos por categoria
+// ==========================================
+// FILTRO DE PRODUTOS (COM CATEGORIA ÍMANES)
+// ==========================================
 function configurarFiltros() {
     const filterButtons = document.querySelectorAll('.filter-btn');
     
@@ -293,36 +268,27 @@ function configurarFiltros() {
         if (categoriaUrl) {
             filterButtons.forEach(btn => btn.classList.remove('active'));
             
-            // Mapeamento direto da categoria
+            // Lógica para ativar o botão correto
             if (categoriaUrl === 'quadros-caixas') {
-                const btnQuadrosCaixas = document.querySelector('[data-category="quadros-caixas"]');
-                if (btnQuadrosCaixas) {
-                    btnQuadrosCaixas.classList.add('active');
-                    filtrarProdutos('quadros-caixas');
-                }
+                const btn = document.querySelector('[data-category="quadros-caixas"]');
+                if (btn) { btn.classList.add('active'); filtrarProdutos('quadros-caixas'); }
+                
             } else if (categoriaUrl === 'laser') {
-                const btnLaser = document.querySelector('[data-category="laser"]');
-                if (btnLaser) {
-                    btnLaser.classList.add('active');
-                    filtrarProdutos('laser');
-                }
+                const btn = document.querySelector('[data-category="laser"]');
+                if (btn) { btn.classList.add('active'); filtrarProdutos('laser'); }
+                
             } else if (categoriaUrl === 'extras') {
-                const btnExtras = document.querySelector('[data-category="extras"]');
-                if (btnExtras) {
-                    btnExtras.classList.add('active');
-                    filtrarProdutos('extras');
-                }
-            } else if (categoriaUrl === 'caixas' || categoriaUrl === 'quadros') {
-                // Redirecionamento antigo - manter compatibilidade
-                const btnQuadrosCaixas = document.querySelector('[data-category="quadros-caixas"]');
-                if (btnQuadrosCaixas) {
-                    btnQuadrosCaixas.classList.add('active');
-                    filtrarProdutos('quadros-caixas');
-                }
+                const btn = document.querySelector('[data-category="extras"]');
+                if (btn) { btn.classList.add('active'); filtrarProdutos('extras'); }
+            
+            // AQUI ESTÁ A PARTE NOVA DOS ÍMANES:
+            } else if (categoriaUrl === 'imanes') {
+                const btn = document.querySelector('[data-category="imanes"]');
+                if (btn) { btn.classList.add('active'); filtrarProdutos('imanes'); }
             }
         }
         
-        // Event listeners para os botões de filtro
+        // Event listeners para cliques nos botões
         filterButtons.forEach(button => {
             button.addEventListener('click', function() {
                 filterButtons.forEach(btn => btn.classList.remove('active'));
@@ -335,7 +301,7 @@ function configurarFiltros() {
     }
 }
 
-// Função para filtrar produtos
+// Função para esconder/mostrar produtos
 function filtrarProdutos(categoria) {
     const productCards = document.querySelectorAll('.product-card');
     

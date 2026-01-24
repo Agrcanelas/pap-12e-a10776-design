@@ -26,14 +26,15 @@ $result = $conn->query($sql);
         </div>
     </section>
 
-    <section class="category-filter">
-        <div class="container">
-            <button class="filter-btn active" data-category="todos">Todos</button>
-            <button class="filter-btn" data-category="quadros-caixas">Quadros e Caixas</button>
-            <button class="filter-btn" data-category="laser">Produtos a Laser</button>
-            <button class="filter-btn" data-category="extras">Extras</button>
-        </div>
-    </section>
+   <section class="category-filter">
+    <div class="container">
+        <button class="filter-btn active" data-category="todos">Todos</button>
+        <button class="filter-btn" data-category="quadros-caixas">Quadros e Caixas</button>
+        <button class="filter-btn" data-category="laser">Produtos a Laser</button>
+        <button class="filter-btn" data-category="imanes">Ímanes</button> 
+        <button class="filter-btn" data-category="extras">Extras</button>
+    </div>
+</section>
 
     <section class="products-section">
         <div class="container">
@@ -42,9 +43,10 @@ $result = $conn->query($sql);
                 <?php
                 if ($result->num_rows > 0) {
                     // Array para converter o código da categoria em texto bonito
-                    $nomes_categorias = [
+                     $nomes_categorias = [
                         'laser' => 'Produtos a Laser',
                         'quadros-caixas' => 'Quadros e Caixas',
+                        'imanes' => 'Ímanes', // <--- ADICIONAR ESTA LINHA
                         'extras' => 'Extras'
                     ];
 
