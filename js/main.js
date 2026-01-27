@@ -5,12 +5,14 @@ let carrinho = [];
 
 // Mapa de imagens dos produtos (Backup)
 const imagensProdutos = {
-    //produtos a laser
+   //produtos a laser
     'Ganesha em Madeira': 'ganesha-madeira.jpg',
     'Mandala Yin Yang': 'mandala-yin-yang.jpg',
     'Globo de Neve Natal': 'globo-neve-natal.jpg',
     'Árvore de Natal Minimalista': 'arvore.jpg',
     'Árvore de Natal Intrincada': 'arvore-natal.jpg',
+    'Mão Íman Decorativa': 'mao-iman.jpg',
+    'Vaso com Flores Artesanais': 'vaso-flores.jpg',
     
    //caixas e quadros
     'Caixa Decorativa Hamsa': 'caixa-hamsa.jpg',
@@ -19,10 +21,20 @@ const imagensProdutos = {
     'Caixa Preta': 'caixa-preta.png',
     'Caixa Hexagonal': 'caixa-hexagonal.png',
     'Caixa de Parede Decorativa': 'caixa-parede.jpg',
+    'Caixa Castanha Premium': 'caixa-cast.jpg',
+
     //extras
     'Porta-chaves Puzzle': 'porta-chaves-puzzle.jpg',
     'Enfeite Árvore com Bola': 'arvore-com-bola.jpg',
     'Caixa Multiusos Organizadora': 'Caixa_Multi.jpg',
+    'Organizador Post-it Wood': 'copo-postit.jpg',
+    'Copo Organizador de Material': 'copo-material.jpg',
+    'Mini Cómoda com Gavetas': 'caixa-gavetas.jpg',
+    'Casinha de Natal Decorativa': 'casa-natal-P.jpg',
+    'Quadro Decorativo Branco': 'Qdl-branco.jpg',
+    'Casinha de Natal Média': 'casa-natal-M.jpg',
+    'Caixa Multiusos Marmoreada': 'casa-multi-marmore.jpg',
+    'Vaso Decorativo Minimalista': 'vaso1.jpg',
 
    //flores 
     'Flor do Amanhecer': 'flor-amanhecer.png',
@@ -30,6 +42,9 @@ const imagensProdutos = {
     'Lirio em Relevo': 'lirio-relevo.png',
     'Margarida Rustica': 'margarida-rustica.png',
     'Ramo de Sakura': 'ramo-sakura.png',
+    'Conjunto Flores Prata/Vermelho': 'flores-prata-vermelho.jpg',
+    'Conjunto Flores Preto/Vermelho': 'flores-preto-vermelho.jpg',
+
 };
 
 // Função para obter imagem do produto
