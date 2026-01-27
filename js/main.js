@@ -5,15 +5,26 @@ let carrinho = [];
 
 // Mapa de imagens dos produtos (Backup)
 const imagensProdutos = {
+    //produtos a laser
     'Ganesha em Madeira': 'ganesha-madeira.jpg',
     'Mandala Yin Yang': 'mandala-yin-yang.jpg',
     'Globo de Neve Natal': 'globo-neve-natal.jpg',
+    'Árvore de Natal Minimalista': 'arvore.jpg',
+    'Árvore de Natal Intrincada': 'arvore-natal.jpg',
+    
+   //caixas e quadros
     'Caixa Decorativa Hamsa': 'caixa-hamsa.jpg',
-    'Porta-chaves Puzzle': 'porta-chaves-puzzle.jpg',
     'Caixa Branca': 'caixa-foto.jpg',
     'Caixa Listrada': 'caixa-listrada.png',
     'Caixa Preta': 'caixa-preta.png',
     'Caixa Hexagonal': 'caixa-hexagonal.png',
+    'Caixa de Parede Decorativa': 'caixa-parede.jpg',
+    //extras
+    'Porta-chaves Puzzle': 'porta-chaves-puzzle.jpg',
+    'Enfeite Árvore com Bola': 'arvore-com-bola.jpg',
+    'Caixa Multiusos Organizadora': 'Caixa_Multi.jpg',
+
+   //flores 
     'Flor do Amanhecer': 'flor-amanhecer.png',
     'Girassol Silvestre': 'girassol-silvestre.png',
     'Lirio em Relevo': 'lirio-relevo.png',

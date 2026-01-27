@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 23-Jan-2026 às 15:57
+-- Tempo de geração: 26-Jan-2026 às 18:44
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -65,7 +65,9 @@ INSERT INTO `encomendas` (`id`, `data_encomenda`, `valor_total`, `estado`, `port
 (1, '2025-12-15 17:36:40', 22.99, 'Pendente', 0.00),
 (2, '2026-01-21 09:30:36', 46.38, 'Pendente', 4.99),
 (3, '2026-01-21 09:41:18', 27.49, 'Pendente', 4.99),
-(4, '2026-01-21 11:02:40', 90.00, 'Pendente', 0.00);
+(4, '2026-01-21 11:02:40', 90.00, 'Pendente', 0.00),
+(5, '2026-01-26 17:15:40', 23.49, 'Pendente', 4.99),
+(6, '2026-01-26 17:15:59', 19.99, 'Pendente', 4.99);
 
 -- --------------------------------------------------------
 
@@ -93,7 +95,9 @@ INSERT INTO `itens_encomenda` (`id`, `encomenda_id`, `produto_nome`, `quantidade
 (4, 2, 'Porta-chaves Puzzle', 1, 4.50, 4.50),
 (5, 2, 'Ganesha em Madeira', 1, 8.90, 8.90),
 (6, 3, 'Globo de Neve Natal', 1, 22.50, 22.50),
-(7, 4, 'Globo de Neve Natal', 4, 22.50, 90.00);
+(7, 4, 'Globo de Neve Natal', 4, 22.50, 90.00),
+(8, 5, 'Caixa Listrada', 1, 18.50, 18.50),
+(9, 6, 'Caixa Branca', 1, 15.00, 15.00);
 
 -- --------------------------------------------------------
 
@@ -120,7 +124,16 @@ INSERT INTO `produtos` (`id`, `nome`, `preco`, `imagem`, `categoria`, `personali
 (2, 'Mandala Yin Yang', 15.00, 'mandala-yin-yang.jpg', 'laser', 0, 'Mandala decorativa cortada a laser.'),
 (3, 'Globo de Neve Natal', 22.50, 'globo-neve-natal.jpg', 'laser', 1, 'Globo de neve festivo personalizado.'),
 (4, 'Caixa Decorativa Hamsa', 12.99, 'caixa-hamsa.jpg', 'quadros-caixas', 1, 'Caixa útil e decorativa.'),
-(5, 'Porta-chaves Puzzle', 4.50, 'porta-chaves-puzzle.jpg', 'extras', 1, 'Conjunto de porta-chaves que se encaixam.');
+(5, 'Porta-chaves Puzzle', 4.50, 'porta-chaves-puzzle.jpg', 'extras', 1, 'Conjunto de porta-chaves que se encaixam.'),
+(6, 'Caixa Branca', 15.00, 'caixa-foto.jpg', 'quadros-caixas', 0, 'Elegante caixa em madeira com acabamento branco acetinado.'),
+(7, 'Caixa Listrada', 18.50, 'caixa-listrada.png', 'quadros-caixas', 0, 'Caixa artesanal com detalhes listrados e textura natural.'),
+(8, 'Caixa Preta', 16.00, 'caixa-preta.png', 'quadros-caixas', 0, 'Design moderno com acabamento em preto fosco, ideal para decoração.'),
+(9, 'Caixa Hexagonal', 22.00, 'caixa-hexagonal.png', 'quadros-caixas', 0, 'Caixa com formato geométrico único, perfeita para joias.'),
+(10, 'Flor do Amanhecer', 12.50, 'arvore-flores-azul.png', 'flores', 0, 'Flor artesanal em madeira clara, ideal para centros de mesa.'),
+(11, 'Girassol Silvestre', 15.00, 'arvore-comcaixa.png', 'flores', 0, 'Peça vibrante com detalhes em relevo e acabamento natural.'),
+(12, 'Lirio em Relevo', 18.90, 'arvore-flores-preto.png', 'flores', 0, 'Quadro floral esculpido com efeito de profundidade 3D.'),
+(13, 'Margarida Rustica', 11.00, 'arvore-flores-vermelho.png', 'flores', 0, 'Decoração de parede em madeira recuperada com design floral.'),
+(14, 'Ramo de Sakura', 22.50, 'flores-azul-branco.png', 'flores', 0, 'Painel delicado inspirado nas flores de cerejeira orientais.');
 
 --
 -- Índices para tabelas despejadas
@@ -166,19 +179,19 @@ ALTER TABLE `clientes`
 -- AUTO_INCREMENT de tabela `encomendas`
 --
 ALTER TABLE `encomendas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `itens_encomenda`
 --
 ALTER TABLE `itens_encomenda`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
 --
 ALTER TABLE `produtos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Restrições para despejos de tabelas
