@@ -200,8 +200,9 @@ header {
     text-decoration: none;
 }
 
-.path-left { left: 26%; }
-.path-right { right: 25%; }
+.path-left { left: 27%; }
+.path-right { right: 27%; }
+
 
 .path-pillar {
     width: 200px;
@@ -214,7 +215,7 @@ header {
 }
 
 .path-clickable:hover .path-pillar {
-    background: radial-gradient(circle, rgba(255, 193, 7, 0.658) 0%, rgba(255,193,7,0) 70%);
+    background: radial-gradient(circle, rgba(255, 193, 7, 0.74) 0%, rgba(0, 0, 0, 0) 70%);
 }
 
 /* Mobile adjustments */
