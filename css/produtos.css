@@ -1,143 +1,191 @@
 /* =========================================
-   PÁGINA DE PRODUTOS - VISUAL PREMIUM
+   VISUAL: DIGITAL WOOD SANCTUARY (THE CHALLENGE)
    ========================================= */
 
-/* Cabeçalho da Página */
+:root {
+    --neon-gold: #ffcc33;
+    --deep-forest: #0a0c08;
+    --ethereal-white: rgba(255, 255, 255, 0.9);
+    --glass-border: rgba(255, 215, 0, 0.2);
+}
+
+body {
+    background: var(--deep-forest);
+    color: var(--ethereal-white);
+    overflow-x: hidden;
+    perspective: 1000px; /* Base para efeitos 3D */
+}
+
+/* 1. Efeito de Luz de Fundo (Ambiental) */
+.forest-glow {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at 50% 50%, rgba(132, 141, 100, 0.15) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* 2. Header Monumental */
 .page-header {
-    background: linear-gradient(135deg, #fdfaf5 0%, #eaddcf 100%);
-    color: #4a3f2e;
-    padding: 60px 20px;
-    text-align: center;
-    border-bottom: 1px solid #eaddcf;
-}
-
-.page-header h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 3rem;
-    margin-bottom: 10px;
-}
-
-/* Filtro de Categorias */
-.category-filter {
-    padding: 30px 0;
+    height: 80vh;
     display: flex;
+    align-items: center;
     justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
-}
-
-.filter-btn {
-    padding: 10px 25px;
-    border: 1px solid #eaddcf;
-    background: white;
-    color: #4a3f2e;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-family: 'Poppins', sans-serif;
-}
-
-.filter-btn.active, .filter-btn:hover {
-    background-color: #848d64; /* Verde Oliva */
-    color: white;
-    border-color: #848d64;
-    box-shadow: 0 4px 10px rgba(132, 141, 100, 0.3);
-}
-
-/* Grelha de Produtos */
-.products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 30px;
-    padding: 40px 0;
-}
-
-/* O CARD DO PRODUTO (O Segredo do Visual) */
-.product-card {
-    background: white;
-    border-radius: 15px 45px 15px 45px; /* Bordas assimétricas orgânicas */
-    padding: 15px;
-    border: 1px solid #eee;
-    transition: all 0.4s ease;
-    display: flex;
-    flex-direction: column;
+    background: none;
     position: relative;
 }
 
-.product-card:hover {
-    transform: translateY(-10px) rotate(2.5deg);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.05);
-    border-color: #d4af37; /* Toque Dourado */
+.page-header h1 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(3rem, 10vw, 8rem);
+    letter-spacing: 20px;
+    text-transform: uppercase;
+    text-align: center;
+    background: linear-gradient(to bottom, #fff 30%, var(--neon-gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.4));
+    animation: floatingTitle 6s ease-in-out infinite;
 }
 
-/* Imagem do Produto */
+/* 3. Filtros Flutuantes Estilo "Menu de Jogo" */
+.category-filter {
+    position: sticky;
+    top: 20px;
+    z-index: 1000;
+    background: rgba(10, 12, 8, 0.8);
+    backdrop-filter: blur(20px);
+    border-radius: 100px;
+    padding: 10px;
+    border: 1px solid var(--glass-border);
+    max-width: fit-content;
+    margin: -100px auto 100px;
+}
+
+.filter-btn {
+    border: none;
+    background: transparent;
+    color: var(--neon-gold);
+    font-family: 'Outfit', sans-serif;
+    padding: 12px 25px;
+    border-radius: 50px;
+    cursor: pointer;
+    letter-spacing: 2px;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.filter-btn.active {
+    background: var(--neon-gold);
+    color: var(--deep-forest);
+    box-shadow: 0 0 20px var(--neon-gold);
+}
+
+/* 4. Grelha Orgânica (Assimétrica) */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 80px;
+    padding: 0 10% 200px;
+}
+
+/* 5. O CARD: O Objeto de Outro Mundo */
+.product-card {
+    position: relative;
+    background: none;
+    border: none;
+    transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+    transform-style: preserve-3d;
+}
+
+/* A Moldura Mística */
 .product-image {
+    height: 500px;
     width: 100%;
-    height: 250px;
+    clip-path: polygon(0% 15%, 15% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%);
+    position: relative;
     overflow: hidden;
-    border-radius: 10px 35px 10px 35px;
-    margin-bottom: 15px;
+    border: 1px solid var(--glass-border);
 }
 
 .product-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
+    filter: grayscale(100%) brightness(0.7);
+    transition: all 1s ease;
+}
+
+/* Hover no Card */
+.product-card:hover {
+    transform: translateZ(50px) rotateY(5deg) rotateX(5deg);
 }
 
 .product-card:hover .product-image img {
+    filter: grayscale(0%) brightness(1);
     transform: scale(1.1);
 }
 
-/* Informações */
+/* Informação Flutuante */
 .product-info {
-    text-align: center;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
+    position: absolute;
+    bottom: -40px;
+    right: -20px;
+    background: white;
+    color: var(--deep-forest);
+    padding: 30px;
+    width: 80%;
+    box-shadow: 30px 30px 0px var(--neon-gold);
+    transition: all 0.5s ease;
 }
 
-.product-category {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: #8b7355;
-    margin-bottom: 5px;
+.product-card:hover .product-info {
+    bottom: -20px;
+    right: 0px;
+    box-shadow: 10px 10px 0px var(--neon-gold);
 }
 
 .product-info h3 {
     font-family: 'Playfair Display', serif;
-    font-size: 1.3rem;
-    color: #4a3f2e;
+    font-style: italic;
+    font-size: 1.8rem;
     margin-bottom: 10px;
 }
 
 .price {
-    font-size: 1.4rem;
-    color: #848d64;
-    font-weight: bold;
-    margin-bottom: 15px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 100;
+    font-size: 2.5rem;
+    color: #000;
+    display: block;
+    margin-top: 10px;
 }
 
-/* Botão Adicionar */
+/* Botão: A "Assinatura" */
 .btn-add-cart {
-    background-color: #4a3f2e;
-    color: white;
+    position: absolute;
+    top: -25px;
+    left: 20px;
+    background: var(--neon-gold);
+    color: var(--deep-forest);
     border: none;
-    padding: 12px;
-    border-radius: 50px;
-    cursor: pointer;
+    padding: 15px 30px;
     font-weight: 600;
-    transition: all 0.3s;
+    text-transform: uppercase;
+    clip-path: polygon(0 0, 100% 0, 85% 100%, 15% 100%);
+    cursor: pointer;
+    transition: 0.3s;
 }
 
 .btn-add-cart:hover {
-    background-color: #d4af37;
-    transform: scale(1.05);
+    background: #fff;
+    letter-spacing: 5px;
 }
 
-/* Classe para o filtro JS funcionar */
-.hidden {
-    display: none !important;
+/* Animações */
+@keyframes floatingTitle {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(1deg); }
 }
+
+/* Ocultar produtos com classe .hidden */
+.hidden { display: none !important; }
