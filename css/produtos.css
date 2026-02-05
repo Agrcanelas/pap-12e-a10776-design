@@ -83,9 +83,9 @@ body {
 /* 4. Grelha Orgânica (Assimétrica) */
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-template-columns: repeat(3, minmax(350px, 1fr));
     gap: 80px;
-    padding: 0 10% 200px;
+    padding: 0 3% 200px;
 }
 
 /* 5. O CARD: O Objeto de Outro Mundo */
@@ -188,4 +188,4 @@ body {
 }
 
 /* Ocultar produtos com classe .hidden */
-.hidden { display: none !important; }
+.hidden { display: none !important; }   
