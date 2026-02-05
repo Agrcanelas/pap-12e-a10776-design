@@ -112,9 +112,10 @@
 
 /* Items do Carrinho */
 .cart-items {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+    flex-grow: 1; /* Faz a lista ocupar o espaço disponível */
+    overflow-y: auto; /* Cria um scroll apenas dentro da lista de produtos */
+    max-height: calc(100vh - 250px); /* Garante que não ultrapassa o ecrã */
+    padding: 20px;
 }
 
 .cart-item {
