@@ -1,78 +1,117 @@
-/* css/auth.css */
+/* css/auth.css - Visual Santuário Digital */
+
+:root {
+    --neon-gold: #ffcc33;
+    --deep-forest: #0a0c08;
+    --ethereal-white: rgba(255, 255, 255, 0.9);
+}
+
 .auth-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 80vh;
+    min-height: 100vh;
     padding: 20px;
-    background-color: #faf8f5;
+    background: var(--deep-forest); /* Fundo escuro igual aos produtos */
+    position: relative;
+    overflow: hidden;
 }
 
 .auth-box {
     background: white;
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    padding: 50px;
     width: 100%;
-    max-width: 400px;
+    max-width: 450px;
+    position: relative;
+    z-index: 10;
+    
+    /* A mesma "assinatura" visual dos produtos: sombra amarela grossa */
+    box-shadow: 20px 20px 0px var(--neon-gold);
+    transition: transform 0.3s ease;
+}
+
+.auth-box:hover {
+    transform: translate(-5px, -5px);
 }
 
 .auth-box h2 {
-    text-align: center;
-    color: #4a2e45;
+    text-align: left;
+    color: var(--deep-forest);
     margin-bottom: 30px;
-    font-family: 'Georgia', serif;
-}
-
-.form-group {
-    margin-bottom: 20px;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 2.2rem;
+    border-bottom: 2px solid var(--neon-gold);
+    display: inline-block;
 }
 
 .form-group label {
     display: block;
     margin-bottom: 8px;
-    color: #375d37;
-    font-weight: bold;
+    color: #333;
+    font-family: 'Outfit', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.8rem;
+    font-weight: 600;
 }
 
 .form-group input {
     width: 100%;
-    padding: 12px;
+    padding: 15px;
     border: 1px solid #ddd;
-    border-radius: 6px;
+    background: #f9f9f9;
+    font-family: 'Outfit', sans-serif;
     font-size: 1rem;
+    margin-bottom: 10px;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--neon-gold);
+    background: white;
 }
 
 .btn-auth {
     width: 100%;
-    background-color: #6b8e23;
+    background-color: var(--deep-forest);
     color: white;
-    padding: 14px;
+    padding: 18px;
     border: none;
-    border-radius: 6px;
-    font-size: 1.1rem;
-    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
     font-weight: bold;
-    transition: background 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 10px;
 }
 
 .btn-auth:hover {
-    background-color: #557019;
+    background-color: var(--neon-gold);
+    color: var(--deep-forest);
 }
 
 .auth-link {
+    margin-top: 25px;
     text-align: center;
-    margin-top: 20px;
-    font-size: 0.9rem;
+    font-family: 'Outfit', sans-serif;
+    color: #666;
 }
 
-.alert {
-    padding: 12px;
-    border-radius: 6px;
-    margin-bottom: 20px;
-    text-align: center;
+.auth-link a {
+    color: var(--deep-forest);
+    font-weight: bold;
+    text-decoration: none;
+    border-bottom: 1px solid var(--neon-gold);
 }
-.alert.error { background-color: #fdd; color: #a00; border: 1px solid #a00; }
-.alert.success { background-color: #dfd; color: #0a0; border: 1px solid #0a0; }
-.user-greeting { color: #f4e8d8; margin-right: 10px; font-style: italic;}
-.nav-btn-logout { color: #ff9999 !important; }
+
+/* Reutilizar os alertas com estilo */
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+}
+.error { background: #fee; color: #c33; border-left: 4px solid #c33; }

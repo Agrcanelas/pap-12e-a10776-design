@@ -91,6 +91,7 @@ body {
 /* 5. O CARD: O Objeto de Outro Mundo */
 .product-card {
     position: relative;
+    overflow: visible !important; /* ISTO É A CHAVE: permite clicar fora do limite do quadrado */
     background: none;
     border: none;
     transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1);
@@ -103,7 +104,8 @@ body {
     width: 100%;
     clip-path: polygon(0% 15%, 15% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%);
     position: relative;
-    overflow: hidden;
+    overflow: hidden; /* O corte agora é feito aqui, só na imagem */
+    border-radius: 15px;
     border: 1px solid var(--glass-border);
 }
 
@@ -130,6 +132,8 @@ body {
     position: absolute;
     bottom: -80px;
     right: -60px;
+    pointer-events: auto !important; /* Garante que a caixa aceita cliques */
+    z-index: 100; /* Garante que está à frente da imagem */
     background: white;
     color: var(--deep-forest);
     padding: 30px;
@@ -177,7 +181,7 @@ body {
 }
 
 .btn-add-cart:hover {
-    background: #fff;
+    background: #f5f0f0;
     letter-spacing: 5px;
 }
 
