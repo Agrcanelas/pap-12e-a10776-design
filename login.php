@@ -54,10 +54,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/auth.css">
     <link rel="stylesheet" href="css/carrinho-drawer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;300;600&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <?php include 'header.php'; ?>
-
+    <div class="forest-glow"></div> <?php include 'header.php'; ?>
+    
     <div class="auth-container">
         <div class="auth-box">
             <h2>Bem-vindo de volta</h2>
