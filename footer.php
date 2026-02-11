@@ -11,7 +11,6 @@
                     <h4>Links Úteis</h4>
                     <ul>
                         <li><a href="produtos.php">Produtos</a></li>
-                        <li><a href="contacto.php">Contacto</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
@@ -20,7 +19,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 Artesanato Natural. Todos os direitos reservados.</p>
+                <p>&copy; 2025 Artesanato Natural. Todos os direitos reservados.</p>
             </div>
         </div>
     </footer>

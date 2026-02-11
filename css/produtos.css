@@ -155,6 +155,11 @@ body {
     margin-bottom: 10px;
 }
 
+.product-link {
+    text-decoration: none;
+    display: block;
+}
+
 .price {
     font-family: 'Outfit', sans-serif;
     font-weight: 100;

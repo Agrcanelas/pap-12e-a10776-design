@@ -27,7 +27,6 @@ $result = $conn->query($sql);
     <section class="page-header">
         <div class="container">
             <h1>Os Nossos Produtos</h1>
-            <p>Peças únicas em madeira, feitas à mão</p>
         </div>
     </section>
 
@@ -77,22 +76,30 @@ $result = $conn->query($sql);
                             $badges_html .= '<span class="product-badge badge-personalizavel" ' . $offset_style . '>Personalizável</span>';
                         }
                 ?>
-                
+                            
                 <div class="product-card" data-category="<?php echo $categoria_db; ?>">
+                <a href="produtos-detalhes.php?id=<?php echo $row['id']; ?>" class="product-link">
                     <div class="product-image">
                         <img src="images/produtos/<?php echo $imagem; ?>" alt="<?php echo $nome; ?>">
                         <?php echo $badges_html; ?>
                     </div>
-                    <div class="product-info">
-                        <span class="product-category"><?php echo $categoria_texto; ?></span>
+                </a>
+
+                <div class="product-info">
+                    <span class="product-category"><?php echo $categoria_texto; ?></span>
+                    
+                    <a href="produtos-detalhes.php?id=<?php echo $row['id']; ?>" style="text-decoration: none; color: inherit;">
                         <h3><?php echo $nome; ?></h3>
-                        <p class="product-description"><?php echo $descricao; ?></p>
-                        <p class="price"><?php echo number_format($preco, 2); ?>€</p>
-                        <button class="btn-add-cart" onclick="addToCart('<?php echo addslashes($nome); ?>', <?php echo $preco; ?>, '<?php echo $imagem; ?>')">
-                            Adicionar ao Carrinho
-                        </button>
-                    </div>
+                    </a>
+                    
+                    <p class="product-description"><?php echo $descricao; ?></p>
+                    <p class="price"><?php echo number_format($preco, 2); ?>€</p>
+                    
+                    <button class="btn-add-cart" onclick="addToCart('<?php echo addslashes($nome); ?>', <?php echo $preco; ?>, '<?php echo $imagem; ?>')">
+                        Adicionar ao Carrinho
+                    </button>
                 </div>
+            </div>
                 <?php
                     } // Fim do while
                 } else {
