@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrinho - Santuário Digital</title>
+    <title>Carrinho</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;300;600&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
     
@@ -19,7 +19,7 @@
     <section class="page-header" style="height: 40vh; display: flex; align-items: center; justify-content: center; text-align: center; background: none;">
         <div class="container">
             <h1 style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 4.5rem; color: #ffcc33; margin: 0;">O Teu Carrinho</h1>
-            <p style="font-family: 'Outfit', sans-serif; letter-spacing: 8px; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-top: 10px;">Peças selecionadas para o teu espaço</p>
+            <p style="font-family: 'Outfit', sans-serif; letter-spacing: 8px; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-top: 10px;">Produtos selecionados para o teu espaço</p>
         </div>
     </section>
 

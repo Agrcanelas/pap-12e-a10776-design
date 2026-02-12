@@ -18,7 +18,7 @@
 body {
     font-family: 'Georgia', serif; 
     color: #5c462d; 
-    background-color: #faf8f5; 
+    background-color: #000000; 
     line-height: 1.6;
     display: flex;
     flex-direction: column;
@@ -276,4 +276,15 @@ footer {
     }
     
     .welcome-text h2 { font-size: 2rem; }
+}
+
+.form-group textarea { 
+    background: #0a0c08; 
+    border: 1px solid #333; 
+    color: white; 
+    padding: 12px;
+    width: 100%; /* Garante que ocupa a largura toda */
+    min-height: 200px; /* Aqui é onde defines o tamanho inicial (podes aumentar para 300px se quiseres) */
+    font-family: 'Outfit', sans-serif;
+    resize: vertical; /* Permite que tu próprio estiques a caixa se precisares de mais espaço */
 }
