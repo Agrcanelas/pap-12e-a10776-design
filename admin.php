@@ -14,7 +14,7 @@ $res = $conn->query("SELECT is_admin FROM clientes WHERE id = $user_id");
 $user = $res->fetch_assoc();
 
 if (!$user || $user['is_admin'] != 1) {
-    die("Acesso Negado. Esta área é apenas para guardiões do santuário.");
+    die("Acesso Negado. Esta área é apenas para administradores.");
 }
 
 // Lógica para Remover Produto
@@ -29,7 +29,7 @@ if (isset($_GET['remover'])) {
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <title>Painel de Gestão - Santuário Digital</title>
+    <title>Painel de Gestão de Produtos</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
         .admin-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; color: #333; }
@@ -59,7 +59,7 @@ if (isset($_GET['remover'])) {
             </thead>
             <tbody>
                 <?php
-                $produtos = $conn->query("SELECT * FROM produtos ORDER BY id DESC");
+                $produtos = $conn->query("SELECT * FROM produtos ORDER BY id ASC");
                 while($p = $produtos->fetch_assoc()):
                 ?>
                 <tr>

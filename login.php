@@ -18,23 +18,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $erro = "Preencha o email e a password.";
     } else {
         // Buscar utilizador pelo email
-        $stmt = $conn->prepare("SELECT id, nome, password FROM clientes WHERE email = ?");
+        $stmt = $conn->prepare("SELECT id, nome, password, is_admin FROM clientes WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $stmt->store_result();
 
         if ($stmt->num_rows == 1) {
-            $stmt->bind_result($id, $nome, $hashed_password);
+            // Adiciona o $is_admin aqui no bind_result
+            $stmt->bind_result($id, $nome, $hashed_password, $is_admin);
             $stmt->fetch();
 
-            // Verificar a password
             if (password_verify($password, $hashed_password)) {
-                // Login com sucesso: Criar Sessão
                 $_SESSION['user_id'] = $id;
                 $_SESSION['user_name'] = $nome;
+                // NOVIDADE: Guardar se é admin na sessão
+                $_SESSION['is_admin'] = $is_admin; 
                 
-                header("Location: produtos.php"); // Redireciona para o início
+                header("Location: produtos.php");
                 exit;
+            
             } else {
                 $erro = "Password incorreta.";
             }

@@ -4,7 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Detectar a página atual
+// Detectar a página atual para marcar o link como "active"
 $pagina_atual = basename($_SERVER['PHP_SELF']);
 ?>
 <header>
@@ -18,6 +18,15 @@ $pagina_atual = basename($_SERVER['PHP_SELF']);
     <ul class="nav-links main-nav">
         <li><a href="index.php" class="<?php echo ($pagina_atual == 'index.php') ? 'active' : ''; ?>">Início</a></li>
         <li><a href="produtos.php" class="<?php echo ($pagina_atual == 'produtos.php') ? 'active' : ''; ?>">Produtos</a></li>
+        
+        <?php if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == 1): ?>
+            <li>
+                <a href="admin.php" class="<?php echo ($pagina_atual == 'admin.php') ? 'active' : ''; ?>" 
+                   style="color: #ffcc33; font-weight: bold; border: 1px dashed #ffcc33; padding: 5px 12px; border-radius: 4px; margin-left: 10px;">
+                   ⚙️ Painel de Admin
+                </a>
+            </li>
+        <?php endif; ?>
     </ul>
 
     <ul class="nav-links user-nav">
@@ -29,7 +38,7 @@ $pagina_atual = basename($_SERVER['PHP_SELF']);
         <?php endif; ?>
 
         <li>
-            <a href="javascript:void(0);" onclick="toggleCartDrawer()" class="cart-link">
+            <a href="javascript:void(0);" onclick="toggleCartDrawer()" class="cart-trigger">
                 🛒 Carrinho (<span id="cart-count">0</span>)
             </a>
         </li>
@@ -59,16 +68,8 @@ $pagina_atual = basename($_SERVER['PHP_SELF']);
             <span class="cart-subtotal-value">0.00€</span>
         </div>
         
-        <div class="cart-progress">
-             <p class="cart-progress-text"></p>
-             <div class="cart-progress-bar">
-                 <div class="cart-progress-fill" style="width: 0%"></div>
-             </div>
-        </div>
-
-        <p class="cart-shipping-note">Portes e impostos calculados no checkout</p>
-        <div class="cart-actions">
-            <a href="carrinho.php" class="btn-checkout">Ver Carrinho Completo</a>
+        <div class="cart-actions" style="margin-top: 20px;">
+            <a href="carrinho.php" class="btn-view-cart" style="text-align: center; text-decoration: none; display: block; margin-bottom: 10px;">Ver Carrinho Completo</a>
         </div>
     </div>
 </div>
