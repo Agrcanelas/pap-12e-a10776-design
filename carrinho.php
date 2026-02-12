@@ -27,7 +27,7 @@
         <div class="container">
             
             <div id="cart-page-empty" style="display: none; text-align: center; background: white; padding: 80px; box-shadow: 20px 20px 0px #ffcc33; color: #0a0c08;">
-                <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; font-style: italic;">O teu santuário está vazio</h2>
+                <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; font-style: italic;">O teu carrinho está vazio</h2>
                 <a href="produtos.php" style="display: inline-block; margin-top: 30px; background: #0a0c08; color: white; padding: 15px 40px; text-decoration: none; font-family: 'Outfit'; font-weight: bold; text-transform: uppercase; letter-spacing: 2px;">Explorar Produtos</a>
             </div>
 

@@ -16,7 +16,7 @@ if (!$produto) { header("Location: produtos.php"); exit; }
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <title><?php echo $produto['nome']; ?> - Santuário Digital</title>
+    <title><?php echo $produto['nome']; ?> </title>
     
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;300;600&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
     
@@ -37,7 +37,7 @@ if (!$produto) { header("Location: produtos.php"); exit; }
             </div>
 
             <div class="product-hero-info">
-                <p class="category-tag">Peça Artesanal</p>
+                <p class="category-tag"></p>
                 <h1><?php echo $produto['nome']; ?></h1>
                 <div class="price-big"><?php echo number_format($produto['preco'], 2); ?>€</div>
                 
@@ -47,7 +47,7 @@ if (!$produto) { header("Location: produtos.php"); exit; }
 
                 <button class="btn-add-cart-huge" 
                         onclick="addToCart('<?php echo $produto['nome']; ?>', <?php echo $produto['preco']; ?>, '<?php echo $produto['imagem']; ?>')">
-                    Adicionar ao Santuário
+                    Adicionar ao Carrinho
                 </button>
             </div>
         </div>

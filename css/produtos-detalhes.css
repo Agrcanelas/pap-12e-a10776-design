@@ -56,3 +56,7 @@ body.dark-sanctuary { background: #0a0c08; color: white; }
     background: #ffcc33;
     transform: translateY(-5px);
 }
+
+.details-container {
+    flex: 1; /* Isto diz: "Estica-te para ocupar o espaço que sobra" */
+}
