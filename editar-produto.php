@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <title>Editar Tesouro - Santuário Digital</title>
+    <title>Editar Produtos</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;300;600&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
     
