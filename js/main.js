@@ -55,7 +55,35 @@ function obterImagemProduto(nomeProduto) {
 // Inicializar quando a página carregar
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Página carregada!');
-    
+    const searchInput = document.getElementById('live-search');
+    const resultsDiv = document.getElementById('search-results');
+
+if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            let query = this.value;
+
+            if (query.length > 1) { // Só pesquisa após 2 letras
+                fetch('pesquisa_ajax.php?q=' + query)
+                    .then(response => response.text())
+                    .then(data => {
+                        resultsDiv.innerHTML = data;
+                        resultsDiv.style.display = 'block';
+                    });
+            } else {
+                resultsDiv.style.display = 'none';
+            }
+        });
+
+        // Fechar a lista se clicar fora
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !resultsDiv.contains(e.target)) {
+                resultsDiv.style.display = 'none';
+            }
+        });
+    }
+
+
+
     // Carregar carrinho do localStorage
     const carrinhoSalvo = localStorage.getItem('carrinho');
     if (carrinhoSalvo) {

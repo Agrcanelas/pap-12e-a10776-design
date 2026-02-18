@@ -19,11 +19,15 @@ $pagina_atual = basename($_SERVER['PHP_SELF']);
         <li><a href="index.php" class="<?php echo ($pagina_atual == 'index.php') ? 'active' : ''; ?>">Início</a></li>
         <li><a href="produtos.php" class="<?php echo ($pagina_atual == 'produtos.php') ? 'active' : ''; ?>">Produtos</a></li>
 
-    <form action="produtos.php" method="GET" class="search-form">
-        <input type="text" name="q" placeholder="Pesquisar produtos..." 
-            value="<?php echo isset($_GET['q']) ? htmlspecialchars($_GET['q']) : ''; ?>">
-        <button type="submit">🔍</button>
-    </form>
+    <li class="search-item">
+        <form action="produtos.php" method="GET" class="search-form" autocomplete="off">
+            <input type="text" id="live-search" name="q" placeholder="Procurar..." 
+               value="<?php echo isset($_GET['q']) ? htmlspecialchars($_GET['q']) : ''; ?>">
+            <button type="submit">🔍</button>
+        
+            <div id="search-results" class="search-dropdown"></div>
+        </form>
+    </li>
         
         <?php if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == 1): ?>
             <li>

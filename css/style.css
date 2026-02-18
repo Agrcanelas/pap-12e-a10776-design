@@ -299,7 +299,7 @@ footer {
 }
 
 .search-form input {
-    width: 250px; /* Largura fixa inicial */
+    width: 300px; /* Largura fixa inicial */
     background: transparent;
     border: none;
     color: white;
@@ -324,3 +324,39 @@ footer {
     display: flex;
     align-items: center;
 }
+.search-item { position: relative; } /* Importante para o dropdown alinhar */
+
+.search-dropdown {
+    position: absolute;
+    top: 110%; /* Fica logo abaixo da barra */
+    left: 0;
+    width: 100%;
+    background: #1a1d17; /* Fundo escuro */
+    border: 1px solid var(--neon-gold);
+    border-radius: 8px;
+    z-index: 1000;
+    display: none; /* Escondido por padrão */
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+.search-result-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    text-decoration: none;
+    color: white;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    transition: background 0.2s;
+}
+
+.search-result-item:hover {
+    background: rgba(255, 204, 51, 0.1);
+}
+
+.search-result-item img {
+    margin-right: 10px;
+    border-radius: 4px;
+}
+
+.no-results { padding: 15px; color: #888; font-size: 0.9rem; }
