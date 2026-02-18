@@ -54,19 +54,19 @@ header {
 
 .logo h1 {
     color: #f4e8d8;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: 400;
     /* Garante que o logo não encolhe */
     flex-shrink: 0; 
-    margin-right: 2rem; /* Espaço entre logo e menu */
+    margin-right: 4rem; /* Espaço entre logo e menu */
 }
 
 /* Configuração geral das listas */
 .nav-links {
     display: flex;
-    list-style: none;
-    gap: 2rem;
     align-items: center;
+    list-style: none;
+    gap: 2rem; /* Dá espaço entre os botões e a pesquisa */
 }
 
 /* MENUS */
@@ -87,7 +87,7 @@ header {
 .nav-links a {
     color: #f4e8d8;
     text-decoration: none;
-    font-size: 1rem;
+    font-size: 1.2rem;
     transition: color 0.3s;
 }
 
@@ -287,4 +287,40 @@ footer {
     min-height: 200px; /* Aqui é onde defines o tamanho inicial (podes aumentar para 300px se quiseres) */
     font-family: 'Outfit', sans-serif;
     resize: vertical; /* Permite que tu próprio estiques a caixa se precisares de mais espaço */
+}
+.search-form {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1); /* Um pouco mais visível */
+    border: 1px solid var(--glass-border);
+    padding: 4px 12px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.search-form input {
+    width: 250px; /* Largura fixa inicial */
+    background: transparent;
+    border: none;
+    color: white;
+    outline: none;
+    font-size: 1.2rem;
+}
+
+.search-form button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--neon-gold);
+    font-size: 1.1rem;
+}
+
+.search-form:focus-within {
+    border-color: var(--neon-gold);
+    box-shadow: 0 0 10px rgba(255, 204, 51, 0.2);
+}
+.search-container-item {
+    margin-left: auto; /* Empurra a pesquisa para o canto direito */
+    display: flex;
+    align-items: center;
 }

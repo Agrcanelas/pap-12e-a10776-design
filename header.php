@@ -18,6 +18,12 @@ $pagina_atual = basename($_SERVER['PHP_SELF']);
     <ul class="nav-links main-nav">
         <li><a href="index.php" class="<?php echo ($pagina_atual == 'index.php') ? 'active' : ''; ?>">Início</a></li>
         <li><a href="produtos.php" class="<?php echo ($pagina_atual == 'produtos.php') ? 'active' : ''; ?>">Produtos</a></li>
+
+    <form action="produtos.php" method="GET" class="search-form">
+        <input type="text" name="q" placeholder="Pesquisar produtos..." 
+            value="<?php echo isset($_GET['q']) ? htmlspecialchars($_GET['q']) : ''; ?>">
+        <button type="submit">🔍</button>
+    </form>
         
         <?php if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == 1): ?>
             <li>
@@ -36,10 +42,10 @@ $pagina_atual = basename($_SERVER['PHP_SELF']);
         <?php else: ?>
             <li><a href="login.php" class="<?php echo ($pagina_atual == 'login.php') ? 'active' : ''; ?>">Login</a></li>
         <?php endif; ?>
-
+    
         <li>
             <a href="javascript:void(0);" onclick="toggleCartDrawer()" class="cart-trigger">
-                🛒 Carrinho (<span id="cart-count">0</span>)
+                🛒(<span id="cart-count">0</span>)
             </a>
         </li>
     </ul>

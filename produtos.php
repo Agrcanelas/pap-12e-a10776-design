@@ -1,10 +1,22 @@
 <?php
-// Incluir conexão à base de dados
 require_once 'db.php';
 
-// Consulta para buscar todos os produtos
-$sql = "SELECT * FROM produtos ORDER BY id ASC";
-$result = $conn->query($sql);
+// 1. Capturar o termo de pesquisa
+$pesquisa = isset($_GET['q']) ? trim($_GET['q']) : '';
+
+// 2. Preparar a SQL baseada na pesquisa
+if (!empty($pesquisa)) {
+    // Usamos o operador LIKE com % para encontrar correspondências parciais
+    $termo = "%$pesquisa%";
+    $stmt = $conn->prepare("SELECT * FROM produtos WHERE nome LIKE ? ORDER BY id ASC");
+    $stmt->bind_param("s", $termo);
+    $stmt->execute();
+    $result = $stmt->get_result();
+} else {
+    // Se não houver pesquisa, mostra tudo como dantes
+    $sql = "SELECT * FROM produtos ORDER BY id ASC";
+    $result = $conn->query($sql);
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt">
