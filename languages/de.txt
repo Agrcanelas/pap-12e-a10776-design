@@ -1,0 +1,121 @@
+# Header e Navegação
+site_nome|Naturhandwerk
+inicio|Startseite
+produtos|Produkte
+login|Anmelden
+logout|Abmelden
+ola|Hallo, {name}
+admin_panel|Admin-Bereich
+procurar|Suchen...
+ver_carrinho_completo|Warenkorb anzeigen
+
+# Página Inicial (index.php)
+bem_vindo|Willkommen in unserem Shop
+escolha_caminho|Wähle deinen Weg
+quadros_caixas|Bilder & Boxen
+produtos_laser|Laserprodukte
+
+# Página de Produtos
+produtos_titulo|Produkte - Holzhandwerk
+nossos_produtos|Unsere Produkte
+todos|Alle
+filtro_quadros|Bilder & Boxen
+filtro_laser|Laserprodukte
+filtro_extras|Extras
+filtro_flores|Blumen
+add_carrinho|In den Warenkorb
+sem_produtos|Es sind noch keine Produkte vorhanden.
+personalizavel|Personalisierbar
+
+# Pesquisa
+pesquisa_sem_resultados|Keine Stücke gefunden...
+
+# Carrinho Drawer
+teu_carrinho|Dein Warenkorb
+carrinho_vazio|Dein Warenkorb ist leer
+continuar_comprar|Weiter einkaufen
+subtotal|Zwischensumme:
+
+# Página do Carrinho (carrinho.php)
+carrinho_titulo|Warenkorb
+carrinho_subtitulo|Ausgewählte Produkte für deinen Raum
+explorar_produtos|Produkte entdecken
+resumo|Zusammenfassung
+itens|Produkte
+portes|Versand
+total|Gesamt
+finalizar_pedido|Bestellung abschließen
+
+# Rodapé
+contacto|Kontakt
+links_uteis|Nützliche Links
+siga_nos|Folge uns
+direitos|Alle Rechte vorbehalten.
+
+# Auth
+login_titulo|Anmelden - Holzhandwerk
+bem_vindo_volta|Willkommen zurück
+email|E-Mail
+password|Passwort
+entrar|Anmelden
+nao_tem_conta|Noch kein Konto?
+criar_conta|Konto erstellen
+registar_titulo|Registrieren - Holzhandwerk
+criar_conta_h2|Konto erstellen
+nome_completo|Vollständiger Name
+confirmar_password|Passwort bestätigen
+registar|Registrieren
+ja_tem_conta|Hast du schon ein Konto?
+
+# Admin
+admin_title|Produktverwaltungsbereich
+admin_heading|Produktverwaltung
+admin_new_button|Neues Produkt
+admin_removed_ok|Produkt erfolgreich entfernt.
+admin_th_image|Bild
+admin_th_product|Produkt
+admin_th_price|Preis
+admin_th_category|Kategorie
+admin_th_actions|Aktionen
+admin_action_edit|Bearbeiten
+admin_action_remove|Entfernen
+admin_new_title|Neues Produkt
+admin_new_heading|Neues Produkt hinzufügen
+admin_new_saved_ok|Produkt erfolgreich gespeichert!
+admin_edit_title|Produkt bearbeiten
+admin_edit_prefix|Bearbeite:
+admin_saved_ok|Änderungen erfolgreich gespeichert!
+admin_product_name|Produktname
+admin_product_name_placeholder|z. B. Goldene Hamsa-Box
+admin_price|Preis
+admin_category|Kategorie
+admin_description|Detaillierte Beschreibung
+admin_description_placeholder|Beschreibe die Seele dieses Stücks...
+admin_image_upload|Bild (Upload nach images/produtos/)
+admin_image_keep|Bild (leer lassen, um aktuelles zu behalten)
+admin_current|Aktuell
+admin_save|Änderungen speichern
+admin_publish|Produkt veröffentlichen
+admin_back_panel|Zurück zum Panel
+admin_cancel_back|Abbrechen und zurück
+admin_translations|Produktübersetzungen
+admin_translation_optional|(optional)
+admin_empty_uses_fallback|Leer = nutzt Fallback
+
+# Bestellung
+order_cart_empty|Leerer Warenkorb oder ungültige Daten.
+order_ok|Bestellung erfolgreich registriert! ID: {id}
+order_db_error|Fehler beim Speichern in der Datenbank: {error}
+
+# JS
+js_cart_removed|{name} aus dem Warenkorb entfernt
+js_cart_added|{name} zum Warenkorb hinzugefügt!
+js_free_shipping_congrats|🎉 Glückwunsch! Du hast kostenlosen Versand!
+js_free_shipping_remaining|Noch {amount}€ bis zum kostenlosen Versand
+js_confirm_delete|Möchtest du diesen Artikel wirklich löschen?
+js_free|KOSTENLOS
+js_cart_empty_alert|Dein Warenkorb ist leer!
+js_processing|WIRD VERARBEITET...
+js_order_success|🎉 Bestellung erfolgreich aufgegeben!
+js_order_error_prefix|Fehler: 
+js_server_error|Beim Verbinden mit dem Server ist ein Fehler aufgetreten.

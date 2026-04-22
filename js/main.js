@@ -55,6 +55,25 @@ function obterImagemProduto(nomeProduto) {
 // Inicializar quando a página carregar
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Página carregada!');
+    const langBtn = document.getElementById('lang-btn');
+    const langDropdown = document.getElementById('lang-dropdown');
+    
+    if (langBtn && langDropdown) {
+        langBtn.addEventListener('click', function(e) {
+            e.stopPropagation(); // Impede que o clique feche o menu imediatamente
+            langDropdown.classList.toggle('active');
+        });
+    }
+
+    document.addEventListener('click', function(e) {
+        if (langDropdown && !langBtn.contains(e.target)) {
+            langDropdown.classList.remove('active');
+        }
+        if (resultsDiv && !searchInput.contains(e.target)) {
+            resultsDiv.style.display = 'none';
+        }
+    });
+
     const searchInput = document.getElementById('live-search');
     const resultsDiv = document.getElementById('search-results');
 
@@ -212,7 +231,8 @@ function removerDoCarrinho(index) {
     localStorage.setItem('carrinho', JSON.stringify(carrinho));
     atualizarContadorCarrinho();
     renderizarCarrinho();
-    mostrarNotificacao(`${nomeProduto} removido do carrinho`);
+    const tpl = (window.I18N && window.I18N.cartRemoved) ? window.I18N.cartRemoved : '{name} removido do carrinho';
+    mostrarNotificacao(tpl.replace('{name}', nomeProduto));
 }
 
 // Atualizar subtotal e progresso
@@ -234,10 +254,11 @@ function atualizarSubtotal() {
         progressBar.style.width = `${percentage}%`;
         
         if (subtotal >= freeShippingThreshold) {
-            progressText.textContent = '🎉 Parabéns! Tens envio grátis!';
+            progressText.textContent = (window.I18N && window.I18N.freeShippingCongrats) ? window.I18N.freeShippingCongrats : '🎉 Parabéns! Tens envio grátis!';
         } else {
             const restante = (freeShippingThreshold - subtotal).toFixed(2);
-            progressText.textContent = `Faltam ${restante}€ para envio grátis`;
+            const tpl = (window.I18N && window.I18N.freeShippingRemaining) ? window.I18N.freeShippingRemaining : 'Faltam {amount}€ para envio grátis';
+            progressText.textContent = tpl.replace('{amount}', restante);
         }
     }
 }
@@ -267,7 +288,8 @@ function addToCart(nomeProduto, preco, imagemProduto) {
     
     // Atualizar contador e mostrar feedback
     atualizarContadorCarrinho();
-    mostrarNotificacao(`${nomeProduto} adicionado ao carrinho!`);
+    const tpl = (window.I18N && window.I18N.cartAdded) ? window.I18N.cartAdded : '{name} adicionado ao carrinho!';
+    mostrarNotificacao(tpl.replace('{name}', nomeProduto));
     
     // Abrir drawer automaticamente após 300ms
     setTimeout(() => {

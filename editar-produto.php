@@ -3,6 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 require_once 'db.php';
+require_once 'lang.php';
 
 // Segurança: Só Admin entra
 if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] != 1) {
@@ -25,6 +26,19 @@ if (isset($_GET['id'])) {
 } else {
     header("Location: admin.php");
     exit;
+}
+
+$SUPPORTED_LANGS = ['pt', 'en', 'fr', 'es', 'de'];
+$trads = [];
+$stmt_trads = $conn->prepare("SELECT lang, nome, descricao FROM produto_traducoes WHERE produto_id = ?");
+$stmt_trads->bind_param("i", $id);
+$stmt_trads->execute();
+$res_trads = $stmt_trads->get_result();
+while ($row = $res_trads->fetch_assoc()) {
+    $trads[$row['lang']] = [
+        'nome' => $row['nome'],
+        'descricao' => $row['descricao'],
+    ];
 }
 
 // 3. PROCESSAR ATUALIZAÇÃO
@@ -54,13 +68,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $p['categoria'] = $categoria;
         $p['imagem'] = $imagem;
     }
+
+    // Guardar traduções (UPSERT)
+    $stmt_upsert = $conn->prepare("
+        INSERT INTO produto_traducoes (produto_id, lang, nome, descricao)
+        VALUES (?, ?, ?, ?)
+        ON DUPLICATE KEY UPDATE
+            nome = VALUES(nome),
+            descricao = VALUES(descricao)
+    ");
+
+    foreach ($SUPPORTED_LANGS as $l) {
+        $nome_l = trim((string)($_POST['nome_' . $l] ?? ''));
+        $desc_l = trim((string)($_POST['descricao_' . $l] ?? ''));
+
+        // Se estiver vazio, não grava (deixa o fallback PT atuar)
+        if ($nome_l === '' && $desc_l === '') continue;
+
+        // Garantir que nunca fica um lado vazio por acidente
+        if ($nome_l === '') $nome_l = $nome;
+        if ($desc_l === '') $desc_l = $descricao;
+
+        $stmt_upsert->bind_param("isss", $id, $l, $nome_l, $desc_l);
+        $stmt_upsert->execute();
+        $trads[$l] = ['nome' => $nome_l, 'descricao' => $desc_l];
+    }
 }
 ?>
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="<?php echo htmlspecialchars($lang); ?>">
 <head>
     <meta charset="UTF-8">
-    <title>Editar Produtos</title>
+    <title><?php echo htmlspecialchars(__('admin_edit_title')); ?></title>
     
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;300;600&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
     
@@ -95,50 +134,74 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div class="auth-container">
         <div class="auth-box" style="max-width: 600px;">
-            <h2>✏️ Editar: <?php echo htmlspecialchars($p['nome']); ?></h2>
+            <h2>✏️ <?php echo htmlspecialchars(__('admin_edit_prefix')); ?> <?php echo htmlspecialchars($p['nome']); ?></h2>
             
             <?php if($mensagem == "sucesso"): ?>
-                <div class="alert success">✔ Alterações guardadas com sucesso!</div>
+                <div class="alert success">✔ <?php echo htmlspecialchars(__('admin_saved_ok')); ?></div>
             <?php endif; ?>
 
             <form method="POST" enctype="multipart/form-data">
                 <div class="form-group">
-                    <label>Nome do Produto</label>
+                    <label><?php echo htmlspecialchars(__('admin_product_name')); ?></label>
                     <input type="text" name="nome" value="<?php echo htmlspecialchars($p['nome']); ?>" required>
                 </div>
 
                 <div style="display:flex; gap:20px;">
                     <div class="form-group" style="flex:1;">
-                        <label>Preço (€)</label>
+                        <label><?php echo htmlspecialchars(__('admin_price')); ?> (€)</label>
                         <input type="number" step="0.01" name="preco" value="<?php echo $p['preco']; ?>" required>
                     </div>
                     <div class="form-group" style="flex:1;">
-                        <label>Categoria</label>
+                        <label><?php echo htmlspecialchars(__('admin_category')); ?></label>
                         <select name="categoria">
-                            <option value="quadros-caixas" <?php echo ($p['categoria'] == 'quadros-caixas') ? 'selected' : ''; ?>>Quadros e Caixas</option>
-                            <option value="laser" <?php echo ($p['categoria'] == 'laser') ? 'selected' : ''; ?>>Produtos a Laser</option>
-                            <option value="extras" <?php echo ($p['categoria'] == 'extras') ? 'selected' : ''; ?>>Extras</option>
-                            <option value="flores" <?php echo ($p['categoria'] == 'flores') ? 'selected' : ''; ?>>Flores</option>
+                            <option value="quadros-caixas" <?php echo ($p['categoria'] == 'quadros-caixas') ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('filtro_quadros')); ?></option>
+                            <option value="laser" <?php echo ($p['categoria'] == 'laser') ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('filtro_laser')); ?></option>
+                            <option value="extras" <?php echo ($p['categoria'] == 'extras') ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('filtro_extras')); ?></option>
+                            <option value="flores" <?php echo ($p['categoria'] == 'flores') ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('filtro_flores')); ?></option>
                         </select>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Descrição Detalhada</label>
-                    <textarea name="descricao" rows="10" placeholder="Descreve a alma desta peça..."></textarea>
+                    <label><?php echo htmlspecialchars(__('admin_description')); ?></label>
+                    <textarea name="descricao" rows="10" placeholder="<?php echo htmlspecialchars(__('admin_description_placeholder')); ?>"><?php echo htmlspecialchars($p['descricao']); ?></textarea>
+                </div>
+
+                <div class="form-group" style="margin-top: 30px;">
+                    <label style="display:block; margin-bottom: 10px;"><?php echo htmlspecialchars(__('admin_translations')); ?></label>
+
+                    <?php foreach ($SUPPORTED_LANGS as $l): 
+                        $nome_l = $trads[$l]['nome'] ?? '';
+                        $desc_l = $trads[$l]['descricao'] ?? '';
+                    ?>
+                        <div style="border: 1px solid rgba(255,204,51,0.15); padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+                            <div style="display:flex; justify-content: space-between; align-items:center; margin-bottom: 10px;">
+                                <strong style="color:#ffcc33;"><?php echo strtoupper($l); ?></strong>
+                                <span style="font-size: 0.85rem; opacity: 0.8;"><?php echo htmlspecialchars(__('admin_empty_uses_fallback')); ?></span>
+                            </div>
+                            <div class="form-group">
+                                <label><?php echo htmlspecialchars(__('admin_product_name')); ?> (<?php echo strtoupper($l); ?>)</label>
+                                <input type="text" name="nome_<?php echo $l; ?>" value="<?php echo htmlspecialchars($nome_l); ?>" placeholder="<?php echo htmlspecialchars(__('admin_translation_optional')); ?>">
+                            </div>
+                            <div class="form-group">
+                                <label><?php echo htmlspecialchars(__('admin_description')); ?> (<?php echo strtoupper($l); ?>)</label>
+                                <textarea name="descricao_<?php echo $l; ?>" rows="5" placeholder="<?php echo htmlspecialchars(__('admin_translation_optional')); ?>"><?php echo htmlspecialchars($desc_l); ?></textarea>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
 
                 <div class="form-group">
-                    <label>Imagem (Deixa vazio para manter a atual)</label>
+                    <label><?php echo htmlspecialchars(__('admin_image_keep')); ?></label>
                     <input type="file" name="imagem" accept="image/*">
                     <div style="display: flex; align-items: center; gap: 15px; margin-top: 10px;">
-                        <p style="font-size: 0.8rem; color: #888;">Atual:</p>
+                        <p style="font-size: 0.8rem; color: #888;"><?php echo htmlspecialchars(__('admin_current')); ?>:</p>
                         <img src="images/produtos/<?php echo $p['imagem']; ?>" class="current-img-preview">
                     </div>
                 </div>
 
-                <button type="submit" class="btn-auth">Guardar Alterações</button>
-                <a href="admin.php" style="display:block; text-align:center; margin-top:20px; color:#ffcc33; text-decoration:none; font-size:0.9rem;">← Cancelar e Voltar</a>
+                <button type="submit" class="btn-auth"><?php echo htmlspecialchars(__('admin_save')); ?></button>
+                <a href="admin.php" style="display:block; text-align:center; margin-top:20px; color:#ffcc33; text-decoration:none; font-size:0.9rem;">← <?php echo htmlspecialchars(__('admin_cancel_back')); ?></a>
             </form>
         </div>
     </div>

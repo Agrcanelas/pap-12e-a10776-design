@@ -1,0 +1,121 @@
+# Header e Navegação
+site_nome|Artesanía Natural
+inicio|Inicio
+produtos|Productos
+login|Iniciar sesión
+logout|Cerrar sesión
+ola|Hola, {name}
+admin_panel|Panel de Admin
+procurar|Buscar...
+ver_carrinho_completo|Ver carrito completo
+
+# Página Inicial (index.php)
+bem_vindo|Bienvenido a nuestra tienda
+escolha_caminho|Elige tu camino
+quadros_caixas|Cuadros y cajas
+produtos_laser|Productos láser
+
+# Página de Produtos
+produtos_titulo|Productos - Artesanía en madera
+nossos_produtos|Nuestros productos
+todos|Todos
+filtro_quadros|Cuadros y cajas
+filtro_laser|Productos láser
+filtro_extras|Extras
+filtro_flores|Flores
+add_carrinho|Añadir al carrito
+sem_produtos|Aún no hay productos registrados.
+personalizavel|Personalizable
+
+# Pesquisa
+pesquisa_sem_resultados|No se encontró ninguna pieza...
+
+# Carrinho Drawer
+teu_carrinho|Tu carrito
+carrinho_vazio|Tu carrito está vacío
+continuar_comprar|Seguir comprando
+subtotal|Subtotal:
+
+# Página do Carrinho (carrinho.php)
+carrinho_titulo|Carrito
+carrinho_subtitulo|Productos seleccionados para tu espacio
+explorar_produtos|Explorar productos
+resumo|Resumen
+itens|Productos
+portes|Envío
+total|Total
+finalizar_pedido|Finalizar pedido
+
+# Rodapé
+contacto|Contacto
+links_uteis|Enlaces útiles
+siga_nos|Síguenos
+direitos|Todos los derechos reservados.
+
+# Auth
+login_titulo|Iniciar sesión - Artesanía en madera
+bem_vindo_volta|Bienvenido de vuelta
+email|Email
+password|Contraseña
+entrar|Entrar
+nao_tem_conta|¿Aún no tienes cuenta?
+criar_conta|Crear cuenta
+registar_titulo|Registrarse - Artesanía en madera
+criar_conta_h2|Crear cuenta
+nome_completo|Nombre completo
+confirmar_password|Confirmar contraseña
+registar|Registrarse
+ja_tem_conta|¿Ya tienes cuenta?
+
+# Admin
+admin_title|Panel de gestión de productos
+admin_heading|Gestión de productos
+admin_new_button|Nuevo producto
+admin_removed_ok|Producto eliminado con éxito.
+admin_th_image|Imagen
+admin_th_product|Producto
+admin_th_price|Precio
+admin_th_category|Categoría
+admin_th_actions|Acciones
+admin_action_edit|Editar
+admin_action_remove|Eliminar
+admin_new_title|Nuevo producto
+admin_new_heading|Añadir nuevo producto
+admin_new_saved_ok|¡Producto guardado con éxito!
+admin_edit_title|Editar producto
+admin_edit_prefix|Editando:
+admin_saved_ok|¡Cambios guardados con éxito!
+admin_product_name|Nombre del producto
+admin_product_name_placeholder|Ej.: Caja Hamsa Dorada
+admin_price|Precio
+admin_category|Categoría
+admin_description|Descripción detallada
+admin_description_placeholder|Describe el alma de esta pieza...
+admin_image_upload|Imagen (subir a images/produtos/)
+admin_image_keep|Imagen (dejar vacío para mantener la actual)
+admin_current|Actual
+admin_save|Guardar cambios
+admin_publish|Publicar producto
+admin_back_panel|Volver al panel
+admin_cancel_back|Cancelar y volver
+admin_translations|Traducciones del producto
+admin_translation_optional|(opcional)
+admin_empty_uses_fallback|Vacío = usa fallback
+
+# Pedido
+order_cart_empty|Carrito vacío o datos inválidos.
+order_ok|¡Pedido registrado con éxito! ID: {id}
+order_db_error|Error al guardar en la base de datos: {error}
+
+# JS
+js_cart_removed|{name} eliminado del carrito
+js_cart_added|¡{name} añadido al carrito!
+js_free_shipping_congrats|🎉 ¡Felicidades! ¡Tienes envío gratis!
+js_free_shipping_remaining|Faltan {amount}€ para envío gratis
+js_confirm_delete|¿Seguro que quieres eliminar este artículo?
+js_free|GRATIS
+js_cart_empty_alert|¡Tu carrito está vacío!
+js_processing|PROCESANDO...
+js_order_success|🎉 ¡Pedido realizado con éxito!
+js_order_error_prefix|Error: 
+js_server_error|Ocurrió un error al conectar con el servidor.

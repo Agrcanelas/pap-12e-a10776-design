@@ -1,9 +1,10 @@
+<?php require_once 'lang.php'; ?>
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="<?php echo htmlspecialchars($lang); ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Artesanato em Madeira - Produtos Personalizados</title>
+    <title><?php echo htmlspecialchars(__('site_nome')); ?></title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/carrinho-drawer.css">
 </head>
@@ -15,8 +16,8 @@
         <div class="forest-background">
             
             <div class="welcome-text">
-                <h2>Bem-vindo à Nossa Loja</h2>
-                <p>Escolha o seu caminho</p>
+                <h2><?php echo htmlspecialchars(__('bem_vindo')); ?></h2>
+                <p><?php echo htmlspecialchars(__('escolha_caminho')); ?></p>
             </div>
 
             <!-- Caminho da Esquerda - Quadros e Caixas -->
@@ -33,12 +34,12 @@
             <div class="signs-container">
                 <div class="sign-left-pointer">
                     <div class="sign-arrow">
-                        <span>Quadros e Caixas</span>
+                        <span><?php echo htmlspecialchars(__('quadros_caixas')); ?></span>
                     </div>
                 </div>
                 <div class="sign-right-pointer">
                     <div class="sign-arrow">
-                        <span>Produtos a Laser</span>
+                        <span><?php echo htmlspecialchars(__('produtos_laser')); ?></span>
                     </div>
                 </div>
             </div>

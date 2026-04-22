@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 28-Jan-2026 às 19:42
+-- Tempo de geração: 22-Abr-2026 às 22:52
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -32,16 +32,17 @@ CREATE TABLE `clientes` (
   `nome` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `data_registo` timestamp NOT NULL DEFAULT current_timestamp()
+  `data_registo` timestamp NOT NULL DEFAULT current_timestamp(),
+  `is_admin` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `clientes`
 --
 
-INSERT INTO `clientes` (`id`, `nome`, `email`, `password`, `data_registo`) VALUES
-(1, 'teste', 'aaaaa@gmail.com', '$2y$10$gKSxPDbKG4Kx4NsGb5tifuYeL8rxbW6tSLdSr1NVrCG/9aGlotCaK', '2026-01-20 14:46:51'),
-(2, 'teste3', 'aaaab@gmail.com', '$2y$10$yUZuMW2aK7HWiLxhvbZR/.Lc2WhTYMzAq/HTr.hHjf5PKHlPbZLya', '2026-01-21 09:32:30');
+INSERT INTO `clientes` (`id`, `nome`, `email`, `password`, `data_registo`, `is_admin`) VALUES
+(1, 'teste', 'aaaaa@gmail.com', '$2y$10$gKSxPDbKG4Kx4NsGb5tifuYeL8rxbW6tSLdSr1NVrCG/9aGlotCaK', '2026-01-20 14:46:51', 1),
+(2, 'teste3', 'aaaab@gmail.com', '$2y$10$yUZuMW2aK7HWiLxhvbZR/.Lc2WhTYMzAq/HTr.hHjf5PKHlPbZLya', '2026-01-21 09:32:30', 0);
 
 -- --------------------------------------------------------
 
@@ -68,7 +69,9 @@ INSERT INTO `encomendas` (`id`, `data_encomenda`, `valor_total`, `estado`, `port
 (4, '2026-01-21 11:02:40', 90.00, 'Pendente', 0.00),
 (5, '2026-01-26 17:15:40', 23.49, 'Pendente', 4.99),
 (6, '2026-01-26 17:15:59', 19.99, 'Pendente', 4.99),
-(7, '2026-01-27 18:52:50', 19.99, 'Pendente', 4.99);
+(7, '2026-01-27 18:52:50', 19.99, 'Pendente', 4.99),
+(8, '2026-02-25 10:27:19', 54.90, 'Pendente', 0.00),
+(9, '2026-04-22 20:20:46', 19.99, 'Pendente', 4.99);
 
 -- --------------------------------------------------------
 
@@ -99,7 +102,11 @@ INSERT INTO `itens_encomenda` (`id`, `encomenda_id`, `produto_nome`, `quantidade
 (7, 4, 'Globo de Neve Natal', 4, 22.50, 90.00),
 (8, 5, 'Caixa Listrada', 1, 18.50, 18.50),
 (9, 6, 'Caixa Branca', 1, 15.00, 15.00),
-(10, 7, 'Conjunto Flores Prata/Vermelho', 1, 15.00, 15.00);
+(10, 7, 'Conjunto Flores Prata/Vermelho', 1, 15.00, 15.00),
+(11, 8, 'Coração Decorativo em Madeira', 2, 18.00, 36.00),
+(12, 8, 'Ganesha', 1, 10.00, 10.00),
+(13, 8, 'Ganesha em Madeira', 1, 8.90, 8.90),
+(14, 9, 'Mandala Yin Yang', 1, 15.00, 15.00);
 
 -- --------------------------------------------------------
 
@@ -155,6 +162,58 @@ INSERT INTO `produtos` (`id`, `nome`, `preco`, `imagem`, `categoria`, `personali
 (31, 'Vaso Decorativo Minimalista', 14.00, 'vaso1.png', 'extras', 0, 'Vaso em madeira natural para flores secas ou decoração de interiores.'),
 (33, 'Coração Decorativo em Madeira', 8.50, 'coraçao-madeira.png', 'laser', 0, 'Coração delicado cortado a laser com acabamento rústico, ideal para presentes ou decoração.');
 
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `produto_traducoes`
+--
+
+CREATE TABLE `produto_traducoes` (
+  `produto_id` int(11) NOT NULL,
+  `lang` varchar(5) NOT NULL,
+  `nome` varchar(255) NOT NULL,
+  `descricao` text NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Extraindo dados da tabela `produto_traducoes`
+--
+
+INSERT INTO `produto_traducoes` (`produto_id`, `lang`, `nome`, `descricao`, `updated_at`) VALUES
+(1, 'pt', 'Ganesha em Madeira', 'Estátua detalhada feita em madeira.', '2026-04-22 20:38:09'),
+(2, 'pt', 'Mandala Yin Yang', 'Mandala decorativa cortada a laser.', '2026-04-22 20:38:09'),
+(3, 'pt', 'Globo de Neve Natal', 'Globo de neve festivo personalizado.', '2026-04-22 20:38:09'),
+(4, 'pt', 'Caixa Decorativa Hamsa', 'Caixa útil e decorativa.', '2026-04-22 20:38:09'),
+(5, 'pt', 'Porta-chaves Puzzle', 'Conjunto de porta-chaves que se encaixam.', '2026-04-22 20:38:09'),
+(6, 'pt', 'Caixa Branca', 'Elegante caixa em madeira com acabamento branco acetinado.', '2026-04-22 20:38:09'),
+(7, 'pt', 'Caixa Listrada', 'Caixa artesanal com detalhes listrados e textura natural.', '2026-04-22 20:38:09'),
+(8, 'pt', 'Caixa Preta', 'Design moderno com acabamento em preto fosco, ideal para decoração.', '2026-04-22 20:38:09'),
+(9, 'pt', 'Caixa Hexagonal', 'Caixa com formato geométrico único, perfeita para joias.', '2026-04-22 20:38:09'),
+(10, 'pt', 'Flor do Amanhecer', 'Flor artesanal em madeira clara, ideal para centros de mesa.', '2026-04-22 20:38:09'),
+(11, 'pt', 'Girassol Silvestre', 'Peça vibrante com detalhes em relevo e acabamento natural.', '2026-04-22 20:38:09'),
+(12, 'pt', 'Lirio em Relevo', 'Quadro floral esculpido com efeito de profundidade 3D.', '2026-04-22 20:38:09'),
+(13, 'pt', 'Margarida Rustica', 'Decoração de parede em madeira recuperada com design floral.', '2026-04-22 20:38:09'),
+(14, 'pt', 'Ramo de Sakura', 'Painel delicado inspirado nas flores de cerejeira orientais.', '2026-04-22 20:38:09'),
+(15, 'pt', 'Árvore de Natal Minimalista', 'Árvore decorativa cortada a laser em madeira natural, perfeita para mesas.', '2026-04-22 20:38:09'),
+(16, 'pt', 'Enfeite Árvore com Bola', 'Decoração de Natal personalizada com detalhe de bola suspensa.', '2026-04-22 20:38:09'),
+(17, 'pt', 'Árvore de Natal Intrincada', 'Design detalhado feito a laser com padrões geométricos natalícios.', '2026-04-22 20:38:09'),
+(18, 'pt', 'Caixa Multiusos Organizadora', 'Caixa versátil em madeira natural, ideal para organizar acessórios ou escritório.', '2026-04-22 20:38:09'),
+(19, 'pt', 'Caixa de Parede Decorativa', 'Suporte de parede elegante para exposição de pequenos objetos ou plantas.', '2026-04-22 20:38:09'),
+(20, 'pt', 'Organizador Post-it Wood', 'Prático suporte de secretária com compartimento para post-its e canetas.', '2026-04-22 20:38:09'),
+(21, 'pt', 'Conjunto Flores Prata/Vermelho', 'Arranjo decorativo em madeira com acabamento metalizado prata e apontamentos vermelhos.', '2026-04-22 20:38:09'),
+(22, 'pt', 'Conjunto Flores Preto/Vermelho', 'Design moderno de flores em madeira com contraste elegante entre preto e vermelho.', '2026-04-22 20:38:09'),
+(23, 'pt', 'Copo Organizador de Material', 'Copo em madeira natural ideal para pincéis, lápis ou ferramentas de artesanato.', '2026-04-22 20:38:09'),
+(24, 'pt', 'Mão Íman Decorativa', 'Íman de frigorífico cortado a laser com design detalhado de uma mão artesanal.', '2026-04-22 20:38:09'),
+(25, 'pt', 'Caixa Castanha Premium', 'Caixa em madeira de tom castanho profundo, ideal para presentes de luxo ou arrumação.', '2026-04-22 20:38:09'),
+(26, 'pt', 'Mini Cómoda com Gavetas', 'Organizador funcional com gavetas, perfeito para joias ou material de escritório.', '2026-04-22 20:38:09'),
+(27, 'pt', 'Casinha de Natal Decorativa', 'Miniatura de casa natalícia em madeira, ideal para criar ambientes festivos.', '2026-04-22 20:38:09'),
+(28, 'pt', 'Quadro Decorativo Branco', 'Quadro com acabamento minimalista em branco para uma decoração moderna.', '2026-04-22 20:38:09'),
+(29, 'pt', 'Casinha de Natal Média', 'Decoração natalícia em madeira de tamanho médio, ideal para centros de mesa.', '2026-04-22 20:38:09'),
+(30, 'pt', 'Caixa Multiusos Marmoreada', 'Caixa organizadora com design elegante e acabamento que simula mármore.', '2026-04-22 20:38:09'),
+(31, 'pt', 'Vaso Decorativo Minimalista', 'Vaso em madeira natural para flores secas ou decoração de interiores.', '2026-04-22 20:38:09'),
+(33, 'pt', 'Coração Decorativo em Madeira', 'Coração delicado cortado a laser com acabamento rústico, ideal para presentes ou decoração.', '2026-04-22 20:38:09');
+
 --
 -- Índices para tabelas despejadas
 --
@@ -186,6 +245,13 @@ ALTER TABLE `produtos`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Índices para tabela `produto_traducoes`
+--
+ALTER TABLE `produto_traducoes`
+  ADD PRIMARY KEY (`produto_id`,`lang`),
+  ADD KEY `idx_produto_traducoes_lang` (`lang`);
+
+--
 -- AUTO_INCREMENT de tabelas despejadas
 --
 
@@ -199,13 +265,13 @@ ALTER TABLE `clientes`
 -- AUTO_INCREMENT de tabela `encomendas`
 --
 ALTER TABLE `encomendas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de tabela `itens_encomenda`
 --
 ALTER TABLE `itens_encomenda`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
@@ -222,6 +288,12 @@ ALTER TABLE `produtos`
 --
 ALTER TABLE `itens_encomenda`
   ADD CONSTRAINT `itens_encomenda_ibfk_1` FOREIGN KEY (`encomenda_id`) REFERENCES `encomendas` (`id`) ON DELETE CASCADE;
+
+--
+-- Limitadores para a tabela `produto_traducoes`
+--
+ALTER TABLE `produto_traducoes`
+  ADD CONSTRAINT `fk_produto_traducoes_produto` FOREIGN KEY (`produto_id`) REFERENCES `produtos` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

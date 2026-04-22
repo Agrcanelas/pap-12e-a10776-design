@@ -4,6 +4,8 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 require_once 'db.php';
+require_once 'lang.php';
+require_once 'i18n_produtos.php';
 
 // SEGURANÇA: Só Admin entra
 if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] != 1) {
@@ -23,10 +25,10 @@ if (isset($_GET['remover'])) {
 ?>
 
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="<?php echo htmlspecialchars($lang); ?>">
 <head>
     <meta charset="UTF-8">
-    <title>Painel de Gestão de Produtos</title>
+    <title><?php echo htmlspecialchars(__('admin_title')); ?></title>
     
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;300;600&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
     
@@ -113,41 +115,56 @@ if (isset($_GET['remover'])) {
     <div class="container admin-container">
         
         <div class="admin-header">
-            <h1>Gestão de Produtos</h1>
-            <a href="adicionar-produto.php" class="btn-new">Novo Produto +</a>
+            <h1><?php echo htmlspecialchars(__('admin_heading')); ?></h1>
+            <a href="adicionar-produto.php" class="btn-new"><?php echo htmlspecialchars(__('admin_new_button')); ?> +</a>
         </div>
 
         <?php if($mensagem == "removido"): ?>
-            <div class="alert-mini">✔ O produto foi removido (removido com sucesso).</div>
+            <div class="alert-mini">✔ <?php echo htmlspecialchars(__('admin_removed_ok')); ?></div>
         <?php endif; ?>
 
         <table class="admin-table">
             <thead>
                 <tr>
-                    <th>Imagem</th>
-                    <th>Produto</th>
-                    <th>Preço</th>
-                    <th>Categoria</th>
-                    <th>Ações</th>
+                    <th><?php echo htmlspecialchars(__('admin_th_image')); ?></th>
+                    <th><?php echo htmlspecialchars(__('admin_th_product')); ?></th>
+                    <th><?php echo htmlspecialchars(__('admin_th_price')); ?></th>
+                    <th><?php echo htmlspecialchars(__('admin_th_category')); ?></th>
+                    <th><?php echo htmlspecialchars(__('admin_th_actions')); ?></th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                $produtos = $conn->query("SELECT * FROM produtos ORDER BY id DESC");
+                $stmt = $conn->prepare("
+                    SELECT
+                        p.*,
+                        tl.nome AS nome_i18n,
+                        tpt.nome AS nome_pt
+                    FROM produtos p
+                    LEFT JOIN produto_traducoes tl
+                        ON tl.produto_id = p.id AND tl.lang = ?
+                    LEFT JOIN produto_traducoes tpt
+                        ON tpt.produto_id = p.id AND tpt.lang = 'pt'
+                    ORDER BY p.id DESC
+                ");
+                $stmt->bind_param("s", $lang);
+                $stmt->execute();
+                $produtos = $stmt->get_result();
                 while($p = $produtos->fetch_assoc()):
+                    $nome_admin = produto_texto($p, 'nome');
                 ?>
                 <tr>
                     <td><img src="images/produtos/<?php echo $p['imagem']; ?>" class="img-admin"></td>
 
-                    <td style="font-weight: 500; font-size: 1.3rem;"><?php echo htmlspecialchars($p['nome']); ?></td>
+                    <td style="font-weight: 500; font-size: 1.3rem;"><?php echo htmlspecialchars($nome_admin); ?></td>
 
                     <td style="font-size: 1.2rem;"><?php echo number_format($p['preco'], 2); ?>€</td>
                     
                     <td style="opacity: 0.7; font-size: 1.3rem;"><?php echo $p['categoria']; ?></td>
 
                     <td class="action-links">
-                        <a href="editar-produto.php?id=<?php echo $p['id']; ?>">✏️ Editar</a>
-                        <a href="admin.php?remover=<?php echo $p['id']; ?>" class="delete" onclick="return confirm('Tem a certeza que quer apagar esta peça?')">🗑️ Remover</a>
+                        <a href="editar-produto.php?id=<?php echo $p['id']; ?>">✏️ <?php echo htmlspecialchars(__('admin_action_edit')); ?></a>
+                        <a href="admin.php?remover=<?php echo $p['id']; ?>" class="delete" onclick="return confirm(window.I18N && window.I18N.confirmDelete ? window.I18N.confirmDelete : 'Tem a certeza que quer apagar esta peça?')">🗑️ <?php echo htmlspecialchars(__('admin_action_remove')); ?></a>
                     </td>
                 </tr>
                 <?php endwhile; ?>

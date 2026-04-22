@@ -1,8 +1,5 @@
 <?php
-// Iniciar sessão se ainda não estiver iniciada
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'lang.php';
 
 // Detectar a página atual para marcar o link como "active"
 $pagina_atual = basename($_SERVER['PHP_SELF']);
@@ -11,17 +8,17 @@ $pagina_atual = basename($_SERVER['PHP_SELF']);
     <nav class="navbar">
     <div class="logo">
         <a href="index.php" style="text-decoration:none; color:inherit;">
-            <h1>🌳 Artesanato Natural</h1>
+            <h1>🌳 <?php echo htmlspecialchars(__('site_nome')); ?></h1>
         </a>
     </div>
 
     <ul class="nav-links main-nav">
-        <li><a href="index.php" class="<?php echo ($pagina_atual == 'index.php') ? 'active' : ''; ?>">Início</a></li>
-        <li><a href="produtos.php" class="<?php echo ($pagina_atual == 'produtos.php') ? 'active' : ''; ?>">Produtos</a></li>
+        <li><a href="index.php" class="<?php echo ($pagina_atual == 'index.php') ? 'active' : ''; ?>"><?php echo htmlspecialchars(__('inicio')); ?></a></li>
+        <li><a href="produtos.php" class="<?php echo ($pagina_atual == 'produtos.php') ? 'active' : ''; ?>"><?php echo htmlspecialchars(__('produtos')); ?></a></li>
 
     <li class="search-item">
         <form action="produtos.php" method="GET" class="search-form" autocomplete="off">
-            <input type="text" id="live-search" name="q" placeholder="Procurar..." 
+            <input type="text" id="live-search" name="q" placeholder="<?php echo htmlspecialchars(__('procurar')); ?>" 
                value="<?php echo isset($_GET['q']) ? htmlspecialchars($_GET['q']) : ''; ?>">
             <button type="submit">🔍</button>
         
@@ -33,7 +30,7 @@ $pagina_atual = basename($_SERVER['PHP_SELF']);
             <li>
                 <a href="admin.php" class="<?php echo ($pagina_atual == 'admin.php') ? 'active' : ''; ?>" 
                    style="color: #ffcc33; font-weight: bold; border: 1px dashed #ffcc33; padding: 5px 12px; border-radius: 4px; margin-left: 10px;">
-                   ⚙️ Painel de Admin
+                   ⚙️ <?php echo htmlspecialchars(__('admin_panel')); ?>
                 </a>
             </li>
         <?php endif; ?>
@@ -41,11 +38,22 @@ $pagina_atual = basename($_SERVER['PHP_SELF']);
 
     <ul class="nav-links user-nav">
         <?php if (isset($_SESSION['user_id'])): ?>
-            <li><span class="user-greeting">Olá, <?php echo htmlspecialchars($_SESSION['user_name']); ?></span></li>
-            <li><a href="logout.php" class="nav-btn-logout">Logout</a></li>
+            <li><span class="user-greeting"><?php echo htmlspecialchars(__('ola', ['name' => (string)$_SESSION['user_name']])); ?></span></li>
+            <li><a href="logout.php" class="nav-btn-logout"><?php echo htmlspecialchars(__('logout')); ?></a></li>
         <?php else: ?>
-            <li><a href="login.php" class="<?php echo ($pagina_atual == 'login.php') ? 'active' : ''; ?>">Login</a></li>
+            <li><a href="login.php" class="<?php echo ($pagina_atual == 'login.php') ? 'active' : ''; ?>"><?php echo htmlspecialchars(__('login')); ?></a></li>
         <?php endif; ?>
+
+        <li class="lang-item">
+            <button id="lang-btn" class="lang-btn">🌐 <?php echo strtoupper($lang); ?></button>
+        <div id="lang-dropdown" class="lang-dropdown">
+            <a href="<?php echo htmlspecialchars(lang_url('pt')); ?>">🇵🇹 Português</a>
+            <a href="<?php echo htmlspecialchars(lang_url('en')); ?>">🇬🇧 English</a>
+            <a href="<?php echo htmlspecialchars(lang_url('es')); ?>">🇪🇸 Español</a>
+            <a href="<?php echo htmlspecialchars(lang_url('fr')); ?>">🇫🇷 Français</a>
+            <a href="<?php echo htmlspecialchars(lang_url('de')); ?>">🇩🇪 Deutsch</a>
+        </div>
+    </li>
     
         <li>
             <a href="javascript:void(0);" onclick="toggleCartDrawer()" class="cart-trigger">
@@ -60,26 +68,41 @@ $pagina_atual = basename($_SERVER['PHP_SELF']);
 
 <div id="cart-drawer" class="cart-drawer">
     <div class="cart-drawer-header">
-        <h2>🛒 O Teu Carrinho</h2>
+        <h2>🛒 <?php echo htmlspecialchars(__('teu_carrinho')); ?></h2>
         <button class="cart-close-btn" onclick="toggleCartDrawer()">×</button>
     </div>
     
     <div id="cart-empty" class="cart-empty">
         <div class="cart-empty-icon">🛒</div>
-        <p>O teu carrinho está vazio</p>
-        <button class="btn-continuar-compras" onclick="toggleCartDrawer()">Continuar a Comprar</button>
+        <p><?php echo htmlspecialchars(__('carrinho_vazio')); ?></p>
+        <button class="btn-continuar-compras" onclick="toggleCartDrawer()"><?php echo htmlspecialchars(__('continuar_comprar')); ?></button>
     </div>
     
     <div id="cart-items-container" class="cart-items" style="display: none;"></div>
     
     <div class="cart-drawer-footer" style="display: none;">
         <div class="cart-subtotal">
-            <span class="cart-subtotal-label">Subtotal:</span>
+            <span class="cart-subtotal-label"><?php echo htmlspecialchars(__('subtotal')); ?></span>
             <span class="cart-subtotal-value">0.00€</span>
         </div>
         
         <div class="cart-actions" style="margin-top: 20px;">
-            <a href="carrinho.php" class="btn-view-cart" style="text-align: center; text-decoration: none; display: block; margin-bottom: 10px;">Ver Carrinho Completo</a>
+            <a href="carrinho.php" class="btn-view-cart" style="text-align: center; text-decoration: none; display: block; margin-bottom: 10px;"><?php echo htmlspecialchars(__('ver_carrinho_completo')); ?></a>
         </div>
     </div>
 </div>
+
+<script>
+window.I18N = window.I18N || {};
+window.I18N.cartRemoved = <?php echo json_encode(t('js_cart_removed', ['name' => '{name}'])); ?>;
+window.I18N.cartAdded = <?php echo json_encode(t('js_cart_added', ['name' => '{name}'])); ?>;
+window.I18N.freeShippingCongrats = <?php echo json_encode(t('js_free_shipping_congrats')); ?>;
+window.I18N.freeShippingRemaining = <?php echo json_encode(t('js_free_shipping_remaining', ['amount' => '{amount}'])); ?>;
+window.I18N.confirmDelete = <?php echo json_encode(t('js_confirm_delete')); ?>;
+window.I18N.freeLabel = <?php echo json_encode(t('js_free')); ?>;
+window.I18N.cartEmptyAlert = <?php echo json_encode(t('js_cart_empty_alert')); ?>;
+window.I18N.processing = <?php echo json_encode(t('js_processing')); ?>;
+window.I18N.orderSuccess = <?php echo json_encode(t('js_order_success')); ?>;
+window.I18N.orderErrorPrefix = <?php echo json_encode(t('js_order_error_prefix')); ?>;
+window.I18N.serverError = <?php echo json_encode(t('js_server_error')); ?>;
+</script>

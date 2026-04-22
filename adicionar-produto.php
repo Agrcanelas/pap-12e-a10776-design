@@ -4,6 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 require_once 'db.php';
+require_once 'lang.php';
 
 // Segurança
 if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] != 1) {
@@ -26,6 +27,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("sdsss", $nome, $preco, $descricao, $imagem, $categoria);
 
     if ($stmt->execute()) {
+        $novo_id = $conn->insert_id;
+
+        // Criar tradução PT inicial (fallback/base)
+        $stmt_tr = $conn->prepare("INSERT INTO produto_traducoes (produto_id, lang, nome, descricao) VALUES (?, 'pt', ?, ?)");
+        $stmt_tr->bind_param("iss", $novo_id, $nome, $descricao);
+        $stmt_tr->execute();
+
         if (move_uploaded_file($_FILES['imagem']['tmp_name'], $target)) {
             $mensagem = "sucesso";
         }
@@ -33,10 +41,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="<?php echo htmlspecialchars($lang); ?>">
 <head>
     <meta charset="UTF-8">
-    <title>Novo Produtol</title>
+    <title><?php echo htmlspecialchars(__('admin_new_title')); ?></title>
     
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;300;600&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
     
@@ -70,46 +78,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div class="auth-container">
         <div class="auth-box" style="max-width: 600px;">
-            <h2>✨ Adicionar Novo Produto</h2>
+            <h2>✨ <?php echo htmlspecialchars(__('admin_new_heading')); ?></h2>
             
             <?php if($mensagem == "sucesso"): ?>
-                <div class="alert success">✔ Produto guardado com sucesso!</div>
+                <div class="alert success">✔ <?php echo htmlspecialchars(__('admin_new_saved_ok')); ?></div>
             <?php endif; ?>
 
             <form method="POST" enctype="multipart/form-data">
                 <div class="form-group">
-                    <label>Nome do Produto</label>
-                    <input type="text" name="nome" placeholder="Ex: Caixa Hamsa Dourada" required>
+                    <label><?php echo htmlspecialchars(__('admin_product_name')); ?></label>
+                    <input type="text" name="nome" placeholder="<?php echo htmlspecialchars(__('admin_product_name_placeholder')); ?>" required>
                 </div>
 
                 <div style="display:flex; gap:20px;">
                     <div class="form-group" style="flex:1;">
-                        <label>Preço (€)</label>
+                        <label><?php echo htmlspecialchars(__('admin_price')); ?> (€)</label>
                         <input type="number" step="0.01" name="preco" required>
                     </div>
                     <div class="form-group" style="flex:1;">
-                        <label>Categoria</label>
+                        <label><?php echo htmlspecialchars(__('admin_category')); ?></label>
                         <select name="categoria">
-                            <option value="quadros-caixas">Quadros e Caixas</option>
-                            <option value="laser">Produtos a Laser</option>
-                            <option value="extras">Extras</option>
-                            <option value="flores">Flores</option>
+                            <option value="quadros-caixas"><?php echo htmlspecialchars(__('filtro_quadros')); ?></option>
+                            <option value="laser"><?php echo htmlspecialchars(__('filtro_laser')); ?></option>
+                            <option value="extras"><?php echo htmlspecialchars(__('filtro_extras')); ?></option>
+                            <option value="flores"><?php echo htmlspecialchars(__('filtro_flores')); ?></option>
                         </select>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Descrição Detalhada</label>
-                    <textarea name="descricao" rows="10" placeholder="Descreve a alma desta peça..."></textarea>
+                    <label><?php echo htmlspecialchars(__('admin_description')); ?></label>
+                    <textarea name="descricao" rows="10" placeholder="<?php echo htmlspecialchars(__('admin_description_placeholder')); ?>"></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label>Imagem (Upload para images/produtos/)</label>
+                    <label><?php echo htmlspecialchars(__('admin_image_upload')); ?></label>
                     <input type="file" name="imagem" accept="image/*" required>
                 </div>
 
-                <button type="submit" class="btn-auth">Publicar Novo Produto</button>
-                <a href="admin.php" style="display:block; text-align:center; margin-top:20px; color:#ffcc33; text-decoration:none; font-size:0.9rem;">← Voltar ao Painel</a>
+                <button type="submit" class="btn-auth"><?php echo htmlspecialchars(__('admin_publish')); ?></button>
+                <a href="admin.php" style="display:block; text-align:center; margin-top:20px; color:#ffcc33; text-decoration:none; font-size:0.9rem;">← <?php echo htmlspecialchars(__('admin_back_panel')); ?></a>
             </form>
         </div>
     </div>

@@ -1,0 +1,124 @@
+# Header e Navegação
+site_nome|Natural Handcraft
+inicio|Home
+produtos|Products
+login|Login
+logout|Logout
+carrinho|Cart
+ola|Hi, {name}
+admin_panel|Admin Panel
+procurar|Search...
+ver_carrinho_completo|View full cart
+
+# Página Inicial (index.php)
+bem_vindo|Welcome to our Store
+escolha_caminho|Choose your path
+quadros_caixas|Frames & Boxes
+produtos_laser|Laser Products
+
+# Página de Produtos
+produtos_titulo|Products - Wood Crafts
+nossos_produtos|Our Products
+todos|All
+filtro_quadros|Frames
+filtro_laser|Laser
+filtro_extras|Extras
+filtro_flores|Flowers
+detalhes|View Details
+add_carrinho|Add to Cart
+sem_produtos|No products yet.
+personalizavel|Customizable
+
+# Pesquisa
+pesquisa_sem_resultados|No items found...
+
+# Carrinho Drawer
+teu_carrinho|Your Cart
+carrinho_vazio|Your cart is empty
+continuar_comprar|Continue Shopping
+subtotal|Subtotal:
+finalizar_compra|Checkout
+
+# Página do Carrinho (carrinho.php)
+carrinho_titulo|Cart
+carrinho_subtitulo|Selected products for your space
+explorar_produtos|Browse products
+resumo|Summary
+itens|Items
+portes|Shipping
+total|Total
+finalizar_pedido|Place order
+
+# Rodapé
+contacto|Contact
+links_uteis|Useful links
+siga_nos|Follow us
+direitos|All rights reserved.
+
+# Auth
+login_titulo|Login - Wood Crafts
+bem_vindo_volta|Welcome back
+email|Email
+password|Password
+entrar|Sign in
+nao_tem_conta|Don't have an account?
+criar_conta|Create account
+registar_titulo|Register - Wood Crafts
+criar_conta_h2|Create Account
+nome_completo|Full name
+confirmar_password|Confirm password
+registar|Register
+ja_tem_conta|Already have an account?
+
+# Admin
+admin_title|Product Management Panel
+admin_heading|Product Management
+admin_new_button|New Product
+admin_removed_ok|Product removed successfully.
+admin_th_image|Image
+admin_th_product|Product
+admin_th_price|Price
+admin_th_category|Category
+admin_th_actions|Actions
+admin_action_edit|Edit
+admin_action_remove|Remove
+admin_new_title|New Product
+admin_new_heading|Add New Product
+admin_new_saved_ok|Product saved successfully!
+admin_edit_title|Edit Product
+admin_edit_prefix|Editing:
+admin_saved_ok|Changes saved successfully!
+admin_product_name|Product Name
+admin_product_name_placeholder|e.g., Golden Hamsa Box
+admin_price|Price
+admin_category|Category
+admin_description|Detailed Description
+admin_description_placeholder|Describe the soul of this piece...
+admin_image_upload|Image (upload to images/produtos/)
+admin_image_keep|Image (leave empty to keep current)
+admin_current|Current
+admin_save|Save Changes
+admin_publish|Publish Product
+admin_back_panel|Back to Panel
+admin_cancel_back|Cancel and Back
+admin_translations|Product translations
+admin_translation_optional|(optional)
+admin_empty_uses_fallback|Empty = uses fallback
+
+# Order
+order_cart_empty|Empty cart or invalid data.
+order_ok|Order registered successfully! ID: {id}
+order_db_error|Database error while saving: {error}
+
+# JS
+js_cart_removed|{name} removed from cart
+js_cart_added|{name} added to cart!
+js_free_shipping_congrats|🎉 Congrats! You have free shipping!
+js_free_shipping_remaining|{amount}€ left for free shipping
+js_confirm_delete|Are you sure you want to delete this item?
+js_free|FREE
+js_cart_empty_alert|Your cart is empty!
+js_processing|PROCESSING...
+js_order_success|🎉 Order placed successfully!
+js_order_error_prefix|Error: 
+js_server_error|There was an error connecting to the server.

@@ -360,3 +360,32 @@ footer {
 }
 
 .no-results { padding: 15px; color: #888; font-size: 0.9rem; }
+
+.lang-item { position: relative; }
+.lang-btn {
+    background: transparent;
+    border: 1px solid var(--neon-gold);
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.lang-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #1a1d17;
+    border: 1px solid var(--neon-gold);
+    min-width: 120px;
+    display: none;
+    z-index: 2000;
+}
+.lang-dropdown.active { display: block; }
+.lang-dropdown a {
+    display: block;
+    padding: 10px;
+    color: white;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+.lang-dropdown a:hover { background: rgba(255,204,51,0.2); }

@@ -2,6 +2,7 @@
 // processar_encomenda.php
 header('Content-Type: application/json');
 require_once 'db.php';
+require_once 'lang.php';
 
 // Iniciar sessão para saber se o utilizador está logado
 if (session_status() === PHP_SESSION_NONE) {
@@ -14,7 +15,7 @@ $dados = json_decode($json, true);
 
 // Verificar se há dados
 if (!$dados || empty($dados['produtos'])) {
-    echo json_encode(['sucesso' => false, 'mensagem' => 'Carrinho vazio ou dados inválidos.']);
+    echo json_encode(['sucesso' => false, 'mensagem' => __('order_cart_empty')]);
     exit;
 }
 
@@ -59,14 +60,14 @@ if ($stmt->execute()) {
 
     echo json_encode([
         'sucesso' => true, 
-        'mensagem' => 'Encomenda registada com sucesso! ID: ' . $id_encomenda
+        'mensagem' => __('order_ok', ['id' => (string)$id_encomenda])
     ]);
 
 } else {
     // Se chegar aqui, houve um erro no banco de dados
     echo json_encode([
         'sucesso' => false, 
-        'mensagem' => 'Erro ao gravar na base de dados: ' . $conn->error
+        'mensagem' => __('order_db_error', ['error' => (string)$conn->error])
     ]);
 }
 

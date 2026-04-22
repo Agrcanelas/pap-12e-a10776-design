@@ -48,7 +48,9 @@ function atualizarResumo() {
     const totalEl = document.getElementById('summary-total');
 
     if(subEl) subEl.textContent = subtotal.toFixed(2) + '€';
-    if(shipEl) shipEl.textContent = envio === 0 ? 'GRÁTIS' : envio.toFixed(2) + '€';
+    if(shipEl) shipEl.textContent = envio === 0
+        ? ((window.I18N && window.I18N.freeLabel) ? window.I18N.freeLabel : 'GRÁTIS')
+        : envio.toFixed(2) + '€';
     if(totalEl) totalEl.textContent = total.toFixed(2) + '€';
 }
 
@@ -63,7 +65,7 @@ function removerItem(index) {
 // ESTA É A FUNÇÃO QUE ESTAVA A FALTAR:
 function finalizarCompra() {
     if (meuCarrinho.length === 0) {
-        alert("O teu carrinho está vazio!");
+        alert((window.I18N && window.I18N.cartEmptyAlert) ? window.I18N.cartEmptyAlert : "O teu carrinho está vazio!");
         return;
     }
 
@@ -72,7 +74,7 @@ function finalizarCompra() {
     
     // Feedback visual de carregamento
     btn.disabled = true;
-    btn.textContent = "A PROCESSAR...";
+    btn.textContent = (window.I18N && window.I18N.processing) ? window.I18N.processing : "A PROCESSAR...";
 
     // Enviar para o PHP processar a encomenda na base de dados
     fetch('processar_encomenda.php', {
@@ -85,18 +87,19 @@ function finalizarCompra() {
     .then(response => response.json())
     .then(data => {
         if (data.sucesso) {
-            alert("🎉 Encomenda realizada com sucesso!");
+            alert((window.I18N && window.I18N.orderSuccess) ? window.I18N.orderSuccess : "🎉 Encomenda realizada com sucesso!");
             localStorage.removeItem('carrinho'); // Limpa o carrinho após sucesso
             window.location.href = 'index.php';   // Redireciona para a home
         } else {
-            alert("Erro: " + data.mensagem);
+            const prefix = (window.I18N && window.I18N.orderErrorPrefix) ? window.I18N.orderErrorPrefix : "Erro: ";
+            alert(prefix + data.mensagem);
             btn.disabled = false;
             btn.textContent = originalText;
         }
     })
     .catch(error => {
         console.error('Erro:', error);
-        alert("Ocorreu um erro ao ligar ao servidor.");
+        alert((window.I18N && window.I18N.serverError) ? window.I18N.serverError : "Ocorreu um erro ao ligar ao servidor.");
         btn.disabled = false;
         btn.textContent = originalText;
     });

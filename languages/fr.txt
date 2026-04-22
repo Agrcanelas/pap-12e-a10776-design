@@ -1,0 +1,121 @@
+# Header e Navegação
+site_nome|Artisanat Naturel
+inicio|Accueil
+produtos|Produits
+login|Connexion
+logout|Déconnexion
+ola|Bonjour, {name}
+admin_panel|Panneau Admin
+procurar|Rechercher...
+ver_carrinho_completo|Voir le panier complet
+
+# Página Inicial (index.php)
+bem_vindo|Bienvenue dans notre boutique
+escolha_caminho|Choisissez votre chemin
+quadros_caixas|Cadres et boîtes
+produtos_laser|Produits laser
+
+# Página de Produtos
+produtos_titulo|Produits - Artisanat en bois
+nossos_produtos|Nos produits
+todos|Tous
+filtro_quadros|Cadres et boîtes
+filtro_laser|Produits laser
+filtro_extras|Extras
+filtro_flores|Fleurs
+add_carrinho|Ajouter au panier
+sem_produtos|Il n’y a pas encore de produits enregistrés.
+personalizavel|Personnalisable
+
+# Pesquisa
+pesquisa_sem_resultados|Aucune pièce trouvée...
+
+# Carrinho Drawer
+teu_carrinho|Votre panier
+carrinho_vazio|Votre panier est vide
+continuar_comprar|Continuer vos achats
+subtotal|Sous-total :
+
+# Página do Carrinho (carrinho.php)
+carrinho_titulo|Panier
+carrinho_subtitulo|Produits sélectionnés pour votre espace
+explorar_produtos|Explorer les produits
+resumo|Récapitulatif
+itens|Produits
+portes|Livraison
+total|Total
+finalizar_pedido|Finaliser la commande
+
+# Rodapé
+contacto|Contact
+links_uteis|Liens utiles
+siga_nos|Suivez-nous
+direitos|Tous droits réservés.
+
+# Auth
+login_titulo|Connexion - Artisanat en bois
+bem_vindo_volta|Bon retour
+email|E-mail
+password|Mot de passe
+entrar|Se connecter
+nao_tem_conta|Vous n’avez pas de compte ?
+criar_conta|Créer un compte
+registar_titulo|Inscription - Artisanat en bois
+criar_conta_h2|Créer un compte
+nome_completo|Nom complet
+confirmar_password|Confirmer le mot de passe
+registar|S’inscrire
+ja_tem_conta|Vous avez déjà un compte ?
+
+# Admin
+admin_title|Panneau de gestion des produits
+admin_heading|Gestion des produits
+admin_new_button|Nouveau produit
+admin_removed_ok|Produit supprimé avec succès.
+admin_th_image|Image
+admin_th_product|Produit
+admin_th_price|Prix
+admin_th_category|Catégorie
+admin_th_actions|Actions
+admin_action_edit|Modifier
+admin_action_remove|Supprimer
+admin_new_title|Nouveau produit
+admin_new_heading|Ajouter un nouveau produit
+admin_new_saved_ok|Produit enregistré avec succès !
+admin_edit_title|Modifier le produit
+admin_edit_prefix|Modification :
+admin_saved_ok|Modifications enregistrées avec succès !
+admin_product_name|Nom du produit
+admin_product_name_placeholder|Ex : Boîte Hamsa dorée
+admin_price|Prix
+admin_category|Catégorie
+admin_description|Description détaillée
+admin_description_placeholder|Décrivez l’âme de cette pièce...
+admin_image_upload|Image (téléverser vers images/produtos/)
+admin_image_keep|Image (laisser vide pour garder l’actuelle)
+admin_current|Actuelle
+admin_save|Enregistrer
+admin_publish|Publier le produit
+admin_back_panel|Retour au panneau
+admin_cancel_back|Annuler et retour
+admin_translations|Traductions du produit
+admin_translation_optional|(optionnel)
+admin_empty_uses_fallback|Vide = utilise le fallback
+
+# Commande
+order_cart_empty|Panier vide ou données invalides.
+order_ok|Commande enregistrée avec succès ! ID : {id}
+order_db_error|Erreur lors de l’enregistrement : {error}
+
+# JS
+js_cart_removed|{name} retiré du panier
+js_cart_added|{name} ajouté au panier !
+js_free_shipping_congrats|🎉 Bravo ! Vous bénéficiez de la livraison gratuite !
+js_free_shipping_remaining|Il vous manque {amount}€ pour la livraison gratuite
+js_confirm_delete|Êtes-vous sûr de vouloir supprimer cet article ?
+js_free|GRATUIT
+js_cart_empty_alert|Votre panier est vide !
+js_processing|TRAITEMENT...
+js_order_success|🎉 Commande passée avec succès !
+js_order_error_prefix|Erreur : 
+js_server_error|Une erreur est survenue lors de la connexion au serveur.
