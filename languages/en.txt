@@ -44,6 +44,9 @@ sort_price_desc|Price (high to low)
 sort_name_asc|Name (A-Z)
 sort_name_desc|Name (Z-A)
 
+# Related products (produtos-detalhes.php)
+related_title|You might also like
+
 # Pesquisa
 pesquisa_sem_resultados|No items found...
 

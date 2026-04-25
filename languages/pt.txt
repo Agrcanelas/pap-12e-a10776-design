@@ -42,6 +42,9 @@ sort_price_desc|Preço (decrescente)
 sort_name_asc|Nome (A-Z)
 sort_name_desc|Nome (Z-A)
 
+# Produtos relacionados (produtos-detalhes.php)
+related_title|Também podes gostar
+
 # Pesquisa
 pesquisa_sem_resultados|Nenhuma peça encontrada...
 

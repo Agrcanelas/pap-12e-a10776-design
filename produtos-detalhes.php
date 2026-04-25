@@ -31,6 +31,29 @@ if (!$produto) { header("Location: produtos.php"); exit; }
 
 $nome = produto_texto($produto, 'nome');
 $descricao = produto_texto($produto, 'descricao');
+
+// Produtos relacionados (aleatórios; exclui o atual)
+$stmt_rel = $conn->prepare("
+    SELECT
+        p.id,
+        p.preco,
+        p.imagem,
+        p.categoria,
+        tl.nome AS nome_i18n,
+        tpt.nome AS nome_pt,
+        p.nome
+    FROM produtos p
+    LEFT JOIN produto_traducoes tl
+        ON tl.produto_id = p.id AND tl.lang = ?
+    LEFT JOIN produto_traducoes tpt
+        ON tpt.produto_id = p.id AND tpt.lang = 'pt'
+    WHERE p.id <> ?
+    ORDER BY RAND()
+    LIMIT 10
+");
+$stmt_rel->bind_param("si", $lang, $id);
+$stmt_rel->execute();
+$relacionados = $stmt_rel->get_result();
 ?>
 
 <!DOCTYPE html>
@@ -45,7 +68,7 @@ $descricao = produto_texto($produto, 'descricao');
     
     <link rel="stylesheet" href="css/carrinho-drawer.css">
     
-    <link rel="stylesheet" href="css/produtos-detalhes.css">
+    <link rel="stylesheet" href="css/produtos-detalhes.css?v=2">
 </head>
 <body class="dark-sanctuary">
     <div class="forest-glow"></div>
@@ -74,7 +97,60 @@ $descricao = produto_texto($produto, 'descricao');
         </div>
     </main>
 
+    <?php if ($relacionados && $relacionados->num_rows > 0): ?>
+        <section class="related-section">
+            <div class="container">
+                <div class="related-header">
+                    <h2><?php echo htmlspecialchars(__('related_title')); ?></h2>
+                    <div class="related-controls">
+                        <button type="button" class="related-btn" data-dir="-1" aria-label="Prev">‹</button>
+                        <button type="button" class="related-btn" data-dir="1" aria-label="Next">›</button>
+                    </div>
+                </div>
+
+                <div class="related-track" id="related-track">
+                    <?php while ($r = $relacionados->fetch_assoc()): 
+                        $r_nome = produto_texto($r, 'nome');
+                    ?>
+                        <div class="related-card">
+                            <a class="related-link" href="produtos-detalhes.php?id=<?php echo (int)$r['id']; ?>">
+                                <div class="related-img">
+                                    <img src="images/produtos/<?php echo htmlspecialchars((string)$r['imagem']); ?>" alt="<?php echo htmlspecialchars($r_nome); ?>">
+                                </div>
+                                <div class="related-info">
+                                    <div class="related-name"><?php echo htmlspecialchars($r_nome); ?></div>
+                                    <div class="related-price"><?php echo number_format((float)$r['preco'], 2); ?>€</div>
+                                </div>
+                            </a>
+                            <button
+                                class="related-add"
+                                type="button"
+                                onclick="addToCart('<?php echo addslashes($r_nome); ?>', <?php echo (float)$r['preco']; ?>, '<?php echo addslashes((string)$r['imagem']); ?>')"
+                            >
+                                <?php echo htmlspecialchars(__('add_carrinho')); ?>
+                            </button>
+                        </div>
+                    <?php endwhile; ?>
+                </div>
+            </div>
+        </section>
+    <?php endif; ?>
+
    <?php include 'footer.php'; ?>
     <script src="js/main.js"></script>
+    <script>
+      (function() {
+        const track = document.getElementById('related-track');
+        if (!track) return;
+        const buttons = document.querySelectorAll('.related-btn');
+        const scrollAmount = () => Math.max(260, Math.floor(track.clientWidth * 0.8));
+        buttons.forEach(btn => {
+          btn.addEventListener('click', () => {
+            const dir = Number(btn.getAttribute('data-dir') || 1);
+            track.scrollBy({ left: dir * scrollAmount(), behavior: 'smooth' });
+          });
+        });
+      })();
+    </script>
 </body>
 </html>
