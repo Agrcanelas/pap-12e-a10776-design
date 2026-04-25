@@ -48,36 +48,136 @@ body {
     animation: floatingTitle 6s ease-in-out infinite;
 }
 
-/* 3. Filtros Flutuantes Estilo "Menu de Jogo" */
-.category-filter {
-    position: sticky;
-    top: 20px;
-    z-index: 1000;
-    background: rgba(10, 12, 8, 0.8);
-    backdrop-filter: blur(20px);
-    border-radius: 100px;
-    padding: 10px;
+/* 3. Toolbar de filtros (estilo da segunda print) */
+.category-filter { display: none; }
+
+.filter-btn { display: none; }
+.filter-btn.active { display: none; }
+
+.products-tools {
+    margin: -60px 0 60px;
+}
+
+.products-tools-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: end;
+    justify-content: center;
+    padding: 18px 18px;
+    background: rgba(10, 12, 8, 0.75);
     border: 1px solid var(--glass-border);
-    max-width: fit-content;
-    margin: -100px auto 100px;
+    border-radius: 18px;
+    backdrop-filter: blur(16px);
 }
 
-.filter-btn {
-    border: none;
+.tool-search {
+    flex: 1 1 320px;
+    min-width: 260px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0;
+    border-radius: 0;
     background: transparent;
-    color: var(--neon-gold);
-    font-family: 'Outfit', sans-serif;
-    padding: 12px 25px;
-    border-radius: 50px;
-    cursor: pointer;
-    letter-spacing: 2px;
-    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: none;
 }
 
-.filter-btn.active {
+.tool-search-icon {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.1rem;
+}
+
+.tool-search input {
+    width: 100%;
+    background: #0a0c08;
+    border: 1px solid rgba(255, 204, 51, 0.25);
+    color: white;
+    padding: 12px 14px;
+    border-radius: 12px;
+    outline: none;
+}
+
+.tool-search input:focus {
+    border-color: var(--neon-gold);
+    box-shadow: 0 0 0 3px rgba(255, 204, 51, 0.12);
+}
+
+.products-tools-form .tool-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 160px;
+}
+
+.products-tools-form label {
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.9rem;
+}
+
+.products-tools-form input,
+.products-tools-form select {
+    background: #0a0c08;
+    border: 1px solid rgba(255, 204, 51, 0.25);
+    color: white;
+    padding: 12px 14px;
+    border-radius: 12px;
+    outline: none;
+}
+
+.products-tools-form input:focus,
+.products-tools-form select:focus {
+    border-color: var(--neon-gold);
+    box-shadow: 0 0 0 3px rgba(255, 204, 51, 0.12);
+}
+
+.tool-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.tools-apply {
+    border: none;
     background: var(--neon-gold);
     color: var(--deep-forest);
-    box-shadow: 0 0 20px var(--neon-gold);
+    padding: 12px 18px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: 0.25s;
+}
+
+.tools-apply:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.05);
+}
+
+.tools-reset {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-family: 'Outfit', sans-serif;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.tools-reset:hover {
+    border-color: rgba(255, 204, 51, 0.35);
+    color: white;
+}
+
+@media (max-width: 900px) {
+    .products-tools-form .tool-group {
+        min-width: 140px;
+    }
+    .products-tools {
+        margin: -40px 0 40px;
+    }
 }
 
 /* 4. Grelha Orgânica (Assimétrica) */

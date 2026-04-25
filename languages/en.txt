@@ -29,6 +29,21 @@ add_carrinho|Add to Cart
 sem_produtos|No products yet.
 personalizavel|Customizable
 
+# Advanced filters (produtos.php)
+filter_min_price|Min price
+filter_max_price|Max price
+filter_search|Search products
+filter_category|Product type
+category_all|All
+filter_sort|Sort by
+filter_apply|Apply
+filter_reset|Reset
+sort_recent|Most recent
+sort_price_asc|Price (low to high)
+sort_price_desc|Price (high to low)
+sort_name_asc|Name (A-Z)
+sort_name_desc|Name (Z-A)
+
 # Pesquisa
 pesquisa_sem_resultados|No items found...
 

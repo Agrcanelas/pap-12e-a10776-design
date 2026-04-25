@@ -27,6 +27,21 @@ add_carrinho|In den Warenkorb
 sem_produtos|Es sind noch keine Produkte vorhanden.
 personalizavel|Personalisierbar
 
+# Erweiterte Filter (produtos.php)
+filter_min_price|Min. Preis
+filter_max_price|Max. Preis
+filter_search|Produkte suchen
+filter_category|Produkttyp
+category_all|Alle
+filter_sort|Sortieren nach
+filter_apply|Anwenden
+filter_reset|Zurücksetzen
+sort_recent|Neueste
+sort_price_asc|Preis (aufsteigend)
+sort_price_desc|Preis (absteigend)
+sort_name_asc|Name (A-Z)
+sort_name_desc|Name (Z-A)
+
 # Pesquisa
 pesquisa_sem_resultados|Keine Stücke gefunden...
 

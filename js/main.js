@@ -339,6 +339,8 @@ document.head.appendChild(style);
 // FILTRO DE PRODUTOS (COM CATEGORIA ÍMANES)
 // ==========================================
 function configurarFiltros() {
+    // Os filtros por categoria passaram a ser do servidor (dropdown em produtos.php).
+    // Se não houver botões, não faz nada.
     const filterButtons = document.querySelectorAll('.filter-btn');
     
     if (filterButtons.length > 0) {

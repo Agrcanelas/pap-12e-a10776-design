@@ -15,16 +15,6 @@ $pagina_atual = basename($_SERVER['PHP_SELF']);
     <ul class="nav-links main-nav">
         <li><a href="index.php" class="<?php echo ($pagina_atual == 'index.php') ? 'active' : ''; ?>"><?php echo htmlspecialchars(__('inicio')); ?></a></li>
         <li><a href="produtos.php" class="<?php echo ($pagina_atual == 'produtos.php') ? 'active' : ''; ?>"><?php echo htmlspecialchars(__('produtos')); ?></a></li>
-
-    <li class="search-item">
-        <form action="produtos.php" method="GET" class="search-form" autocomplete="off">
-            <input type="text" id="live-search" name="q" placeholder="<?php echo htmlspecialchars(__('procurar')); ?>" 
-               value="<?php echo isset($_GET['q']) ? htmlspecialchars($_GET['q']) : ''; ?>">
-            <button type="submit">🔍</button>
-        
-            <div id="search-results" class="search-dropdown"></div>
-        </form>
-    </li>
         
         <?php if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == 1): ?>
             <li>

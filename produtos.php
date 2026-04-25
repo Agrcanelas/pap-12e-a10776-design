@@ -3,55 +3,96 @@ require_once 'db.php';
 require_once 'lang.php';
 require_once 'i18n_produtos.php';
 
-// 1. Capturar o termo de pesquisa
+// 1. Capturar filtros
 $pesquisa = isset($_GET['q']) ? trim($_GET['q']) : '';
+$min_preco = isset($_GET['min']) && $_GET['min'] !== '' ? (float)$_GET['min'] : null;
+$max_preco = isset($_GET['max']) && $_GET['max'] !== '' ? (float)$_GET['max'] : null;
+$categoria = isset($_GET['categoria']) ? trim((string)$_GET['categoria']) : '';
+$sort = isset($_GET['sort']) ? (string)$_GET['sort'] : 'recent';
 
-// 2. Preparar a SQL baseada na pesquisa
-if (!empty($pesquisa)) {
-    // Usamos o operador LIKE com % para encontrar correspondências parciais
-    $termo = "%$pesquisa%";
-    $stmt = $conn->prepare("
-        SELECT
-            p.*,
-            tl.nome AS nome_i18n,
-            tl.descricao AS descricao_i18n,
-            tpt.nome AS nome_pt,
-            tpt.descricao AS descricao_pt
-        FROM produtos p
-        LEFT JOIN produto_traducoes tl
-            ON tl.produto_id = p.id AND tl.lang = ?
-        LEFT JOIN produto_traducoes tpt
-            ON tpt.produto_id = p.id AND tpt.lang = 'pt'
-        WHERE (
-            CONVERT(COALESCE(tl.nome, tpt.nome, p.nome) USING utf8mb4) COLLATE utf8mb4_general_ci
-            LIKE
-            CONVERT(? USING utf8mb4) COLLATE utf8mb4_general_ci
-        )
-        ORDER BY p.id ASC
-    ");
-    $stmt->bind_param("ss", $lang, $termo);
-    $stmt->execute();
-    $result = $stmt->get_result();
-} else {
-    // Se não houver pesquisa, mostra tudo como dantes
-    $stmt = $conn->prepare("
-        SELECT
-            p.*,
-            tl.nome AS nome_i18n,
-            tl.descricao AS descricao_i18n,
-            tpt.nome AS nome_pt,
-            tpt.descricao AS descricao_pt
-        FROM produtos p
-        LEFT JOIN produto_traducoes tl
-            ON tl.produto_id = p.id AND tl.lang = ?
-        LEFT JOIN produto_traducoes tpt
-            ON tpt.produto_id = p.id AND tpt.lang = 'pt'
-        ORDER BY p.id ASC
-    ");
-    $stmt->bind_param("s", $lang);
-    $stmt->execute();
-    $result = $stmt->get_result();
+$CATEGORIAS_SUPORTADAS = ['quadros-caixas', 'laser', 'extras', 'flores', 'imanes'];
+if ($categoria !== '' && !in_array($categoria, $CATEGORIAS_SUPORTADAS, true)) {
+    $categoria = '';
 }
+
+// 2. ORDER BY seguro
+$orderBy = "p.id DESC";
+switch ($sort) {
+    case 'price_asc':
+        $orderBy = "p.preco ASC";
+        break;
+    case 'price_desc':
+        $orderBy = "p.preco DESC";
+        break;
+    case 'name_asc':
+        $orderBy = "COALESCE(tl.nome, tpt.nome, p.nome) ASC";
+        break;
+    case 'name_desc':
+        $orderBy = "COALESCE(tl.nome, tpt.nome, p.nome) DESC";
+        break;
+    case 'recent':
+    default:
+        $orderBy = "p.id DESC";
+        break;
+}
+
+// 3. Montar SQL + binds dinamicamente
+$sql = "
+    SELECT
+        p.*,
+        tl.nome AS nome_i18n,
+        tl.descricao AS descricao_i18n,
+        tpt.nome AS nome_pt,
+        tpt.descricao AS descricao_pt
+    FROM produtos p
+    LEFT JOIN produto_traducoes tl
+        ON tl.produto_id = p.id AND tl.lang = ?
+    LEFT JOIN produto_traducoes tpt
+        ON tpt.produto_id = p.id AND tpt.lang = 'pt'
+";
+
+$where = [];
+$types = "s";
+$params = [$lang];
+
+if ($pesquisa !== '') {
+    $where[] = "(
+        CONVERT(COALESCE(tl.nome, tpt.nome, p.nome) USING utf8mb4) COLLATE utf8mb4_general_ci
+        LIKE
+        CONVERT(? USING utf8mb4) COLLATE utf8mb4_general_ci
+    )";
+    $types .= "s";
+    $params[] = "%" . $pesquisa . "%";
+}
+
+if ($categoria !== '') {
+    $where[] = "p.categoria = ?";
+    $types .= "s";
+    $params[] = $categoria;
+}
+
+if ($min_preco !== null) {
+    $where[] = "p.preco >= ?";
+    $types .= "d";
+    $params[] = $min_preco;
+}
+
+if ($max_preco !== null) {
+    $where[] = "p.preco <= ?";
+    $types .= "d";
+    $params[] = $max_preco;
+}
+
+if (!empty($where)) {
+    $sql .= " WHERE " . implode(" AND ", $where);
+}
+
+$sql .= " ORDER BY $orderBy";
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param($types, ...$params);
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo htmlspecialchars($lang); ?>">
@@ -77,15 +118,62 @@ if (!empty($pesquisa)) {
         </div>
     </section>
 
-   <section class="category-filter">
-    <div class="container">
-        <button class="filter-btn active" data-category="todos"><?php echo htmlspecialchars(__('todos')); ?></button>
-        <button class="filter-btn" data-category="quadros-caixas"><?php echo htmlspecialchars(__('filtro_quadros')); ?></button>
-        <button class="filter-btn" data-category="laser"><?php echo htmlspecialchars(__('filtro_laser')); ?></button>
-        <button class="filter-btn" data-category="extras"><?php echo htmlspecialchars(__('filtro_extras')); ?></button>
-        <button class="filter-btn" data-category="flores"><?php echo htmlspecialchars(__('filtro_flores')); ?></button>
-    </div>
-</section>
+    <section class="products-tools">
+        <div class="container">
+            <form method="GET" class="products-tools-form" autocomplete="off">
+                <?php if (isset($_GET['lang'])): ?>
+                    <input type="hidden" name="lang" value="<?php echo htmlspecialchars((string)$_GET['lang']); ?>">
+                <?php endif; ?>
+                <div class="tool-search">
+                    <span class="tool-search-icon">⌕</span>
+                    <input
+                        type="text"
+                        name="q"
+                        value="<?php echo htmlspecialchars($pesquisa); ?>"
+                        placeholder="<?php echo htmlspecialchars(__('filter_search')); ?>"
+                    >
+                </div>
+
+                <div class="tool-group">
+                    <label for="min-price"><?php echo htmlspecialchars(__('filter_min_price')); ?></label>
+                    <input id="min-price" type="number" step="0.01" name="min" value="<?php echo $min_preco !== null ? htmlspecialchars((string)$min_preco) : ''; ?>" placeholder="0.00">
+                </div>
+
+                <div class="tool-group">
+                    <label for="max-price"><?php echo htmlspecialchars(__('filter_max_price')); ?></label>
+                    <input id="max-price" type="number" step="0.01" name="max" value="<?php echo $max_preco !== null ? htmlspecialchars((string)$max_preco) : ''; ?>" placeholder="99.99">
+                </div>
+
+                <div class="tool-group">
+                    <label for="categoria"><?php echo htmlspecialchars(__('filter_category')); ?></label>
+                    <select id="categoria" name="categoria">
+                        <option value="" <?php echo $categoria === '' ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('category_all')); ?></option>
+                        <option value="quadros-caixas" <?php echo $categoria === 'quadros-caixas' ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('filtro_quadros')); ?></option>
+                        <option value="laser" <?php echo $categoria === 'laser' ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('filtro_laser')); ?></option>
+                        <option value="extras" <?php echo $categoria === 'extras' ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('filtro_extras')); ?></option>
+                        <option value="flores" <?php echo $categoria === 'flores' ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('filtro_flores')); ?></option>
+                        <option value="imanes" <?php echo $categoria === 'imanes' ? 'selected' : ''; ?>>Ímanes</option>
+                    </select>
+                </div>
+
+                <div class="tool-group">
+                    <label for="sort"><?php echo htmlspecialchars(__('filter_sort')); ?></label>
+                    <select id="sort" name="sort">
+                        <option value="recent" <?php echo $sort === 'recent' ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('sort_recent')); ?></option>
+                        <option value="price_asc" <?php echo $sort === 'price_asc' ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('sort_price_asc')); ?></option>
+                        <option value="price_desc" <?php echo $sort === 'price_desc' ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('sort_price_desc')); ?></option>
+                        <option value="name_asc" <?php echo $sort === 'name_asc' ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('sort_name_asc')); ?></option>
+                        <option value="name_desc" <?php echo $sort === 'name_desc' ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('sort_name_desc')); ?></option>
+                    </select>
+                </div>
+
+                <div class="tool-actions">
+                    <button type="submit" class="tools-apply"><?php echo htmlspecialchars(__('filter_apply')); ?></button>
+                    <a class="tools-reset" href="produtos.php<?php echo isset($_GET['lang']) ? ('?lang=' . urlencode((string)$_GET['lang'])) : ''; ?>"><?php echo htmlspecialchars(__('filter_reset')); ?></a>
+                </div>
+            </form>
+        </div>
+    </section>
 
     <section class="products-section">
         <div class="container">
