@@ -126,7 +126,100 @@ if (searchInput) {
     
     // Configurar filtros de produtos (se existirem na página)
     configurarFiltros();
+
+    // Botão/painel de reviews
+    configurarPainelReviews();
 });
+
+function configurarPainelReviews() {
+    const toggleBtn = document.getElementById('reviews-toggle-btn');
+    const panel = document.getElementById('reviews-panel');
+    const overlay = document.getElementById('reviews-overlay');
+    const closeBtn = document.getElementById('reviews-close-btn');
+    const sortSelect = document.getElementById('reviews-sort');
+
+    if (!toggleBtn || !panel || !overlay || !closeBtn || !sortSelect) return;
+
+    const abrir = () => {
+        panel.classList.add('active');
+        panel.setAttribute('aria-hidden', 'false');
+        overlay.hidden = false;
+        carregarReviews(sortSelect.value);
+    };
+    const fechar = () => {
+        panel.classList.remove('active');
+        panel.setAttribute('aria-hidden', 'true');
+        overlay.hidden = true;
+    };
+
+    toggleBtn.addEventListener('click', abrir);
+    closeBtn.addEventListener('click', fechar);
+    overlay.addEventListener('click', fechar);
+    sortSelect.addEventListener('change', () => carregarReviews(sortSelect.value));
+}
+
+function criarEstrelas(rating) {
+    const stars = Math.max(1, Math.min(5, Number(rating) || 0));
+    return '★'.repeat(stars) + '☆'.repeat(5 - stars);
+}
+
+function formatarDataReview(dateValue) {
+    const d = new Date(dateValue);
+    if (Number.isNaN(d.getTime())) return '';
+    return d.toLocaleDateString('pt-PT');
+}
+
+function escaparHtml(text) {
+    return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+function renderizarReviews(reviews) {
+    const list = document.getElementById('reviews-list');
+    if (!list) return;
+
+    if (!Array.isArray(reviews) || reviews.length === 0) {
+        list.innerHTML = '<div class="reviews-empty">Ainda não existem reviews.</div>';
+        return;
+    }
+
+    list.innerHTML = reviews.map((review) => `
+        <article class="review-item">
+            <div class="review-top">
+                <span class="review-author">${escaparHtml(review.customer_name || 'Cliente')}</span>
+                <span class="review-date">${formatarDataReview(review.created_at)}</span>
+            </div>
+            <div class="review-stars">${criarEstrelas(review.rating)}</div>
+            <div class="review-product">${escaparHtml(review.product_name || 'Produto')}</div>
+            <p class="review-comment">${escaparHtml(review.comment || '')}</p>
+        </article>
+    `).join('');
+}
+
+function carregarReviews(sort = 'recent') {
+    const list = document.getElementById('reviews-list');
+    if (!list) return;
+    list.innerHTML = '<div class="reviews-empty">A carregar reviews...</div>';
+
+    fetch(`reviews_api.php?sort=${encodeURIComponent(sort)}`)
+        .then((response) => response.json())
+        .then((data) => {
+            if (!data || !data.success) {
+                const msg = (window.I18N && window.I18N.reviewsLoadError) ? window.I18N.reviewsLoadError : 'Não foi possível carregar as reviews.';
+                list.innerHTML = `<div class="reviews-empty">${msg}</div>`;
+                return;
+            }
+            renderizarReviews(data.reviews);
+        })
+        .catch(() => {
+            const msg = (window.I18N && window.I18N.reviewsLoadError) ? window.I18N.reviewsLoadError : 'Não foi possível carregar as reviews.';
+            list.innerHTML = `<div class="reviews-empty">${msg}</div>`;
+        });
+}
 
 // Atualizar contador do carrinho
 function atualizarContadorCarrinho() {

@@ -5,6 +5,23 @@
     --neon-gold: #ffcc33;
     --deep-forest: #0a0c08;
     --ethereal-white: rgba(255, 255, 255, 0.9);
+    --ui-scale-desktop: 0.72;
+}
+
+html {
+    font-size: calc(16px * var(--ui-scale-desktop));
+}
+
+@media (max-width: 1024px) {
+    html {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    html {
+        font-size: 16px;
+    }
 }
 
 
@@ -23,6 +40,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    text-rendering: optimizeLegibility;
 }
 
 .container {
@@ -35,17 +53,18 @@ body {
    2. Cabeçalho e Navegação (Atualizado)
    ========================================================================== */
 header {
-    background-color: #4a3f2e;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    background: linear-gradient(180deg, #4a3f2e, #3f3527);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.22);
     position: sticky;
     top: 0;
     z-index: 100;
+    border-bottom: 1px solid rgba(255, 204, 51, 0.2);
 }
 
 .navbar {
     display: flex;
     align-items: center;
-    padding: 1rem 2rem;
+    padding: 1.2rem 2rem;
     /* Mudei de 1200px para 100% para ir até às pontas do ecrã, como na imagem */
     width: 100%; 
     max-width: 100%; 
@@ -54,7 +73,7 @@ header {
 
 .logo h1 {
     color: #f4e8d8;
-    font-size: 1.6rem;
+    font-size: 1.75rem;
     font-weight: 400;
     /* Garante que o logo não encolhe */
     flex-shrink: 0; 
@@ -87,13 +106,14 @@ header {
 .nav-links a {
     color: #f4e8d8;
     text-decoration: none;
-    font-size: 1.2rem;
-    transition: color 0.3s;
+    font-size: 1.28rem;
+    transition: color 0.25s ease, text-shadow 0.25s ease;
 }
 
 .nav-links a:hover,
 .nav-links a.active {
     color: #d4af37;
+    text-shadow: 0 0 12px rgba(212, 175, 55, 0.35);
 }
 
 .user-greeting {
@@ -120,8 +140,18 @@ header {
     height: 100%;
     background-image: url('../images/ForestB.png'); /* Imagem de fundo [cite: 50, 51, 85] */
     background-size: cover;
-    background-position: center;
-  
+    background-position: center center;
+    background-repeat: no-repeat;
+    image-rendering: auto;
+}
+
+/* Camada subtil para suavizar a percepcao de pixelizacao */
+.forest-background::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0.22));
 }
 
 .welcome-text {
@@ -241,7 +271,7 @@ header {
    4. Rodapé [cite: 18, 107, 269]
    ========================================================================== */
 footer {
-    background-color: #4a3f2e;
+    background: linear-gradient(180deg, #463b2c, #3e3426);
     color: #f4e8d8;
     padding: 3rem 2rem 1rem;
     
@@ -389,3 +419,176 @@ footer {
     font-size: 0.9rem;
 }
 .lang-dropdown a:hover { background: rgba(255,204,51,0.2); }
+
+a,
+button {
+    transition: all 0.25s ease;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid var(--neon-gold);
+    outline-offset: 2px;
+}
+
+.reviews-toggle-btn {
+    position: fixed;
+    right: 0;
+    top: 45%;
+    transform: translateY(-50%);
+    z-index: 1200;
+    border: 1px solid rgba(255, 204, 51, 0.45);
+    border-right: none;
+    border-radius: 12px 0 0 12px;
+    padding: 12px 10px;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    background: rgba(17, 20, 15, 0.92);
+    color: #f7e8b0;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.82rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.reviews-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 1198;
+}
+
+.reviews-panel {
+    position: fixed;
+    top: 0;
+    right: -430px;
+    width: 420px;
+    height: 100vh;
+    background: linear-gradient(180deg, rgba(16, 20, 15, 0.98), rgba(9, 12, 9, 0.98));
+    border-left: 1px solid rgba(255, 204, 51, 0.3);
+    box-shadow: -12px 0 30px rgba(0, 0, 0, 0.45);
+    z-index: 1199;
+    display: flex;
+    flex-direction: column;
+    transition: right 0.25s ease;
+}
+
+.reviews-panel.active {
+    right: 0;
+}
+
+.reviews-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 18px;
+    border-bottom: 1px solid rgba(255, 204, 51, 0.2);
+}
+
+.reviews-panel-header h3 {
+    margin: 0;
+    color: #ffcc33;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.45rem;
+}
+
+.reviews-close-btn {
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 1.8rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.reviews-toolbar {
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.reviews-toolbar label {
+    color: rgba(255, 255, 255, 0.8);
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.92rem;
+}
+
+.reviews-toolbar select {
+    background: #0a0c08;
+    color: #fff;
+    border: 1px solid rgba(255, 204, 51, 0.3);
+    border-radius: 8px;
+    padding: 8px 10px;
+}
+
+.reviews-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 14px 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.review-item {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 204, 51, 0.22);
+    border-radius: 12px;
+    padding: 12px 12px 10px;
+}
+
+.review-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.review-author {
+    color: #fff;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+}
+
+.review-date {
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.75rem;
+    font-family: 'Outfit', sans-serif;
+}
+
+.review-stars {
+    color: #ffcc33;
+    letter-spacing: 1px;
+    font-size: 0.86rem;
+    margin-bottom: 5px;
+}
+
+.review-product {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.78rem;
+    margin-bottom: 5px;
+    font-family: 'Outfit', sans-serif;
+}
+
+.review-comment {
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+    font-size: 0.88rem;
+    line-height: 1.35;
+}
+
+.reviews-empty {
+    color: rgba(255, 255, 255, 0.72);
+    text-align: center;
+    padding: 28px 12px;
+    font-family: 'Outfit', sans-serif;
+}

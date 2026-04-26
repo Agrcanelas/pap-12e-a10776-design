@@ -71,6 +71,13 @@ $pagina_atual = basename($_SERVER['PHP_SELF']);
     <div id="cart-items-container" class="cart-items" style="display: none;"></div>
     
     <div class="cart-drawer-footer" style="display: none;">
+        <div class="cart-progress">
+            <div class="cart-progress-text"><?php echo htmlspecialchars(t('js_free_shipping_remaining', ['amount' => '50.00'])); ?></div>
+            <div class="cart-progress-bar">
+                <div class="cart-progress-fill" style="width: 0%;"></div>
+            </div>
+        </div>
+
         <div class="cart-subtotal">
             <span class="cart-subtotal-label"><?php echo htmlspecialchars(__('subtotal')); ?></span>
             <span class="cart-subtotal-value">0.00€</span>
@@ -81,6 +88,28 @@ $pagina_atual = basename($_SERVER['PHP_SELF']);
         </div>
     </div>
 </div>
+
+<button id="reviews-toggle-btn" class="reviews-toggle-btn" type="button" aria-label="Abrir reviews">
+    ★ Reviews
+</button>
+
+<div id="reviews-overlay" class="reviews-overlay" hidden></div>
+<aside id="reviews-panel" class="reviews-panel" aria-hidden="true">
+    <div class="reviews-panel-header">
+        <h3>Reviews dos clientes</h3>
+        <button id="reviews-close-btn" class="reviews-close-btn" type="button" aria-label="Fechar reviews">×</button>
+    </div>
+
+    <div class="reviews-toolbar">
+        <label for="reviews-sort">Ordenar por</label>
+        <select id="reviews-sort">
+            <option value="recent">Mais recentes</option>
+            <option value="rating">Melhor avaliação</option>
+        </select>
+    </div>
+
+    <div id="reviews-list" class="reviews-list"></div>
+</aside>
 
 <script>
 window.I18N = window.I18N || {};
@@ -95,4 +124,5 @@ window.I18N.processing = <?php echo json_encode(t('js_processing')); ?>;
 window.I18N.orderSuccess = <?php echo json_encode(t('js_order_success')); ?>;
 window.I18N.orderErrorPrefix = <?php echo json_encode(t('js_order_error_prefix')); ?>;
 window.I18N.serverError = <?php echo json_encode(t('js_server_error')); ?>;
+window.I18N.reviewsLoadError = 'Não foi possível carregar as reviews.';
 </script>

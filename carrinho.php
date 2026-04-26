@@ -17,19 +17,19 @@
 
     <?php include 'header.php'; ?>
 
-    <section class="page-header" style="height: 40vh; display: flex; align-items: center; justify-content: center; text-align: center; background: none;">
+    <section class="page-header cart-page-header">
         <div class="container">
-            <h1 style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 4.5rem; color: #ffcc33; margin: 0;"><?php echo htmlspecialchars(__('teu_carrinho')); ?></h1>
-            <p style="font-family: 'Outfit', sans-serif; letter-spacing: 8px; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-top: 10px;"><?php echo htmlspecialchars(__('carrinho_subtitulo')); ?></p>
+            <h1><?php echo htmlspecialchars(__('teu_carrinho')); ?></h1>
+            <p><?php echo htmlspecialchars(__('carrinho_subtitulo')); ?></p>
         </div>
     </section>
 
     <section class="cart-page">
         <div class="container">
             
-            <div id="cart-page-empty" style="display: none; text-align: center; background: white; padding: 80px; box-shadow: 20px 20px 0px #ffcc33; color: #0a0c08;">
-                <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; font-style: italic;"><?php echo htmlspecialchars(__('carrinho_vazio')); ?></h2>
-                <a href="produtos.php" style="display: inline-block; margin-top: 30px; background: #0a0c08; color: white; padding: 15px 40px; text-decoration: none; font-family: 'Outfit'; font-weight: bold; text-transform: uppercase; letter-spacing: 2px;"><?php echo htmlspecialchars(__('explorar_produtos')); ?></a>
+            <div id="cart-page-empty" class="cart-page-empty" style="display: none;">
+                <h2><?php echo htmlspecialchars(__('carrinho_vazio')); ?></h2>
+                <a href="produtos.php" class="btn-explorar-produtos"><?php echo htmlspecialchars(__('explorar_produtos')); ?></a>
             </div>
 
             <div id="cart-page-content" class="cart-page-grid">
@@ -38,6 +38,7 @@
                 
                 <aside class="cart-summary">
                     <h3><?php echo htmlspecialchars(__('resumo')); ?></h3>
+                    <p id="summary-items-count" class="summary-meta">0 produtos no carrinho</p>
                     <div class="summary-line">
                         <span><?php echo htmlspecialchars(__('itens')); ?></span>
                         <span id="summary-subtotal">0.00€</span>
@@ -50,8 +51,14 @@
                         <span><?php echo htmlspecialchars(__('total')); ?></span>
                         <span id="summary-total">0.00€</span>
                     </div>
+                    <div class="summary-shipping-progress">
+                        <div class="summary-progress-track">
+                            <div id="summary-progress-fill" class="summary-progress-fill" style="width: 0%;"></div>
+                        </div>
+                        <p id="summary-shipping-note" class="summary-shipping-note">Faltam 50.00€ para portes grátis.</p>
+                    </div>
                     <button class="btn-finalizar" onclick="finalizarCompra()"><?php echo htmlspecialchars(__('finalizar_pedido')); ?></button>
-                    <a href="produtos.php" style="display: block; text-align: center; margin-top: 20px; color: #0a0c08; font-family: 'Outfit'; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">← <?php echo htmlspecialchars(__('continuar_comprar')); ?></a>
+                    <a href="produtos.php" class="btn-continuar-link">← <?php echo htmlspecialchars(__('continuar_comprar')); ?></a>
                 </aside>
                 
             </div>

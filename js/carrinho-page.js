@@ -2,6 +2,21 @@
 
 // Variável global para armazenar os itens e ser usada no checkout
 let meuCarrinho = [];
+const PORTES_GRATIS_MINIMO = 50;
+const PORTES_VALOR = 4.99;
+
+function formatEuro(value) {
+    return `${Number(value).toFixed(2)}€`;
+}
+
+function escapeHtml(text) {
+    return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
 
 function renderizarCarrinhoPagina() {
     const container = document.getElementById('cart-page-items-container');
@@ -24,12 +39,17 @@ function renderizarCarrinhoPagina() {
     container.innerHTML = meuCarrinho.map((item, index) => `
         <div class="cart-item-card">
             <div class="cart-item-img">
-                <img src="images/produtos/${item.imagem}" alt="${item.nome}">
+                <img src="images/produtos/${escapeHtml(item.imagem)}" alt="${escapeHtml(item.nome)}">
             </div>
             <div class="cart-item-info">
-                <h3>${item.nome}</h3>
-                <div class="item-price-tag">${parseFloat(item.preco).toFixed(2)}€</div>
-                <p style="font-family: 'Outfit'; color: #666; margin-top: 5px;">Quantidade: ${item.quantidade}</p>
+                <h3>${escapeHtml(item.nome)}</h3>
+                <div class="item-price-tag">${formatEuro(item.preco)}</div>
+                <div class="item-subtotal">Subtotal: ${formatEuro(item.preco * item.quantidade)}</div>
+                <div class="cart-item-actions">
+                    <button class="qty-btn-page" onclick="alterarQuantidade(${index}, -1)">−</button>
+                    <span class="qty-number-page">${item.quantidade}</span>
+                    <button class="qty-btn-page" onclick="alterarQuantidade(${index}, 1)">+</button>
+                </div>
             </div>
             <button class="btn-remove" onclick="removerItem(${index})">×</button>
         </div>
@@ -40,18 +60,31 @@ function renderizarCarrinhoPagina() {
 
 function atualizarResumo() {
     const subtotal = meuCarrinho.reduce((acc, item) => acc + (item.preco * item.quantidade), 0);
-    const envio = subtotal >= 50 ? 0 : 4.99;
+    const envio = subtotal >= PORTES_GRATIS_MINIMO ? 0 : PORTES_VALOR;
     const total = subtotal + envio;
+    const progresso = Math.min((subtotal / PORTES_GRATIS_MINIMO) * 100, 100);
+    const emFalta = Math.max(PORTES_GRATIS_MINIMO - subtotal, 0);
+    const totalItens = meuCarrinho.reduce((acc, item) => acc + item.quantidade, 0);
 
     const subEl = document.getElementById('summary-subtotal');
     const shipEl = document.getElementById('summary-shipping');
     const totalEl = document.getElementById('summary-total');
+    const itemsCountEl = document.getElementById('summary-items-count');
+    const progressFillEl = document.getElementById('summary-progress-fill');
+    const shippingNoteEl = document.getElementById('summary-shipping-note');
 
-    if(subEl) subEl.textContent = subtotal.toFixed(2) + '€';
+    if(subEl) subEl.textContent = formatEuro(subtotal);
     if(shipEl) shipEl.textContent = envio === 0
         ? ((window.I18N && window.I18N.freeLabel) ? window.I18N.freeLabel : 'GRÁTIS')
-        : envio.toFixed(2) + '€';
-    if(totalEl) totalEl.textContent = total.toFixed(2) + '€';
+        : formatEuro(envio);
+    if(totalEl) totalEl.textContent = formatEuro(total);
+    if(itemsCountEl) itemsCountEl.textContent = `${totalItens} ${totalItens === 1 ? 'produto' : 'produtos'} no carrinho`;
+    if(progressFillEl) progressFillEl.style.width = `${progresso}%`;
+    if(shippingNoteEl) {
+        shippingNoteEl.textContent = emFalta > 0
+            ? `Faltam ${formatEuro(emFalta)} para portes grátis.`
+            : 'Parabéns! Já tens portes grátis.';
+    }
 }
 
 function removerItem(index) {
@@ -59,6 +92,20 @@ function removerItem(index) {
     localStorage.setItem('carrinho', JSON.stringify(meuCarrinho));
     renderizarCarrinhoPagina();
     // Atualiza o contador no menu superior (header)
+    if(typeof atualizarContadorCarrinho === 'function') atualizarContadorCarrinho();
+}
+
+function alterarQuantidade(index, mudanca) {
+    const item = meuCarrinho[index];
+    if (!item) return;
+
+    item.quantidade += mudanca;
+    if (item.quantidade <= 0) {
+        meuCarrinho.splice(index, 1);
+    }
+
+    localStorage.setItem('carrinho', JSON.stringify(meuCarrinho));
+    renderizarCarrinhoPagina();
     if(typeof atualizarContadorCarrinho === 'function') atualizarContadorCarrinho();
 }
 
@@ -70,6 +117,8 @@ function finalizarCompra() {
     }
 
     const btn = document.querySelector('.btn-finalizar');
+    if (!btn) return;
+    if (btn.disabled) return;
     const originalText = btn.textContent;
     
     // Feedback visual de carregamento
