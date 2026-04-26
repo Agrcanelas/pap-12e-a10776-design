@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 22-Abr-2026 às 22:52
+-- Tempo de geração: 26-Abr-2026 às 13:09
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -160,7 +160,7 @@ INSERT INTO `produtos` (`id`, `nome`, `preco`, `imagem`, `categoria`, `personali
 (29, 'Casinha de Natal Média', 15.50, 'casa-natal-M.png', 'extras', 0, 'Decoração natalícia em madeira de tamanho médio, ideal para centros de mesa.'),
 (30, 'Caixa Multiusos Marmoreada', 22.90, 'caixa-multi-marmore.png', 'extras', 0, 'Caixa organizadora com design elegante e acabamento que simula mármore.'),
 (31, 'Vaso Decorativo Minimalista', 14.00, 'vaso1.png', 'extras', 0, 'Vaso em madeira natural para flores secas ou decoração de interiores.'),
-(33, 'Coração Decorativo em Madeira', 8.50, 'coraçao-madeira.png', 'laser', 0, 'Coração delicado cortado a laser com acabamento rústico, ideal para presentes ou decoração.');
+(33, 'Coração Decorativo em Madeira', 25.00, 'coraçao-madeira.png', 'laser', 0, 'Coração delicado cortado a laser com acabamento rústico, ideal para presentes ou decoração.');
 
 -- --------------------------------------------------------
 
@@ -212,6 +212,7 @@ INSERT INTO `produto_traducoes` (`produto_id`, `lang`, `nome`, `descricao`, `upd
 (29, 'pt', 'Casinha de Natal Média', 'Decoração natalícia em madeira de tamanho médio, ideal para centros de mesa.', '2026-04-22 20:38:09'),
 (30, 'pt', 'Caixa Multiusos Marmoreada', 'Caixa organizadora com design elegante e acabamento que simula mármore.', '2026-04-22 20:38:09'),
 (31, 'pt', 'Vaso Decorativo Minimalista', 'Vaso em madeira natural para flores secas ou decoração de interiores.', '2026-04-22 20:38:09'),
+(33, 'en', 'Coração Decorativo em Madeira', 'Coração delicado cortado a laser com acabamento rústico, ideal para presentes ou decoração.', '2026-04-25 17:35:20'),
 (33, 'pt', 'Coração Decorativo em Madeira', 'Coração delicado cortado a laser com acabamento rústico, ideal para presentes ou decoração.', '2026-04-22 20:38:09');
 
 --
